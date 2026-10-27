@@ -1,0 +1,4 @@
+out-test/
+out/test-keys.json
+secrets/
+*.key

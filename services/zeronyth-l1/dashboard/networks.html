@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="color-scheme" content="dark">
+  <meta name="theme-color" content="#0d1117">
+  <meta name="description" content="ZERONYTH Testnet（チェーン ID 9127）と開発用テストネットの接続情報・稼働状況の一覧。公開 RPC は https://zeronyth.dpdns.org/rpc です。">
+  <title>ZERONYTH | テストネットのネットワーク一覧</title>
+  <link rel="icon" href="assets/favicon-64.png" type="image/png">
+  <link rel="stylesheet" href="assets/styles.css?v=20261027b">
+  <link rel="stylesheet" href="assets/ecosystem.css?v=20261027b">
+  <link rel="stylesheet" href="assets/page-i18n.css?v=20261027c">
+</head>
+<body class="eco-page" data-title-key="meta.title.networks">
+  <header class="topbar">
+    <a class="brand" href="index.html" aria-label="ZERONYTH Explorer home"><img src="assets/znyt-token-168.png" alt="" width="40" height="40"><span class="brand-text"><strong>ZERONYTH</strong><small data-i18n="brand.sub">公開テストネット コンソール</small></span></a>
+    <nav class="eco-nav" aria-label="Ecosystem navigation">
+      <a href="index.html" data-eco-i18n="nav.console">Console</a><span aria-current="page" data-eco-i18n="nav.networks">Networks</span><a href="multichain-swap.html" data-eco-i18n="nav.swap">Swap</a><a href="bridge.html" data-eco-i18n="nav.bridge">Bridge</a><a href="liquidity.html" data-eco-i18n="nav.liquidity">Liquidity</a><a href="activity.html" data-eco-i18n="nav.activity">Activity</a>
+    </nav>
+    <div class="controls"><label class="lang"><span class="sr-only">Language</span><select id="ecoLanguage" aria-label="Language"></select></label><span class="tag">TESTNET PROFILES</span></div>
+      </header>
+  <main class="eco-wrap">
+    <section class="eco-hero" aria-labelledby="pageTitle">
+      <div><p class="eco-eyebrow">ZERONYTH / ECOSYSTEM / NETWORK REGISTRY</p><h1 id="pageTitle">Network<br>profiles<span>.</span></h1><p class="eco-lead">A reference surface for testnet environments, wallet standards and documented capabilities. Profiles describe configuration—not a promise that any RPC or service is reachable.</p></div>
+      
+      <div class="eco-hero-note" id="rpc-display">
+        <span class="k">RPC</span>
+        <p>各カードにテストネットRPCを表示します。クリックでコピーできます。すべてテストネット専用・量子耐性ではありません。</p>
+      </div>
+      <aside class="eco-hero-note"><span class="k">READ THIS AS</span><p>Documentation support and live network availability are separate signals. RPC status remains unverified until checked by the network integration.</p></aside>
+    </section>
+    <p class="eco-boundary" role="note"><strong>Test environments only.</strong><span>No mainnet configuration, balances, pricing, token value or transaction support is represented here.</span></p>
+    <section class="panel" aria-labelledby="registryTitle">
+      <div class="eco-section-head"><div><span class="eco-index">01 / REGISTRY</span><h2 id="registryTitle">Eight testnet targets</h2></div><p>Chain identifiers and wallet standards are static reference metadata. RPC state is intentionally unqueried on this page.</p></div>
+      <div class="eco-banner" role="note"><span class="eco-banner-mark" aria-hidden="true">i</span><div><strong>Operations are gated</strong><p>No transaction action is available here. Network switching requires a deliberate wallet prompt. A documented profile does not mean a verified swap, bridge or liquidity route exists.</p></div></div>
+      <section class="panel eco-wallet-panel" aria-labelledby="ecoWalletTitle">
+        <div class="eco-section-head"><div><span class="eco-index">WALLET / EXPLICIT CONSENT</span><h2 id="ecoWalletTitle">ウォレット接続</h2></div><p>テストネット専用。ウォレットを接続するとアカウント表示とネットワーク切替ができます。署名は要求しません。</p></div>
+        <div class="eco-wallet-controls">
+          <label for="eco-wallet-type">Wallet family<select id="eco-wallet-type"><option value="evm">EVM browser extension</option><option value="walletconnect">WalletConnect</option><option value="solana">Solana browser wallet</option></select></label>
+          <label for="eco-wallet-provider">Detected wallet<select id="eco-wallet-provider"><option value="">Searching for wallets…</option></select></label>
+          <button class="btn primary" id="eco-connect-wallet" data-eco-i18n="wallet.connect" type="button" disabled>Connect wallet</button>
+          <button class="btn" id="eco-disconnect-wallet" data-eco-i18n="wallet.disconnect" type="button" disabled>Disconnect</button>
+        </div>
+        <p class="eco-wallet-status" id="eco-wallet-status" role="status" aria-live="polite">Not connected. No account access has been requested.</p>
+        <p class="eco-wallet-address" id="eco-wallet-address" hidden></p>
+      </section>
+      <div class="eco-grid">
+        <article class="eco-network" id="network-ethereum-sepolia" data-network-id="ethereum-sepolia" data-chain-id="11155111" data-environment="testnet" data-native-asset="ETH" data-standard="eip1193" data-rpc-status="not-checked" data-capability="evm-json-rpc-profile" data-source-url="https://ethereum.org/en/developers/docs/networks/">
+          <div class="eco-network-head"><div><span class="eco-code">EVM / ETHEREUM</span><h3>Ethereum Sepolia</h3></div><span class="eco-status documented">Profile documented</span></div>
+          <dl class="eco-facts"><div><dt>Chain ID</dt><dd>11155111</dd></div><div><dt>Native asset</dt><dd>ETH</dd></div><div><dt>Wallet path</dt><dd>EIP-1193</dd></div></dl>
+          <div class="eco-capability"><span>Token standard</span><b>ERC-20</b></div><div class="eco-capability"><span>Live RPC</span><b data-network-live>Not checked</b></div>
+          <div class="eco-sources"><a href="https://ethereum.org/developers/docs/networks/" target="_blank" rel="noopener noreferrer">Ethereum network docs ↗</a><small>RPC: PublicNode · independent provider</small></div>
+          <div class="eco-card-actions"><button class="btn" type="button" data-action="probe-network" data-eco-i18n="network.probe">Check RPC</button><button class="btn" type="button" data-action="switch-network" data-eco-i18n="network.switch" disabled>Switch wallet</button></div>
+        </article>
+        <article class="eco-network" id="network-base-sepolia" data-network-id="base-sepolia" data-chain-id="84532" data-environment="testnet" data-native-asset="ETH" data-standard="eip1193" data-rpc-status="not-checked" data-capability="evm-json-rpc-profile" data-source-url="https://docs.base.org/get-started/connect-to-base">
+          <div class="eco-network-head"><div><span class="eco-code">EVM / BASE</span><h3>Base Sepolia</h3></div><span class="eco-status documented">Profile documented</span></div>
+          <dl class="eco-facts"><div><dt>Chain ID</dt><dd>84532</dd></div><div><dt>Native asset</dt><dd>ETH</dd></div><div><dt>Wallet path</dt><dd>EIP-1193</dd></div></dl>
+          <div class="eco-capability"><span>Token standard</span><b>ERC-20</b></div><div class="eco-capability"><span>Live RPC</span><b data-network-live>Not checked</b></div>
+          <div class="eco-sources"><a href="https://docs.base.org/get-started/connect-to-base" target="_blank" rel="noopener noreferrer">Base network docs ↗</a></div>
+          <div class="eco-card-actions"><button class="btn" type="button" data-action="probe-network" data-eco-i18n="network.probe">Check RPC</button><button class="btn" type="button" data-action="switch-network" data-eco-i18n="network.switch" disabled>Switch wallet</button></div>
+        </article>
+        <article class="eco-network" id="network-arbitrum-sepolia" data-network-id="arbitrum-sepolia" data-chain-id="421614" data-environment="testnet" data-native-asset="ETH" data-standard="eip1193" data-rpc-status="not-checked" data-capability="evm-json-rpc-profile" data-source-url="https://docs.arbitrum.io/arbitrum-bridge">
+          <div class="eco-network-head"><div><span class="eco-code">EVM / ARBITRUM</span><h3>Arbitrum Sepolia</h3></div><span class="eco-status documented">Profile documented</span></div>
+          <dl class="eco-facts"><div><dt>Chain ID</dt><dd>421614</dd></div><div><dt>Native asset</dt><dd>ETH</dd></div><div><dt>Wallet path</dt><dd>EIP-1193</dd></div></dl>
+          <div class="eco-capability"><span>Token standard</span><b>ERC-20</b></div><div class="eco-capability"><span>Live RPC</span><b data-network-live>Not checked</b></div>
+          <div class="eco-sources"><a href="https://docs.arbitrum.io/arbitrum-bridge" target="_blank" rel="noopener noreferrer">Arbitrum documentation ↗</a></div>
+          <div class="eco-card-actions"><button class="btn" type="button" data-action="probe-network" data-eco-i18n="network.probe">Check RPC</button><button class="btn" type="button" data-action="switch-network" data-eco-i18n="network.switch" disabled>Switch wallet</button></div>
+        </article>
+        <article class="eco-network" id="network-bnb-testnet" data-network-id="bnb-testnet" data-chain-id="97" data-environment="testnet" data-native-asset="tBNB" data-standard="eip1193" data-rpc-status="not-checked" data-capability="evm-json-rpc-profile" data-source-url="https://docs.bnbchain.org/bnb-smart-chain/developers/json_rpc/json-rpc-endpoint/">
+          <div class="eco-network-head"><div><span class="eco-code">EVM / BNB CHAIN</span><h3>BNB Smart Chain Testnet</h3></div><span class="eco-status documented">Profile documented</span></div>
+          <dl class="eco-facts"><div><dt>Chain ID</dt><dd>97</dd></div><div><dt>Native asset</dt><dd>tBNB</dd></div><div><dt>Wallet path</dt><dd>EIP-1193</dd></div></dl>
+          <div class="eco-capability"><span>Token standard</span><b>BEP-20</b></div><div class="eco-capability"><span>Live RPC</span><b data-network-live>Not checked</b></div>
+          <div class="eco-sources"><a href="https://docs.bnbchain.org/bnb-smart-chain/developers/json_rpc/json-rpc-endpoint/" target="_blank" rel="noopener noreferrer">BNB Chain RPC docs ↗</a><a href="https://docs.bnbchain.org/bnb-smart-chain/developers/faucet/" target="_blank" rel="noopener noreferrer">Official tBNB faucet docs ↗</a></div>
+          <div class="eco-card-actions"><button class="btn" type="button" data-action="probe-network" data-eco-i18n="network.probe">Check RPC</button><button class="btn" type="button" data-action="switch-network" data-eco-i18n="network.switch" disabled>Switch wallet</button></div>
+        </article>
+        <article class="eco-network" id="network-solana-devnet" data-network-id="solana-devnet" data-chain-id="n/a" data-environment="testnet" data-native-asset="SOL" data-standard="injected-solana" data-rpc-status="not-checked" data-capability="solana-injected-wallet-profile" data-source-url="https://solana.com/docs/references/clusters">
+          <div class="eco-network-head"><div><span class="eco-code">SOLANA / CLUSTER</span><h3>Solana Devnet</h3></div><span class="eco-status documented">Profile documented</span></div>
+          <dl class="eco-facts"><div><dt>Cluster ID</dt><dd>Not EVM</dd></div><div><dt>Native asset</dt><dd>SOL</dd></div><div><dt>Wallet path</dt><dd>Injected wallet</dd></div></dl>
+          <div class="eco-capability"><span>Token standard</span><b>SPL Token</b></div><div class="eco-capability"><span>Live RPC</span><b data-network-live>Not checked</b></div>
+          <div class="eco-sources"><a href="https://solana.com/docs/references/clusters" target="_blank" rel="noopener noreferrer">Solana cluster docs ↗</a></div>
+          <div class="eco-card-actions"><button class="btn" type="button" data-action="probe-network" data-eco-i18n="network.probe">Check RPC</button><button class="btn" type="button" data-action="connect-solana" data-eco-i18n="network.connectSolana" disabled>Connect Solana wallet</button></div>
+        </article>
+        <article class="eco-network" id="network-robinhood-testnet" data-network-id="robinhood-testnet" data-chain-id="46630" data-environment="testnet" data-native-asset="ETH" data-standard="eip1193" data-rpc-status="not-checked" data-capability="evm-json-rpc-profile" data-source-url="https://docs.robinhood.com/chain/connecting">
+          <div class="eco-network-head"><div><span class="eco-code">EVM / ROBINHOOD</span><h3>Robinhood Chain Testnet</h3></div><span class="eco-status documented">Profile documented</span></div>
+          <dl class="eco-facts"><div><dt>Chain ID</dt><dd>46630</dd></div><div><dt>Native test asset</dt><dd>ETH</dd></div><div><dt>Wallet path</dt><dd>EIP-1193</dd></div></dl>
+          <div class="eco-capability"><span>Token standard</span><b>ERC-20</b></div><div class="eco-capability"><span>Live RPC</span><b data-network-live>Not checked</b></div>
+          <div class="eco-sources"><a href="https://docs.robinhood.com/chain/connecting" target="_blank" rel="noopener noreferrer">Official network settings ↗</a><small>ETH is the documented native testnet gas asset. No separate official ERC-20 test token/faucet verified.</small></div>
+          <div class="eco-card-actions"><button class="btn" type="button" data-action="probe-network" data-eco-i18n="network.probe">Check RPC</button><button class="btn" type="button" data-action="switch-network" data-eco-i18n="network.switch" disabled>Switch wallet</button></div>
+        </article>
+        <article class="eco-network" id="network-monad-testnet" data-network-id="monad-testnet" data-chain-id="10143" data-environment="testnet" data-native-asset="MON" data-standard="eip1193" data-rpc-status="not-checked" data-capability="evm-json-rpc-profile" data-source-url="https://docs.monad.xyz/developer-essentials/testnet">
+          <div class="eco-network-head"><div><span class="eco-code">EVM / MONAD</span><h3>Monad Testnet</h3></div><span class="eco-status documented">Profile documented</span></div>
+          <dl class="eco-facts"><div><dt>Chain ID</dt><dd>10143</dd></div><div><dt>Native asset</dt><dd>MON</dd></div><div><dt>Wallet path</dt><dd>EIP-1193</dd></div></dl>
+          <div class="eco-capability"><span>Token standard</span><b>ERC-20</b></div><div class="eco-capability"><span>Live RPC</span><b data-network-live>Not checked</b></div>
+          <div class="eco-sources"><a href="https://docs.monad.xyz/developer-essentials/testnet" target="_blank" rel="noopener noreferrer">Monad testnet docs ↗</a><a href="https://faucet.monad.xyz" target="_blank" rel="noopener noreferrer">Official testnet faucet ↗</a></div>
+          <div class="eco-card-actions"><button class="btn" type="button" data-action="probe-network" data-eco-i18n="network.probe">Check RPC</button><button class="btn" type="button" data-action="switch-network" data-eco-i18n="network.switch" disabled>Switch wallet</button></div>
+        </article>
+        <article class="eco-network" id="network-zeronyth-9127" data-network-id="zeronyth-9127" data-chain-id="9127" data-environment="testnet" data-native-asset="ZNYT" data-standard="eip1193" data-rpc-status="not-checked" data-capability="public-rpc" data-source-url="/">
+          <div class="eco-network-head"><div><span class="eco-code">EVM / ZERONYTH</span><h3>ZERONYTH Testnet</h3></div><span class="eco-status documented">Public testnet</span></div>
+          <dl class="eco-facts"><div><dt>Chain ID</dt><dd>9127</dd></div><div><dt>Native asset</dt><dd>ZNYT · testnet only</dd></div><div><dt>Wallet path</dt><dd>EIP-1193</dd></div></dl>
+          <div class="eco-capability"><span>Token standard</span><b>EVM / ERC-20-compatible</b></div><div class="eco-capability"><span>Live RPC</span><b data-network-live>Not checked</b></div>
+          <div class="eco-sources"><a href="index.html">ZERONYTH console</a><a href="https://scan.zeronyth.dpdns.org/" target="_blank" rel="noopener noreferrer">ZERONYTH Scan ↗</a><small>Existing 4-node data and validator configuration are not changed by this page.</small></div>
+          <div class="eco-card-actions"><button class="btn" type="button" data-action="probe-network">Check read-only RPC</button><button class="btn" type="button" data-action="switch-network" disabled>Switch wallet</button></div>
+        </article>
+      </div>
+    </section>
+    <footer class="eco-footer"><a href="index.html">Return to ZERONYTH console</a><span>Testnet reference only · live state unverified</span></footer>
+  </main>
+  <script type="module" src="assets/ecosystem.mjs"></script>
+  <script type="module" src="assets/rpc-ui.mjs"></script>
+  <script type="module" src="assets/i18n-ui.mjs"></script>
+  <script type="module" src="assets/page-i18n.mjs?v=20261027b"></script>
+</body>
+</html>

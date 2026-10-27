@@ -1,0 +1,37 @@
+<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ZERONYTH 10日プラン（テストチェーン）</title>
+<style>body{font-family:system-ui,sans-serif;max-width:860px;margin:auto;padding:16px;background:#0d1117;color:#e6edf3}
+.card{background:#161b22;border:1px solid #30363d;border-radius:12px;padding:14px;margin:12px 0}.warn{border-color:#d29922}
+table{border-collapse:collapse;width:100%}td,th{border-bottom:1px solid #30363d;padding:6px;text-align:left;font-size:14px}
+button{background:#238636;color:#fff;border:0;border-radius:8px;padding:8px 14px;font-size:15px;cursor:pointer}
+pre{background:#010409;padding:10px;border-radius:8px;overflow:auto;max-height:260px}code{color:#79c0ff}</style></head><body>
+<h1>ZERONYTH 10日プラン</h1>
+<div class="card warn">⚠️ これは<b>テストチェーン</b>（チェーンID 9127・box 内）の試験版です。ZNYT に金銭的価値はありません。秘密鍵は絶対に入力・送信しないでください。ログインはウォレットでの「署名」だけで、お金は動きません。</div>
+<div id="plans" class="card">読み込み中…</div>
+<div class="card"><h2>ログイン（ウォレット署名）</h2><button id="login">ウォレットで署名してログイン</button> <span id="who"></span><pre id="me" hidden></pre>
+<div id="vpsbox" hidden><h3>コンテナ VPS</h3><button id="vstart">起動</button> <button id="vstop">停止</button><br><br>
+<input id="cmd" value="uname -a; df -h /home/renter" style="width:70%"> <button id="vexec">実行</button><pre id="vout"></pre></div></div>
+<div id="acct" class="card">貢献者の会計（40/30/30）読み込み中…</div>
+<script type="module">
+const $ = (id) => document.getElementById(id); let token = null;
+const api = (p, o = {}) => fetch(p, { ...o, headers: { 'Content-Type': 'application/json', ...(token ? { Authorization: 'Bearer ' + token } : {}) } }).then((r) => r.json());
+const d = await api('/plans');
+$('plans').innerHTML = `<h2>プラン</h2><p>VPS 方式: <b>${d.vps.backend === 'mock' ? '模擬（MOCK）' : '実コンテナ（podman）'}</b> — ${d.vps.spec.network}、${d.vps.spec.home}。未対応: ${d.vps.spec.notEnforced}</p>` +
+  d.contracts.map((c) => `<h3>${c.label}</h3><p>期間 ${c.periodSeconds >= 86400 ? c.periodSeconds / 86400 + '日' : c.periodSeconds + '秒'}（未精算時の返金猶予 ${c.graceSeconds}s）<br><small>${c.howToBuy}</small></p><table><tr><th>プラン</th><th>価格</th><th>内容</th></tr>${c.plans.map((p) => `<tr><td>${p.kind.toUpperCase()} (kind ${p.kindId})</td><td>${p.priceZnyt} ZNYT</td><td>${p.includes}</td></tr>`).join('')}</table>`).join('');
+const a = await api('/accounting');
+const row = (x) => `<tr><td><code>${x.address.slice(0, 10)}…</code></td><td>${(+x.l1Znyt).toFixed(3)}</td><td>${(+x.aiZnyt).toFixed(3)}</td><td>${(+x.vpsZnyt).toFixed(3)}</td><td>${(+x.servicePlanZnyt).toFixed(3)}</td><td>${(+x.earnedZnyt).toFixed(3)}</td></tr>`;
+$('acct').innerHTML = a.error ? '会計データなし' : `<h2>貢献者の会計（${a.contract}・40/30/30）</h2><p>排出 ${(+a.totals.emissionReleased).toFixed(2)} ZNYT → 支払 ${(+a.totals.emissionPaid).toFixed(2)}／プールへ戻り ${(+a.totals.returnedToPool).toFixed(2)}。プラン支払 ${a.totals.planPayments} 件（提供者へ ${a.totals.planToProviders}、返金 ${a.totals.planRefunded}）。検算: ${a.allChecksPass ? '✅ すべて一致' : '⚠️ 不一致あり'}</p><table><tr><th>貢献者</th><th>L1</th><th>AI</th><th>VPS</th><th>プラン収入</th><th>合計</th></tr>${a.ledger.map(row).join('')}</table>`;
+$('login').onclick = async () => {
+  if (!window.ethereum) return alert('ウォレット（MetaMask など）が見つかりません');
+  const [addr] = await ethereum.request({ method: 'eth_requestAccounts' });
+  const ch = await api('/auth/challenge?address=' + addr);
+  const signature = await ethereum.request({ method: 'personal_sign', params: [ch.message, addr] });
+  const v = await api('/auth/verify', { method: 'POST', body: JSON.stringify({ nonce: ch.nonce, signature }) });
+  if (!v.token) return alert(v.error); token = v.token; $('who').textContent = v.address;
+  const me = await api('/me'); $('me').hidden = false; $('me').textContent = `AI: ${me.ai.active ? '有効 〜' + new Date(me.ai.expiry * 1000).toLocaleString() : '無効'}\nVPS: ${me.vps.active ? '有効 〜' + new Date(me.vps.expiry * 1000).toLocaleString() : '無効'}`;
+  $('vpsbox').hidden = !me.vps.active;
+};
+$('vstart').onclick = async () => { $('vout').textContent = JSON.stringify(await api('/vps/start', { method: 'POST' }), null, 1); };
+$('vstop').onclick = async () => { $('vout').textContent = JSON.stringify(await api('/vps/stop', { method: 'POST' }), null, 1); };
+$('vexec').onclick = async () => { const r = await api('/vps/exec', { method: 'POST', body: JSON.stringify({ cmd: $('cmd').value }) }); $('vout').textContent = r.out ?? r.error; };
+</script></body></html>

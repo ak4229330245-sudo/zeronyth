@@ -1,0 +1,58 @@
+{
+ "cpus": "6,7",
+ "jvm": "-Xms64m -Xmx384m -XX:MaxMetaspaceSize=160m -XX:ReservedCodeCacheSize=64m -XX:MaxDirectMemorySize=64m -XX:+UseSerialGC -Xss512k -XX:ActiveProcessorCount=2",
+ "peakRssMB": 435,
+ "phases": {
+  "transfer": {
+   "fullBlocks": 3,
+   "avgTx": 2857,
+   "avgGas": 59997000,
+   "execMs": {
+    "avg": 107,
+    "max": 133
+   },
+   "importMs": {
+    "avg": 248,
+    "max": 278
+   },
+   "producedTotalMs": {
+    "avg": 382,
+    "max": 440
+   }
+  },
+  "erc20": {
+   "fullBlocks": 4,
+   "avgTx": 1125,
+   "avgGas": 57673239,
+   "execMs": {
+    "avg": 205,
+    "max": 477
+   },
+   "importMs": {
+    "avg": 261,
+    "max": 292
+   },
+   "producedTotalMs": {
+    "avg": 479,
+    "max": 782
+   }
+  },
+  "swap": {
+   "fullBlocks": 2,
+   "avgTx": 1480,
+   "avgGas": 59883830,
+   "execMs": {
+    "avg": 205,
+    "max": 278
+   },
+   "importMs": {
+    "avg": 335,
+    "max": 392
+   },
+   "producedTotalMs": {
+    "avg": 552,
+    "max": 684
+   }
+  }
+ }
+}

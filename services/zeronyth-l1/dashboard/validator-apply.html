@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="color-scheme" content="dark"><meta name="theme-color" content="#0d1117">
+  <title>ZERONYTH | バリデーター申請</title>
+  <meta name="description" content="ZERONYTH Testnet のバリデーター申請ページ。enode などの公開情報だけで申請データを作成します。"><link rel="icon" href="assets/favicon-64.png" type="image/png">
+  <link rel="stylesheet" href="assets/styles.css?v=20261027b"><link rel="stylesheet" href="assets/tokenomics.css?v=20261027b"><link rel="stylesheet" href="assets/join.css?v=20261027b">
+  <link rel="stylesheet" href="assets/page-i18n.css?v=20261027c">
+</head>
+<body>
+  <header class="tk-top"><a class="tk-brand" href="index.html"><img src="assets/znyt-token-168.png" alt="" width="36" height="36"><strong>ZERONYTH</strong></a>
+    <nav class="tk-nav"><a href="join.html">参加する / Join</a><span aria-current="page">バリデーター申請 / Validator</span></nav></header>
+  <main class="tk-wrap">
+    <section class="tk-hero"><h1>バリデーター申請</h1><p class="tk-lead">バリデーターは 24 時間動くサーバーでブロックを作ります。追加は既存バリデーターの投票（過半数）で決まります。<br><span class="muted small">Validator application. Validators are added by a majority vote of existing validators.</span></p></section>
+    <section class="panel tk-sec"><h2>流れ / Steps</h2><ol class="j-steps">
+      <li>フルノードを動かして同期する（<code>launch/public/fullnode-join.md</code> の手順）。</li>
+      <li>ノードの <b>enode</b> を確認：<code>curl -s -X POST --data '{"jsonrpc":"2.0","id":1,"method":"admin_nodeInfo","params":[]}' http://127.0.0.1:8545</code> の <code>enode</code>（または <code>besu public-key export</code>）。</li>
+      <li>下のフォームに入力 →「申請データを作る」→ JSON をダウンロードして、公式の連絡先に送る。</li>
+      <li>運営が接続・同期・稼働を確認し、既存バリデーターが投票します。追加されると、あなたのノードがブロックを作り始めます。</li></ol>
+      <p class="small muted">秘密鍵・ノードキー（key ファイル）は絶対に送らないでください。申請に必要なのは公開情報（enode）だけです。enode からバリデーターアドレスが自動で計算されます。<br>Never send your node key. Only the public enode is needed; the validator address is derived from it.</p></section>
+    <section class="panel tk-sec"><h2>申請フォーム / Form</h2>
+      <form class="j-form" id="vaForm" novalidate>
+        <label>お名前・ハンドル（公開されます） / Name or handle (public)<input id="vaName" required maxlength="60" autocomplete="nickname"></label>
+        <label>連絡先（X / Discord / メールなど） / Contact<input id="vaContact" required maxlength="120"></label>
+        <label>enode URL<input id="vaEnode" required placeholder="enode://<128桁の16進>@203.0.113.10:30303" spellcheck="false" autocomplete="off"></label>
+        <label>バリデーターアドレス（自動計算） / Validator address (derived)<input id="vaAddr" readonly></label>
+        <label>サーバー / Server<select id="vaHost"><option value="vps">VPS / クラウド</option><option value="home">自宅サーバー / Home server</option><option value="dc">データセンター / Bare metal</option></select></label>
+        <label>CPU コア / RAM(GB) / ディスク(GB)<input id="vaSpec" placeholder="4 / 8 / 200" maxlength="40"></label>
+        <label>地域 / Region<input id="vaRegion" placeholder="Tokyo, JP" maxlength="40"></label>
+        <label class="chk"><input type="checkbox" id="vaC1"> 24 時間稼働させ、止めるときは事前に連絡します / I will run 24/7 and announce maintenance</label>
+        <label class="chk"><input type="checkbox" id="vaC2"> 1 人（1 組織）1 バリデーターまでにします / One validator per operator</label>
+        <label class="chk"><input type="checkbox" id="vaC3"> ノードキーは自分のサーバーにだけ置き（権限 600）、誰にも渡しません / I keep my node key private (chmod 600)</label>
+        <button class="j-btn" type="submit">申請データを作る / Create application</button>
+      </form>
+      <p id="vaMsg" role="status" aria-live="polite"></p>
+      <pre class="j-out" id="vaOut" hidden></pre>
+      <p><a class="j-btn ghost" id="vaDl" hidden download="zeronyth-validator-application.json">JSON をダウンロード / Download JSON</a></p>
+      <p class="small muted">このページは入力内容をサーバーに送信・保存しません（ダウンロードしたファイルを自分で送ります）。 This page does not send or store your input.</p>
+    </section>
+  </main>
+  <script type="module" src="assets/validator-apply.mjs"></script>
+  <script type="module" src="assets/page-i18n.mjs?v=20261027b"></script>
+</body>
+</html>

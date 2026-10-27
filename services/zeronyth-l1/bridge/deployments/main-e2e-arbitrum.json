@@ -1,0 +1,31 @@
+{
+  "network": "main",
+  "startedAt": "2026-10-27T06:40:09.416Z",
+  "testWallet": "0x5D5cDf5cbBd0a6EaFBD044f4C2A1dc2516680b68",
+  "amount": "1.0",
+  "runs": [
+    {
+      "chainId": 421614,
+      "chain": "Arbitrum Sepolia",
+      "standIn": false,
+      "lockTx": "0xa29d8710a20c08731a9f680d600259d8d3949ea07187312830f3972b124e7791",
+      "lockTransfer": "9127-8",
+      "mintTx": "0xcf7d2abd29df4c3b5f8c01e49fe1f8fdafa4dd64acf1ce4b79ecface0152f68e",
+      "mintSignatures": 2,
+      "wznytBalance": "1.0",
+      "mldsa65ValidSignatures": 3,
+      "replayMint": "reverted as expected: AlreadyProcessed",
+      "wrongSigner": "reverted as expected: SignerNotRelayer",
+      "remoteGasTx": "0xbf23935bec2d4883f8336aba63afffb8a482f3c17a4805fa8ce6ed34f4dbcd79",
+      "burnTx": "0xca5b777bd074eb4f817075ba77dd0108f342e5928903f9c93b39616ecd8089cb",
+      "burnTransfer": "421614-0",
+      "releaseTx": "0xc0c362d955cdedb728ded93b482edff0dc43e948e983aae68020b7dea51d6da1",
+      "releaseSignatures": 3,
+      "wznytAfter": "0.0",
+      "outstandingAfter": "0.0"
+    }
+  ],
+  "fundTx": "0x296cd0913736a0ae93caefeaa933467975dc0d02b8b0bb3e3143e14196e7a3c3",
+  "refundTx": "0x6bd844a91af592ad6ed054145bae79586d41929b71c890a2f213151da0f56dfb",
+  "finishedAt": "2026-10-27T06:58:26.719Z"
+}

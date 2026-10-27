@@ -1,0 +1,296 @@
+# bridge.html + bridge-app.mjs
+> 秘密鍵・シードフレーズは絶対に入力しないでください。
+Never enter your private key or seed phrase. ¦ 切勿输入私钥或助记词。 ¦ 개인 키나 시드 문구는 절대 입력하지 마세요.
+> ZERONYTH (chain 9127) の ZNYT を金庫コントラクトにロックすると、選んだテストネットで同量の wZNYT (ERC-20, 18桁) がミントされます。wZNYT をバーンすると ZNYT が戻ります。
+Lock ZNYT on ZERONYTH (chain 9127) in the vault contract and the same amount of wZNYT (ERC-20, 18 decimals) is minted on the testnet you choose. Burn wZNYT to get your ZNYT back. ¦ 将 ZERONYTH（chain 9127）上的 ZNYT 锁定到金库合约后，会在你选择的测试网上铸造等量的 wZNYT（ERC-20，18 位小数）。销毁 wZNYT 即可取回 ZNYT。 ¦ ZERONYTH (chain 9127)의 ZNYT를 금고 컨트랙트에 잠그면 선택한 테스트넷에서 같은 양의 wZNYT(ERC-20, 소수점 18자리)가 민팅됩니다. wZNYT를 소각하면 ZNYT가 돌아옵니다.
+> ブリッジ状態
+Bridge status ¦ 跨链桥状态 ¦ 브리지 상태
+> {0} チェーン稼働中 · 署名 {1}
+{0} chains live · signatures {1} ¦ {0} 条链运行中 · 签名 {1} ¦ {0}개 체인 가동 중 · 서명 {1}
+> {0} チェーン稼働中 · 署名 {1} · 一時停止中
+{0} chains live · signatures {1} · paused ¦ {0} 条链运行中 · 签名 {1} · 已暂停 ¦ {0}개 체인 가동 중 · 서명 {1} · 일시 정지 중
+> 現在、稼働中の相手チェーンはありません（ガス待ち） · 署名 {0}
+No destination chain is live right now (waiting for gas) · signatures {0} ¦ 目前没有运行中的目标链（等待 Gas） · 签名 {0} ¦ 현재 가동 중인 상대 체인이 없습니다(가스 대기) · 서명 {0}
+> 現在、稼働中の相手チェーンはありません（ガス待ち） · 署名 {0} · 一時停止中
+No destination chain is live right now (waiting for gas) · signatures {0} · paused ¦ 目前没有运行中的目标链（等待 Gas） · 签名 {0} · 已暂停 ¦ 현재 가동 중인 상대 체인이 없습니다(가스 대기) · 서명 {0} · 일시 정지 중
+> ご注意（テストネット専用）
+Please note (testnet only) ¦ 注意（仅限测试网） ¦ 주의 (테스트넷 전용)
+> これはテスト用のブリッジです。ZNYT・wZNYT・各テストネットのガス代に金銭的価値はありません。本物の資金（メインネット資産）を送らないでください。署名者（リレイヤー）は現在 1 人の運営者が 3 鍵を管理しており、分散化されていません。不具合・停止・仕様変更がありえます。秘密鍵やシードフレーズを求めることは絶対にありません。
+This is a test bridge. ZNYT, wZNYT and testnet gas have no monetary value. Do not send real funds (mainnet assets). The signers (relayers) are currently 3 keys managed by a single operator, so the bridge is not decentralized. Bugs, outages and changes may happen. We will never ask for your private key or seed phrase. ¦ 这是测试用跨链桥。ZNYT、wZNYT 以及各测试网的 Gas 都没有金钱价值。请勿发送真实资金（主网资产）。签名者（中继者）目前是由一个运营方管理的 3 个密钥，尚未去中心化。可能出现故障、停止或规格变更。我们绝不会索要你的私钥或助记词。 ¦ 테스트용 브리지입니다. ZNYT, wZNYT, 각 테스트넷 가스비에는 금전적 가치가 없습니다. 실제 자금(메인넷 자산)을 보내지 마세요. 서명자(릴레이어)는 현재 한 운영자가 키 3개를 관리하고 있어 탈중앙화되어 있지 않습니다. 오류, 중단, 사양 변경이 있을 수 있습니다. 개인 키나 시드 문구를 요구하는 일은 절대 없습니다.
+> 01 / 対応チェーン
+01 / Supported chains ¦ 01 / 支持的链 ¦ 01 / 지원 체인
+> チェーン一覧
+Chains ¦ 链列表 ¦ 체인 목록
+> 稼働中
+Live ¦ 运行中 ¦ 가동 중
+> ガス待ち
+Waiting for gas ¦ 等待 Gas ¦ 가스 대기
+> 予定
+Planned ¦ 计划中 ¦ 예정
+> SPL トークン + 2-of-3 検証プログラムを設計中（未実装）
+SPL token + 2-of-3 verifier program in design (not implemented) ¦ SPL 代币 + 2-of-3 验证程序设计中（未实现） ¦ SPL 토큰 + 2-of-3 검증 프로그램 설계 중(미구현)
+> 「稼働中」= 送金可能。「ガス待ち」= コントラクトのアドレスは確定済み、デプロイ用テストネットガス待ち。「予定」= 設計のみ（未実装）。
+"Live" = transfers work. "Waiting for gas" = contract addresses are fixed, waiting for testnet gas to deploy. "Planned" = design only (not implemented). ¦ “运行中”= 可以转账。“等待 Gas”= 合约地址已确定，正在等待部署用的测试网 Gas。“计划中”= 仅有设计（未实现）。 ¦ "가동 중" = 송금 가능. "가스 대기" = 컨트랙트 주소는 확정, 배포용 테스트넷 가스 대기. "예정" = 설계만(미구현).
+> 02 / 送金
+02 / Transfer ¦ 02 / 转账 ¦ 02 / 송금
+> ブリッジする
+Bridge ¦ 跨链转移 ¦ 브리지하기
+> ウォレット未接続
+Wallet not connected ¦ 钱包未连接 ¦ 지갑 미연결
+> ウォレットが見つかりません（OKX Wallet / MetaMask をインストール）
+No wallet found (install OKX Wallet / MetaMask) ¦ 未找到钱包（请安装 OKX Wallet / MetaMask） ¦ 지갑을 찾을 수 없습니다(OKX Wallet / MetaMask 설치)
+> ウォレットが見つかりません。OKX Wallet か MetaMask をインストールしてください。
+No wallet found. Please install OKX Wallet or MetaMask. ¦ 未找到钱包。请安装 OKX Wallet 或 MetaMask。 ¦ 지갑을 찾을 수 없습니다. OKX Wallet 또는 MetaMask를 설치하세요.
+> 方向
+Direction ¦ 方向 ¦ 방향
+> ZNYT (ZERONYTH) → wZNYT (テストネット)
+ZNYT (ZERONYTH) → wZNYT (testnet) ¦ ZNYT (ZERONYTH) → wZNYT（测试网） ¦ ZNYT (ZERONYTH) → wZNYT (테스트넷)
+> wZNYT (テストネット) → ZNYT (ZERONYTH)
+wZNYT (testnet) → ZNYT (ZERONYTH) ¦ wZNYT（测试网） → ZNYT (ZERONYTH) ¦ wZNYT (테스트넷) → ZNYT (ZERONYTH)
+> 相手チェーン
+Destination chain ¦ 目标链 ¦ 상대 체인
+> {0}（ガス待ち・選択不可）
+{0} (waiting for gas, unavailable) ¦ {0}（等待 Gas，不可选） ¦ {0} (가스 대기, 선택 불가)
+> 稼働中のチェーンはまだありません
+No live chains yet ¦ 暂无运行中的链 ¦ 아직 가동 중인 체인이 없습니다
+> 数量
+Amount ¦ 数量 ¦ 수량
+> 1 回: {0} 〜 {1} ZNYT · 1 日あたり（チェーン毎）: {2} ZNYT
+Per transfer: {0}–{1} ZNYT · per day (per chain): {2} ZNYT ¦ 每次：{0}～{1} ZNYT · 每天（每条链）：{2} ZNYT ¦ 1회: {0}~{1} ZNYT · 1일당(체인별): {2} ZNYT
+> 送金する
+Send ¦ 转账 ¦ 송금하기
+> wZNYT をウォレットに追加
+Add wZNYT to wallet ¦ 将 wZNYT 添加到钱包 ¦ wZNYT를 지갑에 추가
+> ① ロック / バーン
+① Lock / burn ¦ ① 锁定 / 销毁 ¦ ① 잠금 / 소각
+> 未開始
+Not started ¦ 未开始 ¦ 시작 전
+> ② 署名（
+② Signatures ( ¦ ② 签名（ ¦ ② 서명 (
+> リレイヤー）
+relayers) ¦ 中继者） ¦ 릴레이어)
+> ③ ミント / 返却
+③ Mint / release ¦ ③ 铸造 / 返还 ¦ ③ 민팅 / 반환
+> 着金までの目安: 送金元チェーンの「確定 (finalized)」待ち + 数十秒。ZERONYTH 側は 2 ブロック確認。ページを閉じても処理は続き、下の履歴で確認できます。
+Expected time: until the source chain is "finalized", plus a few tens of seconds. ZERONYTH needs 2 block confirmations. Processing continues if you close the page; check the history below. ¦ 到账时间参考：等待源链“最终确定（finalized）”+ 数十秒。ZERONYTH 侧需要 2 个区块确认。关闭页面后处理仍会继续，可在下方历史中查看。 ¦ 도착 예상: 송금 체인의 '확정(finalized)' 대기 + 수십 초. ZERONYTH 쪽은 2블록 확인. 페이지를 닫아도 처리는 계속되며 아래 내역에서 확인할 수 있습니다.
+> 03 / 履歴
+03 / History ¦ 03 / 历史 ¦ 03 / 내역
+> このアドレスの送金履歴
+Transfer history for this address ¦ 此地址的转账历史 ¦ 이 주소의 송금 내역
+> ウォレットを接続すると表示されます。
+Connect your wallet to see it. ¦ 连接钱包后显示。 ¦ 지갑을 연결하면 표시됩니다.
+> 04 / 仕組みと安全装置
+04 / How it works and safeguards ¦ 04 / 机制与安全措施 ¦ 04 / 구조와 안전장치
+> 信頼モデル
+Trust model ¦ 信任模型 ¦ 신뢰 모델
+> ミント・返却には
+Minting and releasing require ¦ 铸造和返还需要 ¦ 민팅·반환에는
+> {0} 人中 {1} 人
+{1} of {0} ¦ {0} 人中的 {1} 人 ¦ {0}명 중 {1}명
+> のリレイヤーの
+relayers' ¦ 名中继者的 ¦ 릴레이어의
+> ECDSA 署名
+ECDSA signatures ¦ ECDSA 签名 ¦ ECDSA 서명
+> がオンチェーンで必要です。署名は公開掲示板コントラクト（BridgeAttestationBoard）で共有され、しきい値に達すれば
+on-chain. Signatures are shared through a public board contract (BridgeAttestationBoard); once the threshold is reached, ¦ （链上验证）。签名通过公开公告板合约（BridgeAttestationBoard）共享，达到阈值后， ¦ 이(가) 온체인에서 필요합니다. 서명은 공개 게시판 컨트랙트(BridgeAttestationBoard)에서 공유되며, 임계값에 도달하면
+> どのリレイヤーでも自分のガスで提出
+any relayer can submit with its own gas ¦ 任何中继者都可以用自己的 Gas 提交 ¦ 어느 릴레이어든 자기 가스로 제출
+> できます（管理者ウォレットは提出に関与しません）。
+(the admin wallet is not involved in submission). ¦ （管理员钱包不参与提交）。 ¦ 할 수 있습니다(관리자 지갑은 제출에 관여하지 않습니다).
+> 各リレイヤーは耐量子署名
+Each relayer also signs the same content with a post-quantum signature ¦ 每个中继者还会用抗量子签名 ¦ 각 릴레이어는 내양자 서명
+> でも同じ内容に署名し、公開ログ（/api/bridge/attestations）に残します。
+and records it in a public log (/api/bridge/attestations). ¦ 对相同内容签名，并记录在公开日志（/api/bridge/attestations）中。 ¦ 으로도 같은 내용에 서명하고 공개 로그(/api/bridge/attestations)에 남깁니다.
+> ML-DSA はオンチェーンでは検証されていません
+ML-DSA is not verified on-chain ¦ ML-DSA 不在链上验证 ¦ ML-DSA는 온체인에서 검증되지 않습니다
+> （監査用の追加記録です）。
+(it is an extra record for auditing). ¦ （这是供审计的附加记录）。 ¦ (감사용 추가 기록입니다).
+> 二重処理防止（リプレイ保護）、1 回あたり・1 日あたりの上限、ガーディアンによる緊急停止、確定待ち。
+Replay protection, per-transfer and per-day limits, emergency pause by a guardian, and waiting for finality. ¦ 防重放保护、单次与每日上限、守护者紧急暂停、等待最终确定。 ¦ 이중 처리 방지(리플레이 보호), 1회당·1일당 한도, 가디언의 긴급 정지, 확정 대기.
+> 不変条件: 発行済み wZNYT 合計 ≤ ロック中の ZNYT。30 秒ごとに検査し、違反時は自動停止します。
+Invariant: total wZNYT issued ≤ ZNYT locked. Checked every 30 seconds; the bridge pauses automatically on a violation. ¦ 不变量：已发行 wZNYT 总量 ≤ 锁定中的 ZNYT。每 30 秒检查一次，违反时自动暂停。 ¦ 불변 조건: 발행된 wZNYT 합계 ≤ 잠긴 ZNYT. 30초마다 검사하며 위반 시 자동 정지합니다.
+> 現在の検査結果
+Current check result ¦ 当前检查结果 ¦ 현재 검사 결과
+> コントラクト:
+Contracts: ¦ 合约： ¦ 컨트랙트:
+> Vault (9127) {0} · BridgeMinter {1} · wZNYT {2}（全チェーン同一アドレス, CREATE2）
+Vault (9127) {0} · BridgeMinter {1} · wZNYT {2} (same address on every chain, CREATE2) ¦ Vault (9127) {0} · BridgeMinter {1} · wZNYT {2}（所有链地址相同，CREATE2） ¦ Vault (9127) {0} · BridgeMinter {1} · wZNYT {2} (모든 체인 동일 주소, CREATE2)
+> 05 / リレイヤー
+05 / Relayers ¦ 05 / 中继者 ¦ 05 / 릴레이어
+> リレイヤーセットとタイムロック
+Relayer set and timelock ¦ 中继者集合与时间锁 ¦ 릴레이어 세트와 타임락
+> 1 台では署名不可
+One machine cannot sign alone ¦ 单台机器无法签名 ¦ 1대로는 서명 불가
+> 1 台で署名可能（未分散）
+One machine can sign (not distributed) ¦ 单台机器即可签名（未分散） ¦ 1대로 서명 가능(미분산)
+> しきい値 {0}。マシン別 — {1}。運営者別 — {2}。現在は 1 運営者がしきい値を満たせます（外部オペレーター待ち）。
+Threshold {0}. By machine — {1}. By operator — {2}. Right now one operator can meet the threshold (waiting for outside operators). ¦ 阈值 {0}。按机器 — {1}。按运营方 — {2}。目前单个运营方即可达到阈值（等待外部运营者）。 ¦ 임계값 {0}. 머신별 — {1}. 운영자별 — {2}. 현재는 운영자 1명이 임계값을 충족할 수 있습니다(외부 운영자 대기).
+> しきい値 {0}。マシン別 — {1}。運営者別 — {2}。1 運営者では署名不可。
+Threshold {0}. By machine — {1}. By operator — {2}. No single operator can sign. ¦ 阈值 {0}。按机器 — {1}。按运营方 — {2}。单个运营方无法签名。 ¦ 임계값 {0}. 머신별 — {1}. 운영자별 — {2}. 운영자 1명으로는 서명 불가.
+> {0}: {1} 鍵 / {2}: {3} 鍵
+{0}: {1} keys / {2}: {3} keys ¦ {0}：{1} 个密钥 / {2}：{3} 个密钥 ¦ {0}: 키 {1}개 / {2}: 키 {3}개
+> {0}: {1} 鍵
+{0}: {1} keys ¦ {0}：{1} 个密钥 ¦ {0}: 키 {1}개
+> box（メインサーバー）
+box (main server) ¦ box（主服务器） ¦ box (메인 서버)
+> マシン
+Machine ¦ 机器 ¦ 머신
+> 名前
+Name ¦ 名称 ¦ 이름
+> アドレス
+Address ¦ 地址 ¦ 주소
+> ML-DSA 公開鍵 (sha256)
+ML-DSA public key (sha256) ¦ ML-DSA 公钥 (sha256) ¦ ML-DSA 공개 키 (sha256)
+> 掲示板登録 tx
+Board registration tx ¦ 公告板登记 tx ¦ 게시판 등록 tx
+> 未登録
+Not registered ¦ 未登记 ¦ 미등록
+> チェーンごとの設定
+Per-chain settings ¦ 各链设置 ¦ 체인별 설정
+> チェーン
+Chain ¦ 链 ¦ 체인
+> しきい値
+Threshold ¦ 阈值 ¦ 임계값
+> オーナー
+Owner ¦ 所有者 ¦ 소유자
+> タイムロック {0}
+Timelock {0} ¦ 时间锁 {0} ¦ 타임락 {0}
+> 管理者 {0}
+Admin {0} ¦ 管理员 {0} ¦ 관리자 {0}
+> タイムロック: リレイヤー変更・停止解除・上限変更はすべて {0} の遅延付き。提案者 {1}、キャンセル可能 {2}。予約中の操作は公開され、実行前に誰でも確認できます。
+Timelock: relayer changes, unpausing and limit changes all have a {0} delay. Proposer {1}; can cancel: {2}. Scheduled operations are public and anyone can check them before they run. ¦ 时间锁：更换中继者、解除暂停、修改上限均有 {0} 的延迟。提议者 {1}，可取消者 {2}。待执行的操作是公开的，执行前任何人都可以查看。 ¦ 타임락: 릴레이어 변경·정지 해제·한도 변경은 모두 {0} 지연이 적용됩니다. 제안자 {1}, 취소 가능 {2}. 예약된 작업은 공개되어 실행 전에 누구나 확인할 수 있습니다.
+> タイムロック: 未設定（現在は管理者鍵が即時に変更可能）
+Timelock: not set (the admin key can change settings immediately) ¦ 时间锁：未设置（目前管理员密钥可立即修改） ¦ 타임락: 미설정(현재 관리자 키로 즉시 변경 가능)
+> タイムロック: 読み込み中…
+Timelock: loading… ¦ 时间锁：加载中… ¦ 타임락: 불러오는 중…
+> {0} 時間
+{0} h ¦ {0} 小时 ¦ {0}시간
+> {0} 秒
+{0} s ¦ {0} 秒 ¦ {0}초
+>b 緊急停止: guardian {0} can pause the vault / any minter immediately; unpause and every config change go through the timelock
+緊急停止: ガーディアン {0} は金庫（vault）や各ミンターを即座に一時停止できます。停止の解除と設定変更はすべてタイムロックを通ります ¦ Emergency pause: guardian {0} can pause the vault / any minter immediately; unpause and every config change go through the timelock ¦ 紧急暂停：守护者 {0} 可立即暂停金库或任一铸造合约；解除暂停和所有配置变更都需经过时间锁 ¦ 긴급 정지: 가디언 {0}은(는) 금고나 모든 민터를 즉시 정지할 수 있으며, 정지 해제와 모든 설정 변경은 타임락을 거칩니다
+> 緊急停止: {0}
+Emergency pause: {0} ¦ 紧急暂停：{0} ¦ 긴급 정지: {0}
+> 緊急停止: 読み込み中…
+Emergency pause: loading… ¦ 紧急暂停：加载中… ¦ 긴급 정지: 불러오는 중…
+>b しきい値ルール: threshold = max(floor(2n/3)+1, largest single-operator key count + 1)
+しきい値ルール: threshold = max(floor(2n/3)+1, 1つの運営者が持つ最大の鍵数 + 1) ¦ Threshold rule: threshold = max(floor(2n/3)+1, largest single-operator key count + 1) ¦ 阈值规则：threshold = max(floor(2n/3)+1, 单一运营方最大密钥数 + 1) ¦ 임계값 규칙: threshold = max(floor(2n/3)+1, 단일 운영자 최대 키 수 + 1)
+> しきい値ルール: {0}
+Threshold rule: {0} ¦ 阈值规则：{0} ¦ 임계값 규칙: {0}
+> 取得できません
+Unavailable ¦ 无法获取 ¦ 가져올 수 없습니다
+> 正直な現状:
+Where things honestly stand: ¦ 坦白说明现状： ¦ 솔직한 현황:
+> 2 台のマシン（box と ABLENET VPS）に分かれたため、
+Because the keys are split across 2 machines (box and ABLENET VPS), ¦ 由于密钥分布在 2 台机器（box 和 ABLENET VPS）上， ¦ 2대의 머신(box와 ABLENET VPS)으로 나뉘었기 때문에
+> どちらか 1 台が乗っ取られても単独では署名できません
+taking over either one machine is not enough to sign ¦ 即使其中 1 台被入侵也无法单独签名 ¦ 어느 1대가 탈취되어도 단독으로 서명할 수 없습니다
+> 。ただし両方とも同じ運営者（ZeroLayer）が動かしており、
+. However, both are run by the same operator (ZeroLayer), so ¦ 。但两台都由同一运营方（ZeroLayer）运行， ¦ . 다만 둘 다 같은 운영자(ZeroLayer)가 운영하고 있어
+> 運営者レベルではまだ分散化されていません
+it is not yet decentralized at the operator level ¦ 在运营方层面尚未去中心化 ¦ 운영자 수준에서는 아직 탈중앙화되어 있지 않습니다
+> 。外部オペレーターの参加を募集中です（
+. We are looking for outside operators ( ¦ 。正在招募外部运营者（ ¦ . 외부 운영자를 모집 중입니다(
+> の relayerSet）。
+relayerSet). ¦ 的 relayerSet）。 ¦ 의 relayerSet).
+> ネットワーク一覧
+Networks ¦ 网络列表 ¦ 네트워크 목록
+> テストネット専用 · 実資産なし · 署名者は 2 台のマシンに分散（運営者は 1 者）
+Testnet only · no real assets · signers split across 2 machines (1 operator) ¦ 仅限测试网 · 无真实资产 · 签名者分布在 2 台机器上（运营方 1 家） ¦ 테스트넷 전용 · 실자산 없음 · 서명자는 2대 머신에 분산(운영자 1곳)
+> ブリッジ送金
+Bridge transfer ¦ 跨链转账 ¦ 브리지 송금
+> 例: 1.0
+e.g. 1.0 ¦ 例如：1.0 ¦ 예: 1.0
+> 進行状況
+Progress ¦ 进度 ¦ 진행 상황
+> ZERONYTH | テストネット ブリッジ (ZNYT ⇄ wZNYT)
+ZERONYTH | Testnet bridge (ZNYT ⇄ wZNYT) ¦ ZERONYTH | 测试网跨链桥 (ZNYT ⇄ wZNYT) ¦ ZERONYTH | 테스트넷 브리지 (ZNYT ⇄ wZNYT)
+> ZERONYTH テストネット ブリッジ: ZNYT ⇄ wZNYT（テストネット専用・実資産なし）
+ZERONYTH testnet bridge: ZNYT ⇄ wZNYT (testnet only, no real assets) ¦ ZERONYTH 测试网跨链桥：ZNYT ⇄ wZNYT（仅限测试网，无真实资产） ¦ ZERONYTH 테스트넷 브리지: ZNYT ⇄ wZNYT (테스트넷 전용, 실자산 없음)
+>e Lock ZNYT on 9127 → mint wZNYT on an EVM testnet; burn wZNYT → release ZNYT.
+9127 で ZNYT をロック → EVM テストネットで wZNYT をミント。wZNYT をバーン → ZNYT を返却。 ¦ 在 9127 上锁定 ZNYT → 在 EVM 测试网铸造 wZNYT；销毁 wZNYT → 返还 ZNYT。 ¦ 9127에서 ZNYT 잠금 → EVM 테스트넷에서 wZNYT 민팅, wZNYT 소각 → ZNYT 반환.
+> ブリッジ API に接続できません ({0})
+Cannot reach the bridge API ({0}) ¦ 无法连接跨链桥 API（{0}） ¦ 브리지 API에 연결할 수 없습니다 ({0})
+> ブラウザウォレット
+Browser wallet ¦ 浏览器钱包 ¦ 브라우저 지갑
+> 接続済み {0}
+Connected {0} ¦ 已连接 {0} ¦ 연결됨 {0}
+> 接続しました。秘密鍵やシードフレーズは絶対に入力しないでください。
+Connected. Never enter your private key or seed phrase. ¦ 已连接。切勿输入私钥或助记词。 ¦ 연결했습니다. 개인 키나 시드 문구는 절대 입력하지 마세요.
+> 接続できませんでした: {0}
+Could not connect: {0} ¦ 无法连接：{0} ¦ 연결하지 못했습니다: {0}
+> ウォレットのネットワークを切り替えてください
+Please switch your wallet's network ¦ 请切换钱包网络 ¦ 지갑의 네트워크를 전환하세요
+> 現在、送金できる相手チェーンがありません（各テストネットのガス待ち）。
+There is no destination chain you can send to right now (waiting for testnet gas). ¦ 目前没有可转账的目标链（等待各测试网 Gas）。 ¦ 현재 송금할 수 있는 상대 체인이 없습니다(각 테스트넷 가스 대기).
+> 残高: {0} ZNYT
+Balance: {0} ZNYT ¦ 余额：{0} ZNYT ¦ 잔액: {0} ZNYT
+> 残高: {0} wZNYT
+Balance: {0} wZNYT ¦ 余额：{0} wZNYT ¦ 잔액: {0} wZNYT
+> 受領確認がタイムアウトしました
+Timed out waiting for the receipt ¦ 等待回执超时 ¦ 영수증 확인 시간이 초과되었습니다
+> このチェーンはまだ稼働していません。
+This chain is not live yet. ¦ 此链尚未运行。 ¦ 이 체인은 아직 가동되지 않았습니다.
+> 数量を正しく入力してください（例: 1.5）。
+Please enter a valid amount (e.g. 1.5). ¦ 请输入正确的数量（例如：1.5）。 ¦ 수량을 올바르게 입력하세요(예: 1.5).
+> 1 回の数量は {0} 〜 {1} です。
+Each transfer must be between {0} and {1}. ¦ 单次数量须在 {0}～{1} 之间。 ¦ 1회 수량은 {0}~{1}입니다.
+> ウォレットで「ロック」取引を承認してください…
+Approve the "lock" transaction in your wallet… ¦ 请在钱包中批准“锁定”交易… ¦ 지갑에서 '잠금' 거래를 승인하세요…
+> ウォレットで「バーン」取引を承認してください…
+Approve the "burn" transaction in your wallet… ¦ 请在钱包中批准“销毁”交易… ¦ 지갑에서 '소각' 거래를 승인하세요…
+> 送信しました。ブロック取り込みを待っています…
+Sent. Waiting for it to be included in a block… ¦ 已发送。正在等待打包进区块… ¦ 전송했습니다. 블록 포함을 기다리는 중…
+> 取引が失敗しました（上限・一時停止・残高を確認してください）
+Transaction failed (check limits, pause state and balance) ¦ 交易失败（请检查上限、暂停状态和余额） ¦ 거래가 실패했습니다(한도·일시 정지·잔액을 확인하세요)
+> イベントが見つかりません
+Event not found ¦ 未找到事件 ¦ 이벤트를 찾을 수 없습니다
+> エラー: {0}
+Error: {0} ¦ 错误：{0} ¦ 오류: {0}
+> 確定（finalized）とリレイヤー署名を待っています…
+Waiting for finality and relayer signatures… ¦ 正在等待最终确定（finalized）和中继者签名… ¦ 확정(finalized)과 릴레이어 서명을 기다리는 중…
+> 追跡中: {0}
+Tracking: {0} ¦ 跟踪中：{0} ¦ 추적 중: {0}
+> {0} 署名（ECDSA + ML-DSA-65 ログ）
+{0} signatures (ECDSA + ML-DSA-65 log) ¦ {0} 个签名（ECDSA + ML-DSA-65 日志） ¦ 서명 {0}개 (ECDSA + ML-DSA-65 로그)
+> 送信待ち…
+Waiting to submit… ¦ 等待提交… ¦ 제출 대기…
+> 完了: wZNYT がミントされました。「wZNYT をウォレットに追加」で表示できます。
+Done: wZNYT minted. Use "Add wZNYT to wallet" to see it. ¦ 完成：wZNYT 已铸造。可通过“将 wZNYT 添加到钱包”显示。 ¦ 완료: wZNYT가 민팅되었습니다. 'wZNYT를 지갑에 추가'로 표시할 수 있습니다.
+> 完了: ZNYT が返却されました。
+Done: ZNYT released. ¦ 完成：ZNYT 已返还。 ¦ 완료: ZNYT가 반환되었습니다.
+> まだ送金はありません。
+No transfers yet. ¦ 暂无转账。 ¦ 아직 송금이 없습니다.
+> 状態
+Status ¦ 状态 ¦ 상태
+> 送金元 tx
+Source tx ¦ 源 tx ¦ 송금 tx
+> 着金 tx
+Destination tx ¦ 到账 tx ¦ 도착 tx
+> ロック済み
+Locked ¦ 已锁定 ¦ 잠금 완료
+> バーン済み
+Burned ¦ 已销毁 ¦ 소각 완료
+> 署名済み
+Signed ¦ 已签名 ¦ 서명 완료
+> ミント完了
+Minted ¦ 已铸造 ¦ 민팅 완료
+> 返却完了
+Released ¦ 已返还 ¦ 반환 완료
+> 履歴を読み込めませんでした。
+Could not load the history. ¦ 无法加载历史。 ¦ 내역을 불러오지 못했습니다.
+> wZNYT ({0}) をウォレットに追加しました。
+Added wZNYT ({0}) to your wallet. ¦ 已将 wZNYT（{0}）添加到钱包。 ¦ wZNYT ({0})를 지갑에 추가했습니다.
+> 追加できませんでした: {0}
+Could not add: {0} ¦ 无法添加：{0} ¦ 추가하지 못했습니다: {0}
+> ZERONYTH Testnet (9127) に切り替えました。
+Switched to ZERONYTH Testnet (9127). ¦ 已切换到 ZERONYTH Testnet (9127)。 ¦ ZERONYTH Testnet (9127)으로 전환했습니다.
+
+# amm: reference price shown alone under a pool row
+> / 目標 {0} ZNYT
+/ target {0} ZNYT ¦ / 目标 {0} ZNYT ¦ / 목표 {0} ZNYT
+> / 目標 {0}
+/ target {0} ¦ / 目标 {0} ¦ / 목표 {0}
+# bridge: note split out of the <code> address line
+> （全チェーン同一アドレス, CREATE2）
+(same address on every chain, CREATE2) ¦ （所有链地址相同，CREATE2） ¦ (모든 체인 동일 주소, CREATE2)

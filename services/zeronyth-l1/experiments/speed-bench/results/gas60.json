@@ -1,0 +1,174 @@
+{
+ "name": "gas60",
+ "cfg": {
+  "gasLimit": 60000000,
+  "nodeFlags": [
+   "--tx-pool-max-size=20000",
+   "--tx-pool-limit-by-account-percentage=0.05"
+  ],
+  "window": 6000,
+  "workloads": [
+   [
+    "transfer",
+    12000
+   ],
+   [
+    "swap",
+    3000
+   ]
+  ]
+ },
+ "benchXmx": "256m",
+ "startedAt": "2026-10-27T08:46:11.405Z",
+ "idle": {
+  "n": 20,
+  "avgMs": 981,
+  "p95Ms": 1101,
+  "maxMs": 1101
+ },
+ "idleProposers": {
+  "0x50ccc409dacb460ee914fc3a4a39af0feff4c60d": {
+   "n": 5,
+   "avgMs": 931,
+   "maxMs": 1018
+  },
+  "0x6b6311479e526d2525c939e2d524be1fffafe212": {
+   "n": 5,
+   "avgMs": 1003,
+   "maxMs": 1101
+  },
+  "0xd1cd66bfd39256a2aae253bd597f782ed5fede78": {
+   "n": 5,
+   "avgMs": 994,
+   "maxMs": 1036
+  },
+  "0xeb292f14d6087663c46733a99c41aa28a82706da": {
+   "n": 5,
+   "avgMs": 995,
+   "maxMs": 1015
+  }
+ },
+ "pqIdle": {
+  "blocks": 23,
+  "failures": 0,
+  "skips": 0,
+  "lastErr": "",
+  "maxBacklog": 3,
+  "lagMs": {
+   "p50": 73,
+   "p95": 122,
+   "max": 241
+  },
+  "perBlockMs": {
+   "sign4": 47.3,
+   "verifyCert": 16.6,
+   "ecdsaHeader": 8.3
+  }
+ },
+ "runs": [
+  {
+   "kind": "transfer",
+   "n": 12000,
+   "url": "direct",
+   "batch": 100,
+   "conc": 4,
+   "rejected": 0,
+   "errors": [],
+   "mined": 12000,
+   "submitTxPerSec": 2187,
+   "endToEndTps": 1814,
+   "blockTps": 1825,
+   "finalityMs": {
+    "p50": 2000,
+    "p95": 2819,
+    "max": 3059
+   },
+   "blocks": 6,
+   "maxTxPerBlock": 2857,
+   "avgGasPerBlock": 42000000,
+   "gasLimit": 60000000,
+   "gasPerTx": 21000,
+   "intervalUnderLoad": {
+    "n": 6,
+    "avgMs": 1096,
+    "p95Ms": 2028,
+    "maxMs": 2028
+   },
+   "resources": {
+    "cpuPct": 512,
+    "peakRssMB": 1455,
+    "minMemAvailMB": 1563
+   },
+   "pq": {
+    "blocks": 7,
+    "failures": 0,
+    "skips": 0,
+    "lastErr": "",
+    "maxBacklog": 1,
+    "lagMs": {
+     "p50": 91,
+     "p95": 171,
+     "max": 171
+    },
+    "perBlockMs": {
+     "sign4": 43.5,
+     "verifyCert": 18.4,
+     "ecdsaHeader": 7.5
+    }
+   }
+  },
+  {
+   "kind": "swap",
+   "n": 3000,
+   "url": "direct",
+   "batch": 100,
+   "conc": 4,
+   "rejected": 0,
+   "errors": [],
+   "mined": 3000,
+   "submitTxPerSec": 4045,
+   "endToEndTps": 958,
+   "blockTps": 983,
+   "finalityMs": {
+    "p50": 2287,
+    "p95": 2735,
+    "max": 2848
+   },
+   "blocks": 3,
+   "maxTxPerBlock": 1480,
+   "avgGasPerBlock": 40462000,
+   "gasLimit": 60000000,
+   "gasPerTx": 40462,
+   "intervalUnderLoad": {
+    "n": 3,
+    "avgMs": 1017,
+    "p95Ms": 2118,
+    "maxMs": 2118
+   },
+   "resources": {
+    "cpuPct": 416,
+    "peakRssMB": 1607,
+    "minMemAvailMB": 1485
+   },
+   "pq": {
+    "blocks": 5,
+    "failures": 0,
+    "skips": 0,
+    "lastErr": "",
+    "maxBacklog": 2,
+    "lagMs": {
+     "p50": 105,
+     "p95": 165,
+     "max": 165
+    },
+    "perBlockMs": {
+     "sign4": 38,
+     "verifyCert": 16.8,
+     "ecdsaHeader": 13.8
+    }
+   }
+  }
+ ],
+ "diskMB": 75,
+ "height": 53
+}

@@ -1,0 +1,157 @@
+{
+  "_comment": "ZERONYTH testnet points. Edit weights/caps here; the service reloads this file within ~1 minute (new values apply to events processed after the reload; the ledger is never rewritten). 'points' values are in points (2 decimals kept).",
+  "version": 1,
+  "programStart": "2026-10-27",
+  "dayUtcOffsetHours": 9,
+  "categories": {
+    "validator": {
+      "label": "バリデーター運用",
+      "pointsPerHourProposing": 20,
+      "dailyCap": 480,
+      "note": "承認済みバリデーター（validatorOperators に登録）が 1 時間に 1 ブロック以上提案したら"
+    },
+    "node": {
+      "label": "ノード稼働（PC・ライトノード）",
+      "pointsPerCreditedEpoch": 1,
+      "dailyCap": 288,
+      "note": "コーディネーターが耐量子署名（ML-DSA-65）付きハートビートを検証し、チェーン上で WorkCredited として記録した 5 分エポックごと"
+    },
+    "swap": {
+      "label": "スワップ（テストネットAMM）",
+      "pointsPerSwap": 2,
+      "fullRateSwaps": 5,
+      "pointsPerSwapAfter": 0.5,
+      "volumeFactor": 4,
+      "minZnyt": 1,
+      "roundTripWindowSec": 600,
+      "roundTripTolerance": 0.2,
+      "dailyCap": 60,
+      "note": "1日の点数 = 2×min(回数,5) + 0.5×max(0,回数−5) + 4×√(出来高ZNYT)。全プール（ZNYT/zETH・zUSDT・zUSDC・zBTC・zSOL・zBNB・zMON、zBTC/zUSDC・zSOL/zUSDC・zBNB/zUSDC・zMON/zUSDC）が対象。出来高は ZNYT 換算（z トークンは本物の米ドル価格、zUSDT・zUSDC は 1 ドル、1 ZNYT = 10 テストドル）。1 ZNYT（= 10 zUSDC）未満・往復売買（同じプールで10分以内・±20%の逆方向）は 0 点"
+    },
+    "lp": {
+      "label": "流動性の提供（LP）",
+      "pointsPerSqrtZnytHour": 0.5,
+      "minZnyt": 10,
+      "dailyCap": 60,
+      "note": "毎時スナップショット。1時間あたり 0.5×√(その時間の開始時・終了時のうち小さい方の LP 評価額[ZNYT、全プール合計、1 ZNYT = 10 テストドル換算])。10 ZNYT（= 100 テストドル）未満は 0 点"
+    },
+    "tx": {
+      "label": "トランザクション数",
+      "pointsPerTx": 0.5,
+      "minTransferZnyt": 0.01,
+      "dailyCap": 30,
+      "note": "成功したトランザクション 1 件ごと。自分宛て送金・0.01 ZNYT 未満の送金・同じ IP/端末グループ間の送金は対象外"
+    },
+    "plan": {
+      "label": "10日プランの購入",
+      "pointsPerZnyt": 1,
+      "dailyCap": 15,
+      "lifetimeCap": 100,
+      "note": "支払った ZNYT 1 枚あたり（お金で買えるポイントが大きくならないよう上限は小さめ）"
+    },
+    "planUse": {
+      "label": "プランの利用",
+      "pointsPerAiChat": 0.5,
+      "pointsPerVpsStart": 1,
+      "dailyCap": 5
+    },
+    "aiFeedback": {
+      "label": "AI 学習に採用されたフィードバック",
+      "pointsPerAccepted": 10,
+      "dailyCap": 30,
+      "note": "AI 学習ゲートを通った同意済みフィードバック（連携待ち）"
+    },
+    "checkin": {
+      "label": "毎日のチェックイン",
+      "points": 1,
+      "dailyCap": 1
+    },
+    "admin": {
+      "label": "バグ報告・貢献（運営が付与）",
+      "dailyCap": null
+    }
+  },
+  "antiSybil": {
+    "maxNewWalletsPerIpPerDay": 3,
+    "faucetOnlyFactor": 0.5,
+    "faucetOnlyUntilDays": 3,
+    "faucetAddresses": [
+      "0x8D976E2A2FC2577703D16E0102C366a08f5e1708"
+    ],
+    "deviceClusterFlag": 20,
+    "outlierZ": 4,
+    "outlierMinWallets": 10
+  },
+  "validatorOperators": {},
+  "team": [
+    "0x365a14dbd81fa56d8bd805c0e99625c6e18ec744",
+    "0xc9a31489e18af737a3f4a105d3c97cc42edddec8"
+  ],
+  "leaderboardTopN": 100,
+  "ordering": {
+    "_comment": "Enforced at startup: validator.dailyCap > node.dailyCap > sum(dailyCap of every other capped category). The service refuses to load a config that breaks this.",
+    "text": "1日の最大ポイント：バリデーター（480）＞ ノード稼働（288）＞ それ以外すべての合計（約201）。いちばん稼げるのはノードです。"
+  },
+  "system": {
+    "_comment": "Operator/contract addresses that never earn and are excluded from snapshots (filled at startup with the AMM + economy contracts too).",
+    "addresses": [
+      "0xBBE12182428cdE89891c9911bbf37e371807a2Ef",
+      "0xC0d69E881AE916552CAC511EbF1C7DE507BD2704",
+      "0x8D976E2A2FC2577703D16E0102C366a08f5e1708"
+    ]
+  },
+  "indexer": {
+    "economy": "0xBB74a0868AA2022184d5c7BaAbc398B75C28F6F9",
+    "startBlock": 9409,
+    "ammManifest": "../deployments/main-amm.json",
+    "usageFile": "/workspace/zeronyth-access-main/usage.jsonl",
+    "accessUrl": "http://127.0.0.1:9805",
+    "rpc": "http://127.0.0.1:9545",
+    "tickSeconds": 60
+  },
+  "antiBot": {
+    "_comment": "Score-based bot detection (points-service botScore). Sum of signal points over a rolling window; >= suspendScore -> automatic suspension 'BAN（審査中）' (accrual stops, hidden, excluded from snapshots) until an admin confirms (points-admin confirm-ban, forfeits points) or unbans. Cluster signals only add to activity signals; linked wallets are banned only on admin confirm with --cluster. System/team/keeper/deployer addresses are never scored.",
+    "enabled": true,
+    "windowSec": 86400,
+    "suspendScore": 60,
+    "flagScore": 35,
+    "minEvents": 10,
+    "maxEvents": 800,
+    "frequency": {
+      "perHour": 30,
+      "pts": 25,
+      "perHourHigh": 60,
+      "ptsHigh": 40,
+      "perDay": 60,
+      "ptsDay": 15
+    },
+    "regular": {
+      "lastN": 12,
+      "maxCv": 0.12,
+      "maxMeanSec": 3600,
+      "pts": 30
+    },
+    "sameSize": {
+      "lastN": 12,
+      "tolerance": 0.02,
+      "share": 0.8,
+      "maxMedianZnyt": 10,
+      "pts": 20
+    },
+    "pingPong": {
+      "count": 3,
+      "pts": 20,
+      "high": 6,
+      "ptsHigh": 30
+    },
+    "lpCycle": {
+      "cycles": 3,
+      "pts": 25
+    },
+    "cluster": {
+      "minSize": 5,
+      "pts": 15,
+      "suspendedMemberPts": 15
+    }
+  }
+}

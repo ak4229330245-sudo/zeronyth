@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="color-scheme" content="dark"><meta name="theme-color" content="#0d1117">
+  <title>ZERONYTH | 10日プラン（AI / VPS）</title>
+  <meta name="description" content="ZERONYTH Testnet の 10 日プラン（AI プラン 5 ZNYT / VPS プラン 100 ZNYT）。代金はエスクローに預けられ、期限後に分配・返金されます。"><link rel="icon" href="assets/favicon-64.png" type="image/png">
+  <link rel="stylesheet" href="assets/styles.css?v=20261027b"><link rel="stylesheet" href="assets/tokenomics.css?v=20261027b"><link rel="stylesheet" href="assets/plans.css?v=20261027b">
+  <link rel="stylesheet" href="assets/page-i18n.css?v=20261027c">
+</head>
+<body>
+  <header class="tk-top"><a class="tk-brand" href="index.html"><img src="assets/znyt-token-168.png" alt="" width="36" height="36"><strong>ZERONYTH</strong></a>
+    <nav class="tk-nav"><a href="join.html">参加する</a><a href="tokenomics.html">トークノミクス</a><a href="chat.html">AI チャット</a><span aria-current="page">10日プラン</span></nav></header>
+  <main class="tk-wrap p-wrap">
+    <h1>10日プラン（AI チャット / コンテナ VPS）</h1>
+    <section class="p-card p-warn">
+      <p><b>⚠️ これはテストネットです。</b>ZERONYTH テストネット（チェーンID 9127）の ZNYT は<b>テスト用のコインで、お金としての価値はありません</b>。購入・換金・投資の対象ではありません。予告なくリセットや停止をすることがあります。</p>
+      <p><b>秘密鍵・シードフレーズは絶対に入力しないでください。</b>ログインはウォレットでの「署名」だけです（署名ではお金は動きません）。プランの購入はご自分のウォレットから <code>subscribe</code> を送る取引です。</p>
+      <p><b>VPS プランについて：</b>練習用の小さな Linux 環境です。<b>インターネット接続なし・作業領域 64MB・1 コマンド 10 秒まで</b>で、CPU やメモリの性能は保証しません。同時に使える台数は少数に限られます。大事なデータは置かないでください（停止・期限切れで消えます）。</p>
+      <p><b>支払いと返金：</b>代金はいったん<b>エスクロー（預かりコントラクト）</b>に入り、10日後に、実際に動いていた提供者へ精算されます。提供者が動いていなかった時間の分は返金されます。精算されないまま期限から猶予期間（3日）を過ぎた場合は、ご自分で返金を受け取れます。</p>
+      <p>AI プランは、同じ小さな AI（CPU 動作）を<b>優先キュー・長めの回答</b>で使えるものです。AI は間違えることがあります。</p>
+    </section>
+    <section class="p-card" id="plans">読み込み中…</section>
+    <section class="p-card">
+      <h2>1. ウォレットをつなぐ</h2>
+      <p><button type="button" id="connect">ウォレットを接続（チェーン 9127 を追加）</button> <span id="addr" class="p-mono"></span></p>
+      <p class="p-small">ZNYT が無い場合は <a href="join.html">参加ページ</a> の蛇口（faucet）でテスト用 ZNYT を受け取れます。</p>
+      <h2>2. プランを買う</h2>
+      <p><button type="button" id="buyAi" disabled>AI プランを買う</button> <button type="button" id="buyVps" disabled>VPS プランを買う</button></p>
+      <pre id="buyOut" class="p-out" hidden></pre>
+      <h2>3. 署名してログイン</h2>
+      <p><button type="button" id="login" disabled>ウォレットで署名してログイン</button></p>
+      <pre id="me" class="p-out" hidden></pre>
+    </section>
+    <section class="p-card" id="aibox" hidden>
+      <h2>AI チャット（プラン）</h2>
+      <form id="aiform"><textarea id="aiq" rows="2" maxlength="2000" placeholder="質問を入力" required></textarea><button type="submit">送信</button></form>
+      <pre id="aiout" class="p-out"></pre>
+    </section>
+    <section class="p-card" id="vpsbox" hidden>
+      <h2>コンテナ VPS</h2>
+      <p><button type="button" id="vstart">起動</button> <button type="button" id="vstop">停止</button> <button type="button" id="vstatus">状態</button></p>
+      <form id="vform"><input id="cmd" value="uname -a; id; df -h /home/renter" maxlength="2000"><button type="submit">実行</button></form>
+      <pre id="vout" class="p-out"></pre>
+    </section>
+    <section class="p-card" id="acct">貢献者の会計（40/30/30）読み込み中…</section>
+  </main>
+  <script type="module" src="assets/plans.mjs"></script>
+  <script type="module" src="assets/page-i18n.mjs?v=20261027b"></script>
+</body>
+</html>

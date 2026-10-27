@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ZERONYTH 参加アプリ</title>
+<style>
+:root{--bg:#0b1020;--card:#141b33;--fg:#e8ecff;--mut:#9aa6d1;--ok:#3ddc97;--warn:#ffb547;--bad:#ff6b6b;--acc:#7c8cff}
+*{box-sizing:border-box}body{margin:0;font:16px/1.6 system-ui,-apple-system,"Hiragino Sans","Yu Gothic UI","Noto Sans JP",sans-serif;background:var(--bg);color:var(--fg)}
+main{max-width:860px;margin:0 auto;padding:20px}h1{font-size:22px;margin:0}header{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:16px}
+.card{background:var(--card);border-radius:14px;padding:18px;margin-bottom:14px}.big{font-size:28px;font-weight:700}.mut{color:var(--mut);font-size:14px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}.stat{background:#0f1530;border-radius:10px;padding:12px}
+.badge{display:inline-block;padding:6px 14px;border-radius:999px;font-weight:700}.b-ok{background:#123d2e;color:var(--ok)}.b-warn{background:#41320f;color:var(--warn)}.b-bad{background:#401818;color:var(--bad)}
+button{font:inherit;border:0;border-radius:10px;padding:12px 18px;cursor:pointer;background:#25305c;color:var(--fg)}button.pri{background:var(--acc);color:#0b1020;font-weight:700}button.sel{outline:3px solid var(--acc)}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}input[type=number]{width:80px;font:inherit;padding:8px;border-radius:8px;border:1px solid #33407a;background:#0f1530;color:var(--fg)}
+label.t{display:flex;gap:10px;align-items:center;margin:6px 0}.bar{height:12px;border-radius:6px;overflow:hidden;display:flex;background:#0f1530}.bar span{display:block}
+#log div{font-size:13px;color:var(--mut);border-bottom:1px solid #1d2546;padding:3px 0}code{font-size:13px;background:#0f1530;padding:2px 6px;border-radius:6px;word-break:break-all}
+details summary{cursor:pointer;color:var(--mut)}
+</style></head><body><main>
+<header><h1>⚡ ZERONYTH <span data-i="title">参加アプリ</span></h1><button id="lang">English</button></header>
+
+<section class="card">
+  <div class="row" style="justify-content:space-between">
+    <div><span id="badge" class="badge b-warn">…</span> <span id="why" class="mut"></span></div>
+    <div class="row"><button id="pause" class="pri" data-i="pause">一時停止</button></div>
+  </div>
+  <p id="explain" class="mut" style="margin:10px 0 0"></p>
+</section>
+
+<section class="card">
+  <div class="mut" data-i="rewardsT">あなたの報酬（テストネット・無価値のZNYT）</div>
+  <div class="grid" style="margin-top:8px">
+    <div class="stat"><div class="mut" data-i="pending">受け取り可能</div><div class="big"><span id="pending">0</span> <small>ZNYT</small></div></div>
+    <div class="stat"><div class="mut" data-i="earned">これまでの合計</div><div class="big"><span id="earned">0</span> <small>ZNYT</small></div></div>
+    <div class="stat"><div class="mut" data-i="credits">AIクレジット</div><div class="big" id="credits">0</div></div>
+    <div class="stat"><div class="mut" data-i="verified">今回検証した取引</div><div class="big" id="verified">0</div></div>
+  </div>
+  <div class="row" style="margin-top:12px"><button id="withdraw" data-i="withdraw">報酬を受け取る</button><span id="wmsg" class="mut"></span></div>
+  <p class="mut" id="epochNote" style="margin-bottom:0"></p>
+</section>
+
+<section class="card">
+  <div class="mut" data-i="splitT">貸し出す力の使い道</div>
+  <div class="bar" style="margin:10px 0"><span id="b1" style="background:#7c8cff"></span><span id="b2" style="background:#3ddc97"></span><span id="b3" style="background:#ffb547"></span></div>
+  <div class="mut" id="splitTxt"></div>
+  <div class="row" style="margin-top:10px">
+    <button data-preset="4000,3000,3000" data-i="pRec">おすすめ（40/30/30）</button>
+    <button data-preset="7000,1500,1500" data-i="pL1">チェーン高速化重視</button>
+    <button data-preset="2000,6000,2000" data-i="pAI">AI重視</button>
+    <button data-preset="2000,2000,6000" data-i="pVPS">レンタル重視</button>
+  </div>
+  <details style="margin-top:10px"><summary data-i="custom">自分で決める（合計100%）</summary>
+    <div class="row" style="margin-top:8px">L1 <input id="s1" type="number" min="0" max="100"> % AI <input id="s2" type="number" min="0" max="100"> % <span data-i="rental">レンタル</span> <input id="s3" type="number" min="0" max="100"> %
+    <button id="saveShares" data-i="save">保存</button><span id="smsg" class="mut"></span></div>
+  </details>
+</section>
+
+<section class="card">
+  <div class="mut" data-i="safeT">PCを快適に使うための安全設定</div>
+  <div class="row" style="margin:10px 0"><span data-i="cpuCap">CPUの貸し出し上限</span>
+    <button data-cpu="25">25%</button><button data-cpu="50">50%</button><button data-cpu="75">75%</button></div>
+  <label class="t"><input type="checkbox" id="pb"> <span data-i="pb">バッテリー駆動中は自動で一時停止</span></label>
+  <label class="t"><input type="checkbox" id="ph"> <span data-i="ph">PCが熱くなったら自動で一時停止</span></label>
+  <label class="t"><input type="checkbox" id="pw"> <span data-i="pw">PCを他の作業で使っている時は自動で一時停止</span></label>
+  <p class="mut" id="dev"></p>
+</section>
+
+<section class="card"><details><summary data-i="more">詳細・記録</summary>
+  <p class="mut"><span data-i="addr">参加ID（アドレス）</span>: <code id="addr"></code></p>
+  <p class="mut"><span data-i="server">接続先</span>: <code id="srv"></code></p>
+  <p class="mut" id="net"></p>
+  <div id="log"></div>
+  <p class="mut" data-i="privacy">鍵（秘密鍵・耐量子ML-DSA鍵）はこのPCの data フォルダにだけ保存され、外部に送信されません。ZNYTはテスト用で金銭的価値はありません。</p>
+</details></section>
+</main>
+<script>
+const T={en:{title:'Participant app',pause:'Pause',resume:'Resume',rewardsT:'Your rewards (testnet ZNYT — no monetary value)',pending:'Ready to withdraw',earned:'Earned in total',credits:'AI credits',verified:'Txs verified this session',withdraw:'Withdraw rewards',splitT:'How your lent capacity is used',pRec:'Recommended (40/30/30)',pL1:'Faster chain',pAI:'More AI',pVPS:'More rental',custom:'Custom (must total 100%)',rental:'Rental',save:'Save',safeT:'Safety settings so your PC stays usable',cpuCap:'Max CPU lent',pb:'Pause automatically on battery',ph:'Pause automatically when the PC gets hot',pw:'Pause automatically while you use the PC heavily',more:'Details & log',addr:'Participant ID (address)',server:'Server',privacy:'Your keys (wallet key and post-quantum ML-DSA key) stay in this PC\'s data folder and are never sent anywhere. ZNYT is a test token with no monetary value.'}};
+let lang='ja',S=null;const $=id=>document.getElementById(id);
+const tr=(ja,en)=>lang==='en'?en:ja;
+function applyLang(){document.documentElement.lang=lang;$('lang').textContent=lang==='ja'?'English':'日本語';document.querySelectorAll('[data-i]').forEach(e=>{e.dataset.ja??=e.textContent;e.textContent=lang==='en'?(T.en[e.dataset.i]||e.dataset.ja):e.dataset.ja});}
+const post=(p,b)=>fetch(p,{method:'POST',headers:{'content-type':'application/json','x-zeronyth-ui':'1'},body:JSON.stringify(b||{})}).then(async r=>{const j=await r.json();if(!r.ok)throw new Error(j.error);return j});
+const R={manual:['手動で一時停止中','paused by you'],battery:['バッテリー駆動中','on battery'],heat:['PCが高温','PC is hot'],busy:['PCが混雑中','PC is busy']};
+function render(s){S=s;if(lang!==s.cfg.lang){lang=s.cfg.lang;applyLang()}
+ const b=$('badge');let cls='b-warn',txt,why='',ex='';
+ if(s.phase==='running'&&!s.paused){cls='b-ok';txt=tr('参加中','Contributing');ex=tr('このPCがZERONYTHのチェーン検証・AI・レンタル枠に力を貸しています。そのままにしておくだけでOKです。','This PC is lending power to ZERONYTH (chain verification, AI, rental). Just leave it running.')}
+ else if(s.paused){txt=tr('一時停止中','Paused');why=s.pauseReasons.map(r=>tr(...R[r]||[r,r])).join('・');ex=tr('条件が戻ると自動で再開します。','It resumes automatically when conditions are back to normal.')}
+ else if(s.phase==='offline'){cls='b-bad';txt=tr('サーバーに接続できません','Cannot reach server');ex=tr('インターネット接続を確認してください。自動で再試行します。','Check your internet connection; it retries automatically.')}
+ else txt={starting:tr('起動中…','Starting…'),connecting:tr('接続中…','Connecting…'),funding:tr('テスト用ZNYTを受け取り中…','Getting test ZNYT…'),registering:tr('参加登録中…','Registering…')}[s.phase]||s.phase;
+ b.className='badge '+cls;b.textContent=txt;$('why').textContent=why;$('explain').textContent=ex+(s.error&&s.phase!=='running'?' ('+s.error+')':'');
+ $('pause').textContent=s.cfg&&s.pauseReasons.includes('manual')?tr('再開する','Resume'):tr('一時停止','Pause');
+ const r=s.rewards;$('pending').textContent=(+r.pendingZnyt).toFixed(4);$('earned').textContent=(+r.earnedZnyt).toFixed(4);$('credits').textContent=r.aiCredits;$('verified').textContent=s.session.l1Verified;
+ $('withdraw').disabled=!(+r.pendingZnyt>0);
+ $('epochNote').textContent=tr(`報酬は約${Math.round((r.epochMs||60000)/1000)}秒ごとに、検証済みの仕事量に応じて配られます。`+(r.strikes?` 注意: 不一致 ${r.strikes}/${r.maxStrikes}`:''),`Rewards are paid about every ${Math.round((r.epochMs||60000)/1000)} s in proportion to verified work.`+(r.strikes?` Warning: mismatches ${r.strikes}/${r.maxStrikes}`:''));
+ const sh=s.cfg.shares;[['b1',sh.l1Bps],['b2',sh.aiBps],['b3',sh.rentalBps]].forEach(([id,v])=>$(id).style.width=v/100+'%');
+ $('splitTxt').textContent=tr(`L1チェーン高速化（署名の事前検証） ${sh.l1Bps/100}% ・ AI ${sh.aiBps/100}% ・ VPSレンタル枠 ${sh.rentalBps/100}%（レンタルは準備中：現在は稼働時間を記録）`,`L1 speed-up (signature pre-verification) ${sh.l1Bps/100}% · AI ${sh.aiBps/100}% · VPS rental ${sh.rentalBps/100}% (rental in preparation: uptime is recorded)`);
+ document.querySelectorAll('[data-preset]').forEach(e=>e.classList.toggle('sel',e.dataset.preset===[sh.l1Bps,sh.aiBps,sh.rentalBps].join(',')));
+ if(document.activeElement.type!=='number'){$('s1').value=sh.l1Bps/100;$('s2').value=sh.aiBps/100;$('s3').value=sh.rentalBps/100}
+ document.querySelectorAll('[data-cpu]').forEach(e=>e.classList.toggle('sel',+e.dataset.cpu===s.cfg.cpuPct));
+ $('pb').checked=s.cfg.pauseOnBattery;$('ph').checked=s.cfg.pauseOnHeat;$('pw').checked=s.cfg.pauseWhenBusy;
+ const d=s.device;$('dev').textContent=tr(`このPC: CPU ${d.cpus}スレッド中 ${d.lentThreads} を最低優先度で貸し出し（L1検証 ${d.l1Threads}）・メモリ ${Math.round(d.ramMB/1024)}GB・GPU ${d.gpu.length?d.gpu.join(', ')+'（現在はCPUで検証）':'なし'}`,`This PC: lending ${d.lentThreads} of ${d.cpus} CPU threads at lowest priority (L1 verify ${d.l1Threads}) · RAM ${Math.round(d.ramMB/1024)} GB · GPU ${d.gpu.length?d.gpu.join(', ')+' (verification currently runs on CPU)':'none'}`);
+ $('addr').textContent=s.address;$('srv').textContent=s.cfg.server;
+ if(s.network)$('net').textContent=tr(`ネットワーク: 参加者 ${s.network.providers} ・ ガス代の${s.network.burnBps/100}%を焼却（累計 ${(+s.network.totalBurned).toFixed(6)} ZNYT）・ エポック ${s.network.lastEpoch}`,`Network: ${s.network.providers} participants · ${s.network.burnBps/100}% of gas fees burned (total ${(+s.network.totalBurned).toFixed(6)} ZNYT) · epoch ${s.network.lastEpoch}`);
+ $('log').innerHTML='';s.logs.slice().reverse().forEach(l=>{const e=document.createElement('div');e.textContent=new Date(l.t).toLocaleTimeString()+'  '+(lang==='en'?l.en:l.ja);$('log').appendChild(e)});
+}
+async function tick(){try{render(await (await fetch('/api/state')).json())}catch{$('badge').className='badge b-bad';$('badge').textContent=tr('アプリが停止しています','App is not running')}}
+$('lang').onclick=()=>post('/api/config',{lang:lang==='ja'?'en':'ja'}).then(render);
+$('pause').onclick=()=>post(S.pauseReasons.includes('manual')?'/api/resume':'/api/pause').then(render);
+document.querySelectorAll('[data-preset]').forEach(e=>e.onclick=()=>{const [a,b,c]=e.dataset.preset.split(',').map(Number);post('/api/config',{shares:{l1Bps:a,aiBps:b,rentalBps:c}}).then(render)});
+$('saveShares').onclick=()=>{const v=[$('s1').value,$('s2').value,$('s3').value].map(x=>Math.round(+x*100));if(v[0]+v[1]+v[2]!==10000){$('smsg').textContent=tr('合計を100%にしてください','Shares must total 100%');return}
+ post('/api/config',{shares:{l1Bps:v[0],aiBps:v[1],rentalBps:v[2]}}).then(s=>{$('smsg').textContent=tr('保存しました','Saved');render(s)}).catch(e=>$('smsg').textContent=e.message)};
+document.querySelectorAll('[data-cpu]').forEach(e=>e.onclick=()=>post('/api/config',{cpuPct:+e.dataset.cpu}).then(render));
+[['pb','pauseOnBattery'],['ph','pauseOnHeat'],['pw','pauseWhenBusy']].forEach(([id,k])=>$(id).onchange=()=>post('/api/config',{[k]:$(id).checked}).then(render));
+$('withdraw').onclick=()=>{$('wmsg').textContent=tr('処理中…','Working…');post('/api/withdraw').then(s=>{$('wmsg').textContent=tr('受け取りました','Done');render(s)}).catch(e=>$('wmsg').textContent=e.message)};
+applyLang();tick();setInterval(tick,3000);
+</script></body></html>

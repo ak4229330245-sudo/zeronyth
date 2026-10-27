@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="color-scheme" content="dark"><meta name="theme-color" content="#0d1117">
+  <meta name="description" content="テスト専用のマルチチェーン スワップ実験ページ。ルートの検証チェック付きで、実際の資産は動きません。">
+  <title>ZERONYTH | マルチチェーン スワップ実験室</title><link rel="icon" href="assets/favicon-64.png" type="image/png"><link rel="stylesheet" href="assets/styles.css?v=20261027b"><link rel="stylesheet" href="assets/ecosystem.css?v=20261027b">
+  <link rel="stylesheet" href="assets/page-i18n.css?v=20261027c">
+</head>
+<body class="eco-page" data-title-key="meta.title.multichainSwap">
+  <header class="topbar"><a class="brand" href="index.html" aria-label="ZERONYTH Explorer home"><img src="assets/znyt-token-168.png" alt="" width="40" height="40"><span class="brand-text"><strong>ZERONYTH</strong><small data-i18n="brand.sub">公開テストネット コンソール</small></span></a>
+    <nav class="eco-nav" aria-label="Ecosystem navigation"><a href="index.html" data-eco-i18n="nav.console">Console</a><a href="networks.html" data-eco-i18n="nav.networks">Networks</a><span aria-current="page" data-eco-i18n="nav.swap">Swap</span><a href="bridge.html" data-eco-i18n="nav.bridge">Bridge</a><a href="liquidity.html" data-eco-i18n="nav.liquidity">Liquidity</a><a href="activity.html" data-eco-i18n="nav.activity">Activity</a></nav><div class="controls"><label class="lang"><span class="sr-only">Language</span><select id="ecoLanguage" aria-label="Language"></select></label><span class="tag">ROUTE NOT VERIFIED</span></div>
+          <select id="languageSelect" aria-label="Language"></select>
+      </header>
+  <main class="eco-wrap">
+    <section class="eco-hero" aria-labelledby="pageTitle"><div><p class="eco-eyebrow">ZERONYTH / ECOSYSTEM / SWAP</p><h1 id="pageTitle">Swap<br>workbench<span>.</span></h1><p class="eco-lead">A review surface for testnet token routes. No quote, balance, token inventory or executable pool is assumed.</p></div><aside class="eco-hero-note"><span class="k">ROUTE STATUS</span><p id="swap-route-status" data-route-status="unsupported">Unsupported until a verified route is supplied by the network integration.</p></aside></section>
+    <p class="eco-boundary" role="note"><strong>Testnet only.</strong><span>No real-value claims. A supported profile is not the same as a live RPC, pool or available swap route.</span></p>
+    <section class="panel" aria-labelledby="walletTitle"><div class="eco-section-head"><div><span class="eco-index">01 / WALLET BOUNDARY</span><h2 id="walletTitle">Wallet path</h2></div><p>Connection logic is supplied separately. No wallet is connected by this static page.</p></div>
+      <div class="eco-readout"><div><dt>EVM networks</dt><dd data-wallet-standard="eip1193">Injected EIP-1193</dd></div><div><dt>Solana</dt><dd data-wallet-standard="wallet-standard">Separate Wallet Standard path</dd></div><div><dt>Connection state</dt><dd id="swap-wallet-state" data-state="idle">Not connected</dd></div></div>
+    </section>
+    <div class="eco-operation">
+      <section class="panel" aria-labelledby="tradeTitle"><div class="eco-section-head"><div><span class="eco-index">02 / REVIEW</span><h2 id="tradeTitle">Swap parameters</h2></div><span class="eco-status unsupported" data-route-state="unsupported">Unsupported</span></div>
+        <form class="eco-form" aria-label="Swap route inputs">
+          <label for="swap-network">Testnet profile<select id="swap-network" data-testid="select-swap-network" disabled><option>Select a documented testnet</option></select></label>
+          <label for="swap-token-in">Input asset<input id="swap-token-in" data-testid="input-swap-token-in" type="text" placeholder="Unavailable until route metadata is verified" disabled></label>
+          <label for="swap-amount-in">Input amount<input id="swap-amount-in" data-testid="input-swap-amount" type="text" inputmode="decimal" placeholder="No balance or amount loaded" disabled></label>
+          <label for="swap-token-out">Output asset<input id="swap-token-out" data-testid="input-swap-token-out" type="text" placeholder="Unavailable until route metadata is verified" disabled></label>
+          <button class="btn primary" id="swap-review-action" data-testid="button-review-swap" type="button" disabled aria-disabled="true">Review swap · route unavailable</button>
+        </form>
+        <div class="eco-state" id="swap-route-empty" data-state="empty" role="status" aria-live="polite"><strong>No verified route</strong><p>Quotes and execution are disabled until a verified network, pool and route are provided. Nothing has been requested or sent.</p></div>
+      </section>
+      <aside class="panel" aria-labelledby="quoteTitle"><div class="eco-section-head"><div><span class="eco-index">ROUTE / READOUT</span><h2 id="quoteTitle">Quote state</h2></div></div>
+        <div class="eco-readout"><div><dt>Quote</dt><dd id="swap-quote" data-value="unavailable">Unavailable</dd></div><div><dt>Estimated output</dt><dd id="swap-output" data-value="unavailable">Unavailable</dd></div><div><dt>Pool reserves</dt><dd id="swap-reserves" data-value="unavailable">Unavailable</dd></div><div><dt>Fees</dt><dd id="swap-fees" data-value="unavailable">Unavailable</dd></div></div>
+        <div class="eco-state" id="swap-loading-state" data-state="loading" role="status"><span class="eco-skeleton" aria-hidden="true"></span><strong>Route check not started</strong><p>This static surface has no RPC integration.</p></div>
+        <div class="eco-state" id="swap-error-state" data-state="error" role="alert"><strong>Route check unavailable</strong><p>No verified route provider is attached to this page.</p></div>
+      </aside>
+    </div>
+    <section class="panel" aria-labelledby="activityTitle"><div class="eco-section-head"><div><span class="eco-index">03 / LOCAL FEEDBACK</span><h2 id="activityTitle">Latest operation</h2></div></div><div class="eco-state eco-state-empty" id="swap-operation-empty" data-state="empty" role="status" aria-live="polite"><span class="empty-mark" aria-hidden="true"></span><strong>No operation started</strong><p>There is no transaction, signature or result to display.</p></div></section>
+     <section class="panel eco-lab-link"><div class="eco-section-head"><div><span class="eco-index">ZERONYTH TESTNET</span><h2>スワップ・流動性 / Swap &amp; liquidity</h2></div><a class="btn" href="amm.html">AMM を開く / Open AMM</a></div><p>ZERONYTH Testnet（Chain ID 9127）上のスワップと流動性は amm.html で使えます。テスト用トークンのみで、お金としての価値はありません。</p></section>
+     <footer class="eco-footer"><a href="networks.html">Review network profiles</a><span>Swap and approvals remain disabled without verified route data.</span></footer>
+  </main>
+   <script type="module" src="assets/ecosystem.mjs"></script>
+  <script type="module" src="assets/i18n-ui.mjs"></script>
+  <script type="module" src="assets/page-i18n.mjs?v=20261027b"></script>
+</body>
+</html>

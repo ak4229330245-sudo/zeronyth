@@ -1,0 +1,5 @@
+host: 8 logical CPUs (Intel(R) Xeon(R) Processor), node v20.19.2, GPU: none tested
+{"threads":1,"mldsa65":{"n":400,"valid":400,"ms":1163.5,"perSec":344},"ecdsaTx":{"n":2000,"valid":2000,"ms":7601.1,"perSec":263}}
+{"threads":2,"mldsa65":{"n":400,"valid":400,"ms":556.2,"perSec":719},"ecdsaTx":{"n":2000,"valid":2000,"ms":4524.2,"perSec":442}}
+{"threads":4,"mldsa65":{"n":400,"valid":400,"ms":409.1,"perSec":978},"ecdsaTx":{"n":2000,"valid":2000,"ms":2219.5,"perSec":901}}
+{"threads":6,"mldsa65":{"n":400,"valid":400,"ms":273.8,"perSec":1461},"ecdsaTx":{"n":2000,"valid":2000,"ms":1548.4,"perSec":1292}}

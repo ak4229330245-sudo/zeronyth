@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="color-scheme" content="dark"><meta name="theme-color" content="#0d1117">
+  <title>ZERONYTH | AI チャット</title>
+  <meta name="description" content="ZERONYTH の案内 AI チャット。テストネットの参加方法・フォーセット・プランなどを日本語で質問できます。"><link rel="icon" href="assets/favicon-64.png" type="image/png">
+  <link rel="stylesheet" href="assets/styles.css?v=20261027b"><link rel="stylesheet" href="assets/tokenomics.css?v=20261027b"><link rel="stylesheet" href="assets/chat.css?v=20261027b">
+  <link rel="stylesheet" href="assets/page-i18n.css?v=20261027c">
+</head>
+<body>
+  <header class="tk-top"><a class="tk-brand" href="index.html"><img src="assets/znyt-token-168.png" alt="" width="36" height="36"><strong>ZERONYTH</strong></a>
+    <nav class="tk-nav"><a href="join.html">参加する</a><a href="tokenomics.html">トークノミクス</a><span aria-current="page">AI チャット</span></nav></header>
+  <main class="tk-wrap c-wrap">
+    <section class="c-notice" id="notice">
+      <strong>ZERONYTH 案内 AI（試験運用）</strong>
+      <p>小さなオープンモデル <span id="modelName">Qwen3 4B</span> を運営のサーバーの CPU で動かしています。<b>間違えることがあります。</b> ZERONYTH はテストネットで、ZNYT にお金の価値はありません。投資の助言はしません。</p>
+      <p><b>秘密鍵・シードフレーズ・パスワードは絶対に入力しないでください。</b> 会話は、下の「改善に使ってよい」をオンにしたときだけ保存されます（IP アドレスは保存しません）。</p>
+      <p><b>この AI は学習します：</b>「改善に使ってよい」をオンにした会話と 👍👎 だけを使い、30 分ごとに自動で「学習メモリ」を更新します。秘密情報・攻撃的な内容・投資の話・事実と違う内容ははじかれ、テストに合格した内容だけが使われます。（オフの会話は保存も学習もしません）</p>
+      <p class="c-learn" id="learn">学習状況を読み込み中…</p>
+    </section>
+    <div class="c-log" id="log" aria-live="polite"></div>
+    <div class="c-suggest" id="suggest">
+      <button type="button" class="c-chip">ZERONYTH って何？</button><button type="button" class="c-chip">スマホで参加するには？</button>
+      <button type="button" class="c-chip">報酬の 40/30/30 とは？</button><button type="button" class="c-chip">バリデーターになるには？</button>
+    </div>
+    <form class="c-form" id="form">
+      <textarea id="input" rows="2" maxlength="2000" placeholder="質問を入力（Enter で送信、Shift+Enter で改行）" required></textarea>
+      <button class="c-send" id="send" type="submit">送信</button>
+    </form>
+    <div class="c-bar">
+      <label class="c-consent"><input type="checkbox" id="consent"> 会話と 👍👎 を AI の改善に使ってよい（任意）</label>
+      <button type="button" class="c-link" id="reset">新しい会話</button>
+      <span class="c-status" id="status"></span>
+      <a class="c-link" href="learning.html">学習状況を見る</a>
+    </div>
+  </main>
+  <script type="module" src="assets/chat.mjs"></script>
+  <script type="module" src="assets/page-i18n.mjs?v=20261027b"></script>
+</body>
+</html>

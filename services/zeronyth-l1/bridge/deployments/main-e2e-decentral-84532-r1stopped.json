@@ -1,0 +1,65 @@
+{
+  "network": "main",
+  "startedAt": "2026-10-27T07:55:53.279Z",
+  "testWallet": "0x9e54763DF2295f21f0411fC709648aEa507dFfE3",
+  "amount": "1.0",
+  "runs": [
+    {
+      "chainId": 84532,
+      "chain": "Base Sepolia",
+      "standIn": false,
+      "lockTx": "0xdef772281ca29c3e74ff3a6b42f597c93b8b5a2b0e0008130341097f978ed51c",
+      "lockTransfer": "9127-10",
+      "mintSignatures": 3,
+      "wznytBalance": "1.0",
+      "mintBoardAttestations": [
+        {
+          "signer": "0x05124384Ff8491A18C8F1316878fc75f7252a6b7",
+          "machine": "box",
+          "tx": "0xe1d18f8d0f1fff5e3cadb2f49a1d18871b0a4208cec29027f25ef0af1496577d"
+        },
+        {
+          "signer": "0x9B19854832cfA7b46c20CA405961AC47c81f297c",
+          "machine": "vps",
+          "tx": "0x7345279bbfb41bf35650109ab5a297cb5b8a72aed451ca32a3051091fb4c2d04"
+        },
+        {
+          "signer": "0x387b7e92189Ab00d7E05AAACc0420F33E4BfB6bb",
+          "machine": "vps",
+          "tx": "0xbb849ed262b920ad9f4de99a37b0c62443e02a565716d6dad866df36410b27f5"
+        }
+      ],
+      "mintSubmitter": "0x9B19854832cfA7b46c20CA405961AC47c81f297c",
+      "mintSigners": [
+        "0x05124384Ff8491A18C8F1316878fc75f7252a6b7",
+        "0x387b7e92189Ab00d7E05AAACc0420F33E4BfB6bb",
+        "0x9B19854832cfA7b46c20CA405961AC47c81f297c"
+      ],
+      "threshold": "3-of-4",
+      "mldsa65ValidSignatures": 3,
+      "replayMint": "reverted as expected: AlreadyProcessed",
+      "wrongSigner": "reverted as expected: SignerNotRelayer",
+      "tooFewSignatures": "reverted as expected: AlreadyProcessed",
+      "remoteGasTx": "0x01bf6cb6036bc2d0d4337c2b15cc5e2e6668948b240803cdba0f192d6c99b8ed",
+      "burnTx": "0xa270654dad0a40a4e83d154ecda5d2ea1161ac5a4b08f8f2096ff616437aa91e",
+      "burnTransfer": "84532-1",
+      "releaseTx": "0x2b7ea2d8af3dbe6c42824ee7ec364d9b744898e5296a5c5814ee83d006cca05d",
+      "releaseSignatures": 4,
+      "releaseSigners": [
+        "0x05124384Ff8491A18C8F1316878fc75f7252a6b7",
+        "0x387b7e92189Ab00d7E05AAACc0420F33E4BfB6bb",
+        "0x9B19854832cfA7b46c20CA405961AC47c81f297c",
+        "0xeec460793d631b81F99f8BA21EFf954086Eef856"
+      ],
+      "releaseSubmitter": "0x9B19854832cfA7b46c20CA405961AC47c81f297c",
+      "wznytAfter": "0.0",
+      "outstandingAfter": "0.0",
+      "note": "box relayer r1 (0xeec4\u2026f856) was stopped (pm2 stop) for the lock->mint leg; mint signed by r0+VPS k0+k1 and submitted by VPS k0. r1 restarted 17:05 JST before the release.",
+      "mintTx": "0x732fa4d68dd5e1b9ffaea7a3e24c3254fe3c80f5a31010291810e76760985b8b",
+      "mintTxSource": "submitting relayer log; receipt status 1 checked on the destination chain"
+    }
+  ],
+  "fundTx": "0x0ee13f25908d95b0d9bc5dd7940411780d4d659599e71b314a2a8f9d09ae97d6",
+  "refundTx": "0x5f01e574ff43a08f8a873d68d94965fda9d90a324b41c8936d8b677daec64942",
+  "finishedAt": "2026-10-27T08:15:27.560Z"
+}

@@ -1,0 +1,7 @@
+.lg-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 10px; }
+.lg-card { border: 1px solid #30363d; background: #161b22; border-radius: 12px; padding: 12px 14px; }
+.lg-card small { color: #8b949e; display: block; font-size: 12px; }
+.lg-card b { font-size: 20px; }
+.lg-sec { border: 1px solid #30363d; border-radius: 12px; padding: 12px 14px; line-height: 1.7; font-size: 14px; }
+.lg-sec h2 { font-size: 16px; margin: 0 0 6px; }
+.lg-sec ul { margin: 4px 0; padding-left: 20px; }

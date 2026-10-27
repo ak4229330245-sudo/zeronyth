@@ -1,0 +1,57 @@
+{
+ "name": "bonsai_par",
+ "cfg": {
+  "storage": "BONSAI",
+  "parallel": true
+ },
+ "benchXmx": "256m",
+ "startedAt": "2026-10-27T08:55:29.992Z",
+ "idle": {
+  "n": 20,
+  "avgMs": 951,
+  "p95Ms": 1034,
+  "maxMs": 1034
+ },
+ "idleProposers": {
+  "0x50ccc409dacb460ee914fc3a4a39af0feff4c60d": {
+   "n": 5,
+   "avgMs": 829,
+   "maxMs": 1034
+  },
+  "0x6b6311479e526d2525c939e2d524be1fffafe212": {
+   "n": 5,
+   "avgMs": 975,
+   "maxMs": 1008
+  },
+  "0xd1cd66bfd39256a2aae253bd597f782ed5fede78": {
+   "n": 5,
+   "avgMs": 1012,
+   "maxMs": 1029
+  },
+  "0xeb292f14d6087663c46733a99c41aa28a82706da": {
+   "n": 5,
+   "avgMs": 989,
+   "maxMs": 1006
+  }
+ },
+ "pqIdle": {
+  "blocks": 23,
+  "failures": 0,
+  "skips": 0,
+  "lastErr": "",
+  "maxBacklog": 4,
+  "lagMs": {
+   "p50": 68,
+   "p95": 322,
+   "max": 322
+  },
+  "perBlockMs": {
+   "sign4": 43.7,
+   "verifyCert": 14.7,
+   "ecdsaHeader": 7
+  }
+ },
+ "runs": [],
+ "error": "MemAvailable 1187 MB",
+ "aborted": true
+}

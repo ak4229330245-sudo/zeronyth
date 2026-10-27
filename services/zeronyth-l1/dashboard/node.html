@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0d1117">
+  <meta name="color-scheme" content="dark">
+  <title>ZERONYTH | Web Node Lab</title>
+  <meta name="description" content="ブラウザでライトノードを動かして ZERONYTH Testnet のブロックと ML-DSA-65 証明を検証する Web Node Lab。">
+  <link rel="icon" href="assets/favicon-64.png" type="image/png">
+  <link rel="stylesheet" href="assets/styles.css?v=20261027b">
+  <link rel="stylesheet" href="assets/web-node.css?v=20261027b">
+  <link rel="stylesheet" href="assets/light-node.css?v=20261027b">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="ZNYT Node">
+  <link rel="stylesheet" href="assets/page-i18n.css?v=20261027c">
+</head>
+<body data-title-key="meta.title.node" class="node-page">
+  <header class="topbar">
+    <a class="brand" href="index.html" data-i18n-attr="aria-label:node.back.aria" aria-label="Back to ZERONYTH Explorer">
+      <img src="assets/znyt-token-168.png" alt="" width="40" height="40">
+      <span class="brand-text"><strong>ZERONYTH</strong><small data-i18n="node.sub">WEB NODE LAB</small></span>
+    </a>
+    <div class="controls" >
+      <label class="lang"><span class="sr-only" data-i18n="nav.language">Language</span>
+        <select id="languageSelect" data-i18n-attr="aria-label:nav.language" aria-label="Language"><option value="en">English</option></select>
+      </label>
+      <a class="btn ghost" href="index.html#roadmap" data-i18n="nav.roadmap">Roadmap</a>
+      <a class="btn ghost" href="research.html" data-i18n="nav.research">Research</a>
+      <a class="btn ghost back" href="index.html"><span data-i18n="node.back">Explorer</span> <span aria-hidden="true">&rarr;</span></a>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="intro">
+      <div class="eyebrow"><span class="pulse-dot" aria-hidden="true"></span> <span data-i18n="node.eyebrow">ZERONYTH L1 / RESEARCH LAB v1.8.7</span></div>
+      <h1 data-i18n="node.title">Your browser, as a small research peer.</h1>
+      <p class="lead" data-i18n="node.lead">No app to install.</p>
+      <div class="notice" role="note">
+        <strong data-i18n="node.notice.title">Demo environment / not connected to the live chain</strong>
+        <span data-i18n="node.notice.body">Try local computation and invitation-code WebRTC P2P.</span>
+      </div>
+    </section>
+
+
+    <section class="light-node" id="lightNode" aria-label="Light node">
+      <h2>Light node / ライトノード (real, verifying)</h2>
+      <p>Follows the live chain head through the read-only RPC and verifies every header in this browser: block hash, parent link, QBFT committed seals (secp256k1) against the tracked validator set, and ML-DSA-65 post-quantum finality certificates. No keys, no funds. / このブラウザで全ヘッダーを検証します（ハッシュ・親リンク・QBFT署名・ML-DSA-65耐量子ファイナリティ）。鍵や資金は扱いません。</p>
+      <div class="ln-grid">
+        <div><span class="k">Status</span><span class="v" id="lnStatus">—</span></div>
+        <div><span class="k">Verified height</span><span class="v" id="lnVerified">—</span></div>
+        <div><span class="k">Head (RPC)</span><span class="v" id="lnHead">—</span></div>
+        <div><span class="k">PQ-final height</span><span class="v" id="lnPq">—</span></div>
+        <div><span class="k">Validators</span><span class="v" id="lnVals">—</span></div>
+        <div><span class="k">Validator set hash</span><span class="v" id="lnVsetHash">—</span></div>
+        <div><span class="k">PQ attesters</span><span class="v" id="lnPqSet">—</span></div>
+        <div><span class="k">Header verify</span><span class="v" id="lnMs">—</span></div>
+        <div><span class="k">ML-DSA verify</span><span class="v" id="lnPqMs">—</span></div>
+        <div><span class="k">Peers</span><span class="v" id="lnPeers">—</span></div>
+        <div><span class="k">Relay (WebRTC)</span><span class="v" id="lnRelay">—</span></div>
+        <div><span class="k">Relayed headers accepted</span><span class="v" id="lnRelayIn">0</span></div>
+        <div><span class="k">Trust anchor</span><span class="v" id="lnAnchor">—</span></div>
+      </div>
+      <div class="ln-actions">
+        <button class="btn" id="lnStart" type="button">Start light node / 開始</button>
+        <button class="btn ghost" id="lnStop" type="button" disabled>Stop / 停止</button>
+        <label><input type="checkbox" id="lnRelayToggle"> Relay verified headers to WebRTC room peers / 検証済みヘッダーをP2P中継</label>
+        <button class="btn ghost" id="lnReset" type="button">Clear PQ pin</button>
+        <button class="btn ghost" id="lnInstall" type="button" hidden>Install app / ホーム画面に追加</button>
+      </div>
+      <small class="note">Trust model: the first PQ validator set seen is pinned (TOFU); compare the set hash with the join kit. Relayed headers are re-verified locally before use. iOS: Safari → Share → Add to Home Screen.</small>
+      <ul id="lnLog"></ul>
+    </section>
+    <section class="summary" data-i18n-attr="aria-label:node.summary.aria" aria-label="Node status">
+      <article class="metric"><span data-i18n="node.m.status">NODE STATUS</span><strong id="statusValue">Stopped</strong><small id="statusDetail">Research browser session</small></article>
+      <article class="metric"><span data-i18n="node.m.jobs">VERIFIED JOBS</span><strong id="completedValue">0</strong><small data-i18n="node.m.jobs.sub">Results independently re-verified</small></article>
+      <article class="metric"><span data-i18n="node.m.points">SIMULATED POINTS</span><strong id="creditValue">0</strong><small data-i18n="node.m.points.sub">On-screen only / no cash value</small></article>
+      <article class="metric"><span data-i18n="node.m.znyt">REAL ZNYT</span><strong id="znytValue">0</strong><small data-i18n="node.m.znyt.sub">No transfers or payouts</small></article>
+      <article class="metric"><span>AI GROWTH</span><strong id="aiGrowthValue">0</strong><small>Local node contributions can feed the Isolated AI Lab for model growth</small></article>
+    </section>
+
+
+    <section class="panel" id="multiDevicePanel">
+      <div class="row spread">
+        <h2>どのデバイスからでも参加</h2>
+        <span class="tag">PHONE / TABLET / PC / SERVER / VPS</span>
+      </div>
+      <p class="muted small">スマホ・タブレット・PC・サーバー・VPSのどれからでもノードに参加し、計算力を提供できます。すべてブラウザまたは軽量プロセスで動作し、ローカル貢献です。</p>
+      <div class="mini-grid zx-grid-auto140 zx-mt16">
+        <article class="metric"><span>スマホ</span><strong>対応</strong><small>ライトモード推奨</small></article>
+        <article class="metric"><span>タブレット</span><strong>対応</strong><small>中負荷可</small></article>
+        <article class="metric"><span>PC</span><strong>対応</strong><small>フル負荷可</small></article>
+        <article class="metric"><span>サーバー</span><strong>対応</strong><small>常時稼働向け</small></article>
+        <article class="metric"><span>VPS</span><strong>対応</strong><small>ホスト型貢献</small></article>
+      </div>
+      <ul class="small muted zx-mt12">
+        <li>ブラウザを開いて同意 → Start node するだけ</li>
+        <li>iOSはバッテリー保護のためライトモードのみ</li>
+        <li>サーバー/VPSはバックグラウンドで継続実行可能</li>
+        <li>提供した計算力は AI育成（このチェーンで育てたAI運用） / L1速度強化 / VPS貸し出し に配分</li>
+      </ul>
+    </section>
+
+    <section class="panel" id="resourceAllocation">
+      <div class="row spread">
+        <h2>ノードリソース配分</h2>
+        <span class="tag">LOCAL ONLY / NO VALUE</span>
+      </div>
+      <p class="muted small">このブラウザノードで消費したCPU/GPU時間を、以下の用途に割り当てます（すべてローカルシミュレーション）。</p>
+      <div class="mini-grid zx-grid3 zx-mt16">
+        <article class="metric">
+          <span>AI育成</span>
+          <strong id="allocAI">0%</strong>
+          <small>Isolated AI Lab のモデル成長へ</small>
+        </article>
+        <article class="metric">
+          <span>L1速度強化</span>
+          <strong id="allocL1">0%</strong>
+          <small>並列検証・署名プリフェッチ・高速パス研究へ（最大速度優先）</small>
+        </article>
+        <article class="metric">
+          <span>VPS作成</span>
+          <strong id="allocVPS">0%</strong>
+          <small>ホスト型ノード容量のシミュレーション</small>
+        </article>
+      </div>
+      <div class="row zx-row-wrap">
+        <label class="small"><input type="range" id="allocSlider" min="0" max="100" value="30" class="zx-w140"> AI優先</label>
+        <span class="small muted" id="allocHint">AI 30% / L1 40% / VPS 30% （L1固定）</span>
+      </div>
+    </section>
+
+    <div class="columns">
+      <section class="panel" aria-labelledby="nodeControlTitle">
+        <div class="section-heading"><span class="caption" data-i18n="node.s1.caption">01 / PARTICIPATION</span><h2 id="nodeControlTitle" data-i18n="node.s1.title">Start a node</h2></div>
+        <div class="device">
+          <span class="device-symbol" aria-hidden="true"></span>
+          <div><strong id="deviceName">Detecting device</strong><small id="deviceHelp">Loading lightweight settings</small></div>
+          <span class="device-type" id="deviceType">—</span>
+        </div>
+
+        <label class="form-label" for="nodeMode" data-i18n="node.mode.label">Participation mode</label>
+        <select id="nodeMode">
+          <option value="light" data-i18n="node.mode.light">LIGHT VERIFY</option>
+          <option value="compute" data-i18n="node.mode.compute">BROWSER COMPUTE</option>
+        </select>
+        <p class="subtext" id="modeHelp"></p>
+
+        <div class="conditions" data-i18n-attr="aria-label:node.cond.aria" aria-label="Usage conditions">
+          <div><span data-i18n="node.cond.visibility">Browser state</span><strong id="visibilityValue">—</strong></div>
+          <div><span data-i18n="node.cond.battery">Battery</span><strong id="batteryValue">—</strong></div>
+          <div><span data-i18n="node.cond.limit">Work limit</span><strong id="workLimit">—</strong></div>
+          <div><span data-i18n="node.cond.uptime">Active time</span><strong id="uptimeValue">00:00</strong></div>
+        </div>
+
+        <label class="consent"><input id="nodeConsent" type="checkbox"><span data-i18n="node.consent">I agree to run small test computations.</span></label>
+        <p class="warning" id="warningText" aria-live="polite"></p>
+        <div class="actions">
+          <button id="startNode" class="btn primary" type="button" disabled data-i18n="node.start">Start node</button>
+          <button id="stopNode" class="btn" type="button" disabled data-i18n="node.stop">Stop</button>
+        </div>
+        <p class="subtext" data-i18n="node.rules">Computation stops when the screen locks or the tab is hidden.</p>
+      </section>
+
+      <section class="panel" aria-labelledby="nodeProgressTitle">
+        <div class="section-heading"><span class="caption" data-i18n="node.s2.caption">02 / EXECUTION</span><h2 id="nodeProgressTitle" data-i18n="node.s2.title">Verification monitor</h2></div>
+        <div class="orb-wrap"><div class="orb" id="nodeOrb"><img src="assets/znyt-token-168.png" alt="" width="84" height="84"></div></div>
+        <div class="running" id="runDescription" aria-live="polite">—</div>
+        <div class="track"><div class="track-fill" id="activityFill"></div></div>
+        <div class="proof"><span data-i18n="node.proof">Latest verified hash</span><code id="proofValue">—</code></div>
+        <div class="ledger-summary"><span data-i18n="node.failures">Local verification failures</span><strong id="failureValue">0</strong></div>
+        <div class="ledger-summary"><span data-i18n="node.network">Network connection</span><strong data-i18n="node.network.value">Not connected / DEMO</strong></div>
+        <div class="ledger-summary"><span data-i18n="node.wallet">Signing / wallet</span><strong data-i18n="node.wallet.value">Not connected</strong></div>
+      </section>
+    </div>
+
+    <section class="panel p2p-panel" aria-labelledby="p2pTitle">
+      <div class="section-heading"><span class="caption" data-i18n="p2p.caption">03 / WEBRTC P2P EXPERIMENT</span><h2 id="p2pTitle" data-i18n="p2p.title">Connect browsers directly</h2></div>
+      <p class="p2p-lead" data-i18n="p2p.lead">Join the same invitation room.</p>
+      <div class="p2p-layout">
+        <div>
+          <label class="form-label" for="p2pRoom" data-i18n="p2p.room.label">Invitation room code (32 hex characters)</label>
+          <input id="p2pRoom" class="p2p-room" type="text" inputmode="text" autocapitalize="off" autocomplete="off" spellcheck="false" maxlength="32" data-i18n-attr="placeholder:p2p.room.ph" placeholder="Create a new code or enter an invitation code" aria-describedby="p2pNote">
+          <div class="p2p-room-actions">
+            <button id="p2pNew" type="button" class="btn" data-i18n="p2p.new">New code</button>
+            <button id="p2pCopy" type="button" class="btn" data-i18n="p2p.copy">Copy</button>
+          </div>
+          <label class="consent"><input id="p2pConsent" type="checkbox"><span data-i18n="p2p.consent">I allow direct P2P communication.</span></label>
+          <div class="actions p2p-actions">
+            <button id="p2pJoin" type="button" class="btn primary" disabled data-i18n="p2p.join">Join room</button>
+            <button id="p2pLeave" type="button" class="btn" disabled data-i18n="p2p.leave">Disconnect</button>
+          </div>
+        </div>
+        <div class="p2p-inspector" aria-live="polite">
+          <div class="ledger-summary"><span data-i18n="p2p.status">P2P STATUS</span><strong id="p2pStatus">—</strong></div>
+          <div class="ledger-summary"><span data-i18n="p2p.peers">Connected peers</span><strong id="p2pPeers">0</strong></div>
+          <div class="ledger-summary"><span data-i18n="p2p.proofs">Mutually verified computations</span><strong id="p2pProofs">0</strong></div>
+          <div class="ledger-summary"><span data-i18n="p2p.rejected">Verification failed or expired</span><strong id="p2pRejected">0</strong></div>
+          <div class="ledger-summary"><span data-i18n="p2p.pq">Post-quantum peer authentication</span><strong data-i18n="p2p.pq.value">Not implemented</strong></div>
+          <div class="ledger-summary"><span data-i18n="p2p.reward">Actual ZNYT reward</span><strong>0 ZNYT</strong></div>
+          <p class="subtext" id="p2pNote"></p>
+        </div>
+      </div>
+      <p class="subtext" data-i18n="p2p.footnote">Joining a room alone is not a completed P2P connection.</p>
+    </section>
+
+    <section class="disclosure" aria-labelledby="limitsTitle">
+      <h2 id="limitsTitle" data-i18n="disc.title">What works now, and what does not</h2>
+      <div class="disclosure-grid">
+        <div class="yes-box"><strong class="yes" data-i18n="disc.yes.title">Available in this version</strong><p data-i18n="disc.yes.body">Browser-only start and stop.</p></div>
+        <div class="pending-box"><strong class="pending" data-i18n="disc.pending.title">Future network work</strong><p data-i18n="disc.pending.body">Independent validators.</p></div>
+      </div>
+      <p class="footnote" data-i18n="disc.footnote">Web Crypto requires HTTPS or localhost.</p>
+    </section>
+  
+    <section class="panel" id="vpsLending">
+      <div class="row spread">
+        <h2>VPS貸し出し（貢献）</h2>
+        <span class="tag">LOCAL SIMULATION</span>
+      </div>
+      <p class="muted small">ノード提供者が計算力をVPS作成・貸し出し貢献として登録できます。実インスタンスの自動プロビジョニングは未実装です。</p>
+      <div class="mini-grid zx-mt12">
+        <article class="metric"><span>提供可能リソース</span><strong id="vpsOffer">—</strong><small>CPU時間の一部</small></article>
+        <article class="metric"><span>ステータス</span><strong>登録待ち</strong><small>ローカルのみ</small></article>
+      </div>
+      <button class="btn ghost" type="button" id="vpsOfferRegister">VPS貢献として登録</button>
+    </section>
+
+  
+    <section class="panel" id="tokenEconomy">
+      <div class="row spread">
+        <h2>ネイティブトークン経済（シミュレーション）</h2>
+        <span class="tag">TESTNET ONLY / NO VALUE</span>
+      </div>
+      <p class="muted small">VPS・AIの利用はZNYT（テストネットトークン）で支払います。ノード提供者はAI利用に対してZNYTの報酬を受け取れます。</p>
+      <div class="mini-grid zx-grid2 zx-mt16">
+        <article class="metric">
+          <span>AI / VPS 利用料</span>
+          <strong id="usageCost">0 ZNYT</strong>
+          <small>利用時にテストネットトークンで支払い</small>
+        </article>
+        <article class="metric">
+          <span>ノード提供者報酬</span>
+          <strong id="providerReward">0 ZNYT</strong>
+          <small>AI利用に応じて報酬（シミュレーション）</small>
+        </article>
+        <article class="metric">
+          <span>バーン済み</span>
+          <strong id="burnedAmount">0 ZNYT</strong>
+          <small>バーン（ガス代の20%）は未実装・予定</small>
+        </article>
+      </div>
+      <div class="row zx-row-wrap">
+        <button class="btn ghost" type="button" id="simUseAI">AIを利用（シミュレーション）</button>
+        <button class="btn ghost" type="button" id="simUseVPS">VPSを利用（シミュレーション）</button>
+        <span class="small muted" id="tokenStatus">テストネットトークンのみ。実価値なし。</span>
+      <div class="small muted zx-mt8" id="rewardDetail">
+        実際の10日プラン: 代金はいったん契約（ZnytEconomy）に預けられ（エスクロー）、期限後にその期間オンラインだった提供者へ分配されます。だれもいなかった時間の分は返金。バーンは未実装です。詳しくは <a href="plans.html">10日プラン</a>
+      </div>
+      </div>
+    </section>
+
+  </main>
+
+  <div class="mobile-dock" data-i18n-attr="aria-label:node.dock.aria" aria-label="Node controls">
+    <span id="dockStatus" class="dock-status">Stopped</span>
+    <button id="dockAction" class="btn primary" type="button" disabled>Start node</button>
+  </div>
+  <script type="module" src="assets/i18n-ui.mjs"></script>
+  <script type="module" src="assets/web-node-ui.mjs"></script>
+  <script type="module" src="assets/p2p-ui.mjs"></script>
+  <script type="module" src="assets/light-node-ui.mjs"></script>
+  <script type="module" src="assets/page-i18n.mjs?v=20261027b"></script>
+</body>
+</html>

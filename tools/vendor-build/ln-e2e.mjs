@@ -1,0 +1,17 @@
+import puppeteer from 'puppeteer-core';
+const url = process.argv[2] || 'http://127.0.0.1:22673/node.html';
+const b = await puppeteer.launch({ executablePath: '/usr/bin/google-chrome', headless: 'new', args: ['--no-sandbox'] });
+const p = await b.newPage();
+const errs = []; p.on('pageerror', (e) => errs.push(e.message)); p.on('console', (m) => { if (m.type() === 'error') errs.push(m.text()); });
+await p.emulate({ viewport: { width: 390, height: 844, isMobile: true, hasTouch: true, deviceScaleFactor: 3 }, userAgent: 'Mozilla/5.0 (iPhone; CPU iPhone OS 18_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.0 Mobile/15E148 Safari/604.1' });
+await p.goto(url, { waitUntil: 'networkidle2' });
+await p.evaluate(() => document.getElementById('lnStart').click());
+await new Promise((r) => setTimeout(r, 12000));
+const read = () => p.evaluate(() => Object.fromEntries(['lnStatus','lnVerified','lnHead','lnPq','lnVals','lnPqSet','lnMs','lnPqMs','lnAnchor'].map((k) => [k, document.getElementById(k).textContent])));
+const a = await read(); await new Promise((r) => setTimeout(r, 5000)); const c = await read();
+console.log(JSON.stringify(a)); console.log(JSON.stringify(c));
+console.log('log:', await p.evaluate(() => [...document.querySelectorAll('#lnLog li')].slice(0, 5).map((l) => l.textContent)));
+console.log('sw:', await p.evaluate(async () => (await navigator.serviceWorker?.getRegistrations?.())?.length));
+await p.screenshot({ path: '/workspace/ln-mobile.png', fullPage: false, clip: { x: 0, y: 0, width: 390, height: 1400 } }).catch(()=>p.screenshot({ path: '/workspace/ln-mobile.png' }));
+console.log('errors:', errs.filter(e=>!e.includes('inline style')).slice(0, 5));
+await b.close();

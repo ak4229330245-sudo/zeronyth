@@ -1,0 +1,374 @@
+{
+  "chainId": 9127,
+  "wznyt": "0x21275998C694D87c7Cf7c7683033E89c6Ed9286F",
+  "startBlock": 10976,
+  "deployer": "0xC0d69E881AE916552CAC511EbF1C7DE507BD2704",
+  "pools": [
+    {
+      "pair": "0xDEAFF3E0f0C9BaCC71ebca6D388b4F19f745b2d7",
+      "router": "0xbe8D0d8f7537a774629304EBcfD9868aD59Ce7Ad",
+      "token0": "0x21275998C694D87c7Cf7c7683033E89c6Ed9286F",
+      "token1": "0xD22275EEe76cd32AadD343e68F0486281e10C2ad",
+      "seed": {
+        "a": "15",
+        "b": "0.5",
+        "tx": "0xf1eddac5d0dbe42b2ba87f6ee52e9bbf49623d48d9c68e1e9f4d4ddbde5496be"
+      },
+      "block": 11521,
+      "id": "ZNYT/zETH",
+      "kind": "native",
+      "a": "ZNYT",
+      "b": "zETH",
+      "routerContract": "ZnytAmmRouter",
+      "note": "zETH follows the real ETH/USD price (keeper); ZNYT at the labeled test rate 1 ZNYT = 10 USD"
+    },
+    {
+      "id": "ZNYT/zUSDT",
+      "kind": "native",
+      "a": "ZNYT",
+      "b": "zUSDT",
+      "pair": "0x655A38400B2289Df4a90DF9Ce89cCEA5e382AD0B",
+      "router": "0x0D70f74BbCFb86aBAe1D4735571D853a5d16A459",
+      "token0": "0x21275998C694D87c7Cf7c7683033E89c6Ed9286F",
+      "token1": "0x9Db9e96426392F18C582903777C543E4ee42d27D",
+      "note": "zUSDT pegged 1:1 to USD (keeper); ZNYT at the labeled test rate 1 ZNYT = 10 USD",
+      "seed": {
+        "a": "15",
+        "b": "1500",
+        "tx": "0x52b3fd9d6bd785c9a5461e6b428a008420d35ec04a588ebc193f0ffc375613ce"
+      },
+      "routerContract": "ZnytAmmRouter"
+    },
+    {
+      "id": "ZNYT/zUSDC",
+      "kind": "native",
+      "a": "ZNYT",
+      "b": "zUSDC",
+      "pair": "0x966144Ac75298FFC35681bFb141dF42Eb106F282",
+      "router": "0x03309854fAf6fd3Bf1fe0278556d4Db92092784b",
+      "token0": "0x21275998C694D87c7Cf7c7683033E89c6Ed9286F",
+      "token1": "0x9F14EE55af5C72a4393f66BA16456926fb8eb475",
+      "note": "zUSDC pegged 1:1 to USD (keeper); ZNYT at the labeled test rate 1 ZNYT = 10 USD",
+      "seed": {
+        "a": "15",
+        "b": "1500",
+        "tx": "0xb9848f75828e6f2245eb69bc995f352eab4a2af28b2c37e098ddd691e413d9a1"
+      },
+      "routerContract": "ZnytAmmRouter"
+    },
+    {
+      "id": "ZNYT/zBTC",
+      "kind": "native",
+      "a": "ZNYT",
+      "b": "zBTC",
+      "pair": "0x608126DFa0F1Cd2dCf67B959124e0842318B50c4",
+      "router": "0x5de1aE1BCBc4Cb349405D8C38474e83487Cf6802",
+      "token0": "0x21275998C694D87c7Cf7c7683033E89c6Ed9286F",
+      "token1": "0x573Cc5A0F6FC57Ff527a4975763E0BAE27d48172",
+      "note": "zBTC follows the real BTC/USD price (keeper); ZNYT at the labeled test rate 1 ZNYT = 10 USD",
+      "seed": {
+        "a": "10",
+        "b": "0.01",
+        "tx": "0xc73e780ccdf34e0952f0a9794609a93d01ab655578f36e8e2d4c5be96cff8b2d"
+      },
+      "routerContract": "ZnytAmmRouter"
+    },
+    {
+      "id": "ZNYT/zSOL",
+      "kind": "native",
+      "a": "ZNYT",
+      "b": "zSOL",
+      "pair": "0x4B2D61E8625c62409aC1417D249a21dE0df4b70B",
+      "router": "0x8eA72cbe7fa2217B3e69E7c761BCBa34dFA8cD02",
+      "token0": "0x21275998C694D87c7Cf7c7683033E89c6Ed9286F",
+      "token1": "0xAb7739EEb168bCfeAfFC1A22d7785329C1B233C3",
+      "note": "zSOL follows the real SOL/USD price (keeper); ZNYT at the labeled test rate 1 ZNYT = 10 USD",
+      "seed": {
+        "a": "10",
+        "b": "5",
+        "tx": "0xec9961408efa27ed009e5b6d5431baf6ac82437bffe35edcea60a9272e8ed36a"
+      },
+      "routerContract": "ZnytAmmRouter"
+    },
+    {
+      "id": "ZNYT/zBNB",
+      "kind": "native",
+      "a": "ZNYT",
+      "b": "zBNB",
+      "pair": "0x805e7495033340e44D7BE40151F4574AA99d4C94",
+      "router": "0xFbfA4ACD0f4677B6cD1e17Ca0c18Fa5B5451aA90",
+      "token0": "0x21275998C694D87c7Cf7c7683033E89c6Ed9286F",
+      "token1": "0x76AD7564AA3698F82Ab597417Ca6aE864A8e54E6",
+      "note": "zBNB follows the real BNB/USD price (price keeper), at 1 ZNYT = 10 test-USD",
+      "seed": {
+        "a": "8",
+        "b": "1.08477518",
+        "tx": "0xcff0e26af915b407f26e34a650099c586765ca8fc48daa4b5b2209fbb404e30f"
+      },
+      "routerContract": "ZnytAmmRouter"
+    },
+    {
+      "id": "zBTC/zUSDC",
+      "kind": "token",
+      "a": "zBTC",
+      "b": "zUSDC",
+      "pair": "0x09BCb6001Ff5CE82f992A29fD879b1b27A1703D8",
+      "router": "0x1c13b1f74c09694F7bC55854FBe3Df3d0f40B424",
+      "routerContract": "ZnytTokenRouter",
+      "token0": "0x573Cc5A0F6FC57Ff527a4975763E0BAE27d48172",
+      "token1": "0x9F14EE55af5C72a4393f66BA16456926fb8eb475",
+      "note": "zBTC/zUSDC = real BTC/USD (keeper)",
+      "seed": {
+        "a": "0.02",
+        "b": "2000",
+        "tx": "0x806a8b9231b0b2d03cdce3062b197bb19038ca1cdc9b0605e130719f5fb6198e"
+      }
+    },
+    {
+      "id": "zSOL/zUSDC",
+      "kind": "token",
+      "a": "zSOL",
+      "b": "zUSDC",
+      "pair": "0x9ee30CD58438E6D9B1a845AcD0c3301059219d64",
+      "router": "0x696ce1173f2bbaeA980D3063862A253Ec2EAC3cc",
+      "routerContract": "ZnytTokenRouter",
+      "token0": "0x9F14EE55af5C72a4393f66BA16456926fb8eb475",
+      "token1": "0xAb7739EEb168bCfeAfFC1A22d7785329C1B233C3",
+      "note": "zSOL/zUSDC = real SOL/USD (keeper)",
+      "seed": {
+        "a": "10",
+        "b": "2000",
+        "tx": "0x8f700a14591c322f0597e83bc3c7f9da58f49147ed2535c118c3e3d9daaaa2d7"
+      }
+    },
+    {
+      "id": "zBNB/zUSDC",
+      "kind": "token",
+      "a": "zBNB",
+      "b": "zUSDC",
+      "pair": "0x9516F152ab70fd3Ec34Ed394aAadccC400DDFC06",
+      "router": "0x50A50483Ed1b8395FDD0C50D781645350A2b02a5",
+      "routerContract": "ZnytTokenRouter",
+      "token0": "0x76AD7564AA3698F82Ab597417Ca6aE864A8e54E6",
+      "token1": "0x9F14EE55af5C72a4393f66BA16456926fb8eb475",
+      "note": "zBNB follows the real BNB/USD price (price keeper)",
+      "seed": {
+        "a": "1.35448444",
+        "b": "999.0",
+        "tx": "0x61b38c8c7e5e86a89885b9180ae6ea581e893146307c22292bc1e21f104b828d",
+        "bnbUsd": 737.55
+      }
+    },
+    {
+      "id": "ZNYT/zMON",
+      "kind": "native",
+      "a": "ZNYT",
+      "b": "zMON",
+      "pair": "0xa73E162d5615Fa79182043Ca6b2B6E9e02701871",
+      "router": "0x697277CE1660a4293347D92675af8AC3E533397d",
+      "routerContract": "ZnytAmmRouter",
+      "token0": "0x21275998C694D87c7Cf7c7683033E89c6Ed9286F",
+      "token1": "0x310c7605667752C28BB637f32198dCDe86Ec9487",
+      "note": "zMON follows the real MON/USD price (price keeper), at 1 ZNYT = 10 test-USD",
+      "seed": {
+        "a": "2",
+        "b": "9357.04470843",
+        "tx": "0x4445956e4b2b240e293f93ed0e84dfc67a9633a78a1c0669af2cc83663d8efb1"
+      }
+    },
+    {
+      "id": "zMON/zUSDC",
+      "kind": "token",
+      "a": "zMON",
+      "b": "zUSDC",
+      "pair": "0x5441122aFF47D630679D2Aa5fD08DBbdF3C6dEAC",
+      "router": "0x0217F00919c3de31dca870e83F987B133961AC00",
+      "routerContract": "ZnytTokenRouter",
+      "token0": "0x310c7605667752C28BB637f32198dCDe86Ec9487",
+      "token1": "0x9F14EE55af5C72a4393f66BA16456926fb8eb475",
+      "note": "zMON/zUSDC = real MON/USD (price keeper)",
+      "seed": {
+        "a": "14035.56706264",
+        "b": "300",
+        "tx": "0x785a3a3ed3f8aa037f81c94a58e63d1569950f507bca2facf28d425186c8a8d0"
+      }
+    }
+  ],
+  "retired": [
+    {
+      "symbol": "tUSD",
+      "token": "0x100c66e0ac33b9A9de102Fc5A8d6ac87ECA95cAA",
+      "pair": "0x8e73861eB0c4DcA207a1D7c3bCa5778E4A43EEAb",
+      "router": "0x43F53c319BCd4003082E155DC9295cC2cAd3Ff51",
+      "reason": "renamed to z-prefixed test tokens (zETH/zUSDT/zUSDC); seed liquidity withdrawn",
+      "withdrawTx": "0x4aea7ae1e949e6e8ad7bb6130428d3c31be6660e2f6085361274ee6929e247e7"
+    },
+    {
+      "id": "zBTC/zUSDC",
+      "pair": "0xaF33A763680A756B79474319b246655505707019",
+      "router": "0x7935d82720CA7cAAfc93c2757296d2B54da41C3C",
+      "routerContract": "SwapLabRouter",
+      "reason": "SwapLabRouter swap bug (token->token swaps reverted); redeployed with ZnytTokenRouter; seed withdrawn",
+      "withdrawTx": "0xe2f0ded616979a2ff64f44a7b463480fd00447cecaad27f221ce7aa95e2da4ed"
+    },
+    {
+      "id": "zSOL/zUSDC",
+      "pair": "0x459Ea4C7DD464bD41D9413D5e9150c980A8eF2C0",
+      "router": "0x88F0502CC2371799911f60CaB56b5DcA70560CcC",
+      "routerContract": "SwapLabRouter",
+      "reason": "SwapLabRouter swap bug (token->token swaps reverted); redeployed with ZnytTokenRouter; seed withdrawn",
+      "withdrawTx": "0xfaf117a855904c155086eaf4d860a077b27026a81d378e97a46f0c31ce034fa5"
+    },
+    {
+      "id": "zBNB/zUSDC",
+      "pair": "0xCD115268eeC2ADec6790586cd42b0fa5F8Dda8Ec",
+      "router": "0x9b903816DA513194b44d9208b2b569D1bd42a3B4",
+      "routerContract": "SwapLabRouter",
+      "reason": "SwapLabRouter swap bug (token->token swaps reverted); redeployed with ZnytTokenRouter; seed withdrawn",
+      "withdrawTx": "0x12f1232396dbf2b80e59745dea317b229e2aeb08518db67e66eb95e104b34d0e"
+    }
+  ],
+  "label": "ZERONYTH public testnet AMM — z-prefixed test tokens only, NO monetary value, not redeemable",
+  "source": "services/zeronyth-l1/points/amm/ZnytAmm.sol (WZNYT, ZTestToken, ZnytAmmRouter) + points/amm/ZnytTokenRouter.sol (token/token router) + experiments/swap-lab/SwapLab.sol (SwapLabPair); token list: points/amm/tokens.json",
+  "deployedAt": "2026-10-27T05:58:28.417Z",
+  "tokens": {
+    "zETH": {
+      "symbol": "zETH",
+      "name": "ZERONYTH Test ETH",
+      "address": "0xD22275EEe76cd32AadD343e68F0486281e10C2ad",
+      "decimals": 18,
+      "claimPerDay": "0.05",
+      "tx": "0x6e62079643e01a680ed04b8e05a13f4a9fccce0cb2eca7aa07e1a6e8a74314e5",
+      "note": "deployed with the first ZTestToken build (decimals fixed at 18)",
+      "testPriceZnyt": 230.077,
+      "priceSource": {
+        "coingecko": "ethereum",
+        "binance": "ETHUSDT"
+      },
+      "seedPrice": {
+        "usd": 2303.4,
+        "source": "coingecko",
+        "at": "2026-10-27T06:25:16.447Z"
+      }
+    },
+    "zUSDT": {
+      "symbol": "zUSDT",
+      "name": "ZERONYTH Test USDT",
+      "address": "0x9Db9e96426392F18C582903777C543E4ee42d27D",
+      "decimals": 18,
+      "claimPerDay": "1000",
+      "tx": "0x749c42db27ea351e22957934bb4ac333ec9398990268ba48cd64d2b3141c4d17",
+      "testPriceZnyt": 0.1,
+      "priceSource": {
+        "fixedUsd": 1
+      },
+      "seedPrice": {
+        "usd": 1,
+        "source": "peg",
+        "at": "2026-10-27T06:25:16.448Z"
+      }
+    },
+    "zUSDC": {
+      "symbol": "zUSDC",
+      "name": "ZERONYTH Test USDC",
+      "address": "0x9F14EE55af5C72a4393f66BA16456926fb8eb475",
+      "decimals": 18,
+      "claimPerDay": "1000",
+      "tx": "0xb86f72f9da006befade233a990c32fb39e6a3f251e106b68de741cfae5b00519",
+      "testPriceZnyt": 0.1,
+      "priceSource": {
+        "fixedUsd": 1
+      },
+      "seedPrice": {
+        "usd": 1,
+        "source": "peg",
+        "at": "2026-10-27T06:25:16.448Z"
+      }
+    },
+    "zBTC": {
+      "symbol": "zBTC",
+      "name": "ZERONYTH Test BTC",
+      "address": "0x573Cc5A0F6FC57Ff527a4975763E0BAE27d48172",
+      "decimals": 8,
+      "claimPerDay": "0.01",
+      "tx": "0x54df49940d9ff372543d8f099513e423b19e8b200ad84f789dc134890bcf47a1",
+      "testPriceZnyt": 7953.3,
+      "priceSource": {
+        "coingecko": "bitcoin",
+        "binance": "BTCUSDT"
+      },
+      "seedPrice": {
+        "usd": 79642,
+        "source": "coingecko",
+        "at": "2026-10-27T06:25:16.465Z"
+      }
+    },
+    "zSOL": {
+      "symbol": "zSOL",
+      "name": "ZERONYTH Test SOL",
+      "address": "0xAb7739EEb168bCfeAfFC1A22d7785329C1B233C3",
+      "decimals": 9,
+      "claimPerDay": "5",
+      "tx": "0x6b10e7d73b62e3aac9d15aaa06509c8e3d846d17d7410fb30450a5a0eca77fd4",
+      "testPriceZnyt": 9.943999999999999,
+      "priceSource": {
+        "coingecko": "solana",
+        "binance": "SOLUSDT"
+      },
+      "seedPrice": {
+        "usd": 99.71,
+        "source": "coingecko",
+        "at": "2026-10-27T06:25:16.482Z"
+      }
+    },
+    "zBNB": {
+      "symbol": "zBNB",
+      "name": "ZERONYTH Test BNB",
+      "address": "0x76AD7564AA3698F82Ab597417Ca6aE864A8e54E6",
+      "decimals": 18,
+      "claimPerDay": "0.2",
+      "tx": "0x66d7183923b7e710cc83bf6b586bd04091992d340c83892246181468751dba8c",
+      "keeperInventory": {
+        "to": "0xB548CF4d993713F4DcDD5f5441D87dAB78f3007D",
+        "amount": "5",
+        "tx": "0x2a76e5994941777f08977d6afc8fe023b5ec826a1db76d9584b1b522280b3214"
+      },
+      "testPriceZnyt": 73.416,
+      "priceSource": {
+        "coingecko": "binancecoin",
+        "binance": "BNBUSDT"
+      },
+      "seedPrice": {
+        "usd": 737.48,
+        "source": "coingecko",
+        "at": "2026-10-27T06:03:28.479Z"
+      }
+    },
+    "zMON": {
+      "symbol": "zMON",
+      "name": "ZERONYTH Test MON",
+      "address": "0x310c7605667752C28BB637f32198dCDe86Ec9487",
+      "decimals": 18,
+      "claimPerDay": "1000",
+      "tx": "0x303794c41b73514ca8c74c9326a01059c7cd95e35f10840e6fb9e36ce87a2006",
+      "keeperInventory": {
+        "to": "0xB548CF4d993713F4DcDD5f5441D87dAB78f3007D",
+        "amount": "5000",
+        "tx": "0xaf54bba33ef36427b6d4e0e7ed4758dd40b1ba70c863348b65747e651c040f12"
+      },
+      "testPriceZnyt": 0.002143987,
+      "priceSource": {
+        "coingecko": "monad",
+        "coinbase": "MON-USD"
+      },
+      "seedPrice": {
+        "usd": 0.02137427,
+        "source": "coingecko",
+        "at": "2026-10-27T06:30:27.068Z"
+      }
+    }
+  },
+  "updatedAt": "2026-10-27T06:56:23.703Z",
+  "znytUsdTest": 10,
+  "keeper": "0xB548CF4d993713F4DcDD5f5441D87dAB78f3007D"
+}

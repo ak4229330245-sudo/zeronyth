@@ -1,0 +1,1394 @@
+{
+  "schemaVersion": 1,
+  "scope": "Independent same-host research only; not Besu QBFT or a live-chain upgrade.",
+  "historicalRecord": {
+    "capturedUtc": "2026-10-25T23:12:59.115943+00:00",
+    "tests": 150,
+    "passed": 150,
+    "failed": 0,
+    "skipped": 0,
+    "benchmarkTrials": 63,
+    "unexpectedBenchmarkOutcomes": 0,
+    "rerunInCurrentWork": true
+  },
+  "limits": [
+    "No independent cryptographic or consensus audit.",
+    "No multi-host or public-network performance claim.",
+    "No commercial TPS, SLA or live post-quantum security claim.",
+    "Real-device wallets, encrypted offsite backup and live-chain activation are not established by these results."
+  ],
+  "freshRecord": {
+    "capturedUtc": "2026-10-26T05:10:55.564Z",
+    "node": "v24.22.1",
+    "openssl": "3.5.9",
+    "protocolTests": {
+      "tests": 150,
+      "passed": 150,
+      "failed": 0,
+      "skipped": 0
+    },
+    "sameProcessBenchmark": {
+      "trials": 63,
+      "repetitionsPerCondition": 3,
+      "unexpectedOutcomes": 0,
+      "summary": [
+        {
+          "mode": "ecdsa",
+          "scenario": "normal",
+          "samples": 3,
+          "expectedToFinalize": true,
+          "finalizedTrials": 3,
+          "unexpectedOutcomes": 0,
+          "signatureRawBytesPerSigner": 64,
+          "elapsedMs": {
+            "count": 3,
+            "mean": 291.28,
+            "median": 244.175,
+            "p95": 413.582,
+            "min": 216.083,
+            "max": 413.582
+          },
+          "cpuMs": {
+            "count": 3,
+            "mean": 87.407,
+            "median": 84.71,
+            "p95": 98.911,
+            "min": 78.601,
+            "max": 98.911
+          },
+          "sentBytes": {
+            "count": 3,
+            "mean": 36980,
+            "median": 36980,
+            "p95": 36980,
+            "min": 36980,
+            "max": 36980
+          },
+          "queuePeakBytes": {
+            "count": 3,
+            "mean": 21403,
+            "median": 21403,
+            "p95": 21403,
+            "min": 21403,
+            "max": 21403
+          },
+          "journalBytesAdded": {
+            "count": 3,
+            "mean": 52025,
+            "median": 52025,
+            "p95": 52025,
+            "min": 52025,
+            "max": 52025
+          },
+          "maxProcessRssKiB": 99232
+        },
+        {
+          "mode": "ecdsa",
+          "scenario": "one-offline",
+          "samples": 3,
+          "expectedToFinalize": true,
+          "finalizedTrials": 3,
+          "unexpectedOutcomes": 0,
+          "signatureRawBytesPerSigner": 64,
+          "elapsedMs": {
+            "count": 3,
+            "mean": 142.125,
+            "median": 113.246,
+            "p95": 205.676,
+            "min": 107.455,
+            "max": 205.676
+          },
+          "cpuMs": {
+            "count": 3,
+            "mean": 55.517,
+            "median": 43.793,
+            "p95": 81.68,
+            "min": 41.079,
+            "max": 81.68
+          },
+          "sentBytes": {
+            "count": 3,
+            "mean": 32712,
+            "median": 32712,
+            "p95": 32712,
+            "min": 32712,
+            "max": 32712
+          },
+          "queuePeakBytes": {
+            "count": 3,
+            "mean": 14320,
+            "median": 14320,
+            "p95": 14320,
+            "min": 14320,
+            "max": 14320
+          },
+          "journalBytesAdded": {
+            "count": 3,
+            "mean": 35045,
+            "median": 35045,
+            "p95": 35045,
+            "min": 35045,
+            "max": 35045
+          },
+          "maxProcessRssKiB": 111140
+        },
+        {
+          "mode": "ecdsa",
+          "scenario": "delayed",
+          "samples": 3,
+          "expectedToFinalize": true,
+          "finalizedTrials": 3,
+          "unexpectedOutcomes": 0,
+          "signatureRawBytesPerSigner": 64,
+          "elapsedMs": {
+            "count": 3,
+            "mean": 197.212,
+            "median": 196.007,
+            "p95": 207.97,
+            "min": 187.658,
+            "max": 207.97
+          },
+          "cpuMs": {
+            "count": 3,
+            "mean": 82.467,
+            "median": 83.154,
+            "p95": 87.116,
+            "min": 77.131,
+            "max": 87.116
+          },
+          "sentBytes": {
+            "count": 3,
+            "mean": 36980,
+            "median": 36980,
+            "p95": 36980,
+            "min": 36980,
+            "max": 36980
+          },
+          "queuePeakBytes": {
+            "count": 3,
+            "mean": 21758.333,
+            "median": 21936,
+            "p95": 21936,
+            "min": 21403,
+            "max": 21936
+          },
+          "journalBytesAdded": {
+            "count": 3,
+            "mean": 52025,
+            "median": 52025,
+            "p95": 52025,
+            "min": 52025,
+            "max": 52025
+          },
+          "maxProcessRssKiB": 121312
+        },
+        {
+          "mode": "ecdsa",
+          "scenario": "duplicate",
+          "samples": 3,
+          "expectedToFinalize": true,
+          "finalizedTrials": 3,
+          "unexpectedOutcomes": 0,
+          "signatureRawBytesPerSigner": 64,
+          "elapsedMs": {
+            "count": 3,
+            "mean": 201.177,
+            "median": 199.977,
+            "p95": 218.469,
+            "min": 185.084,
+            "max": 218.469
+          },
+          "cpuMs": {
+            "count": 3,
+            "mean": 93.772,
+            "median": 94.546,
+            "p95": 98.96,
+            "min": 87.811,
+            "max": 98.96
+          },
+          "sentBytes": {
+            "count": 3,
+            "mean": 73960,
+            "median": 73960,
+            "p95": 73960,
+            "min": 73960,
+            "max": 73960
+          },
+          "queuePeakBytes": {
+            "count": 3,
+            "mean": 43339,
+            "median": 43339,
+            "p95": 43339,
+            "min": 43339,
+            "max": 43339
+          },
+          "journalBytesAdded": {
+            "count": 3,
+            "mean": 52025,
+            "median": 52025,
+            "p95": 52025,
+            "min": 52025,
+            "max": 52025
+          },
+          "maxProcessRssKiB": 121696
+        },
+        {
+          "mode": "ecdsa",
+          "scenario": "reordered",
+          "samples": 3,
+          "expectedToFinalize": true,
+          "finalizedTrials": 3,
+          "unexpectedOutcomes": 0,
+          "signatureRawBytesPerSigner": 64,
+          "elapsedMs": {
+            "count": 3,
+            "mean": 212.448,
+            "median": 181.737,
+            "p95": 280.359,
+            "min": 175.247,
+            "max": 280.359
+          },
+          "cpuMs": {
+            "count": 3,
+            "mean": 67.229,
+            "median": 64.653,
+            "p95": 72.502,
+            "min": 64.533,
+            "max": 72.502
+          },
+          "sentBytes": {
+            "count": 3,
+            "mean": 36980,
+            "median": 36980,
+            "p95": 36980,
+            "min": 36980,
+            "max": 36980
+          },
+          "queuePeakBytes": {
+            "count": 3,
+            "mean": 21403,
+            "median": 21403,
+            "p95": 21403,
+            "min": 21403,
+            "max": 21403
+          },
+          "journalBytesAdded": {
+            "count": 3,
+            "mean": 52025,
+            "median": 52025,
+            "p95": 52025,
+            "min": 52025,
+            "max": 52025
+          },
+          "maxProcessRssKiB": 121824
+        },
+        {
+          "mode": "ecdsa",
+          "scenario": "leader-offline",
+          "samples": 3,
+          "expectedToFinalize": false,
+          "finalizedTrials": 0,
+          "unexpectedOutcomes": 0,
+          "signatureRawBytesPerSigner": 64,
+          "elapsedMs": {
+            "count": 3,
+            "mean": 1003.693,
+            "median": 1004.023,
+            "p95": 1005.11,
+            "min": 1001.947,
+            "max": 1005.11
+          },
+          "cpuMs": {
+            "count": 3,
+            "mean": 1.361,
+            "median": 0.419,
+            "p95": 3.313,
+            "min": 0.352,
+            "max": 3.313
+          },
+          "sentBytes": {
+            "count": 3,
+            "mean": 0,
+            "median": 0,
+            "p95": 0,
+            "min": 0,
+            "max": 0
+          },
+          "queuePeakBytes": {
+            "count": 3,
+            "mean": 0,
+            "median": 0,
+            "p95": 0,
+            "min": 0,
+            "max": 0
+          },
+          "journalBytesAdded": {
+            "count": 3,
+            "mean": 0,
+            "median": 0,
+            "p95": 0,
+            "min": 0,
+            "max": 0
+          },
+          "maxProcessRssKiB": 121824
+        },
+        {
+          "mode": "ecdsa",
+          "scenario": "two-offline",
+          "samples": 3,
+          "expectedToFinalize": false,
+          "finalizedTrials": 0,
+          "unexpectedOutcomes": 0,
+          "signatureRawBytesPerSigner": 64,
+          "elapsedMs": {
+            "count": 3,
+            "mean": 1002.804,
+            "median": 1003.53,
+            "p95": 1004.056,
+            "min": 1000.826,
+            "max": 1004.056
+          },
+          "cpuMs": {
+            "count": 3,
+            "mean": 14.836,
+            "median": 14.965,
+            "p95": 19.503,
+            "min": 10.041,
+            "max": 19.503
+          },
+          "sentBytes": {
+            "count": 3,
+            "mean": 6508,
+            "median": 6508,
+            "p95": 6508,
+            "min": 6508,
+            "max": 6508
+          },
+          "queuePeakBytes": {
+            "count": 3,
+            "mean": 2136,
+            "median": 2136,
+            "p95": 2136,
+            "min": 2136,
+            "max": 2136
+          },
+          "journalBytesAdded": {
+            "count": 3,
+            "mean": 6609,
+            "median": 6609,
+            "p95": 6609,
+            "min": 6609,
+            "max": 6609
+          },
+          "maxProcessRssKiB": 121824
+        },
+        {
+          "mode": "mldsa",
+          "scenario": "normal",
+          "samples": 3,
+          "expectedToFinalize": true,
+          "finalizedTrials": 3,
+          "unexpectedOutcomes": 0,
+          "signatureRawBytesPerSigner": 3309,
+          "elapsedMs": {
+            "count": 3,
+            "mean": 276.441,
+            "median": 276.159,
+            "p95": 368.047,
+            "min": 185.117,
+            "max": 368.047
+          },
+          "cpuMs": {
+            "count": 3,
+            "mean": 76.182,
+            "median": 74.039,
+            "p95": 83.35,
+            "min": 71.158,
+            "max": 83.35
+          },
+          "sentBytes": {
+            "count": 3,
+            "mean": 331012,
+            "median": 331012,
+            "p95": 331012,
+            "min": 331012,
+            "max": 331012
+          },
+          "queuePeakBytes": {
+            "count": 3,
+            "mean": 190039,
+            "median": 190039,
+            "p95": 190039,
+            "min": 190039,
+            "max": 190039
+          },
+          "journalBytesAdded": {
+            "count": 3,
+            "mean": 389297,
+            "median": 389297,
+            "p95": 389297,
+            "min": 389297,
+            "max": 389297
+          },
+          "maxProcessRssKiB": 99492
+        },
+        {
+          "mode": "mldsa",
+          "scenario": "one-offline",
+          "samples": 3,
+          "expectedToFinalize": true,
+          "finalizedTrials": 3,
+          "unexpectedOutcomes": 0,
+          "signatureRawBytesPerSigner": 3309,
+          "elapsedMs": {
+            "count": 3,
+            "mean": 155.372,
+            "median": 150.062,
+            "p95": 193.369,
+            "min": 122.686,
+            "max": 193.369
+          },
+          "cpuMs": {
+            "count": 3,
+            "mean": 55.432,
+            "median": 45.995,
+            "p95": 79.41,
+            "min": 40.89,
+            "max": 79.41
+          },
+          "sentBytes": {
+            "count": 3,
+            "mean": 292152,
+            "median": 292152,
+            "p95": 292152,
+            "min": 292152,
+            "max": 292152
+          },
+          "queuePeakBytes": {
+            "count": 3,
+            "mean": 126744,
+            "median": 126744,
+            "p95": 126744,
+            "min": 126744,
+            "max": 126744
+          },
+          "journalBytesAdded": {
+            "count": 3,
+            "mean": 264217,
+            "median": 264217,
+            "p95": 264217,
+            "min": 264217,
+            "max": 264217
+          },
+          "maxProcessRssKiB": 119716
+        },
+        {
+          "mode": "mldsa",
+          "scenario": "delayed",
+          "samples": 3,
+          "expectedToFinalize": true,
+          "finalizedTrials": 3,
+          "unexpectedOutcomes": 0,
+          "signatureRawBytesPerSigner": 3309,
+          "elapsedMs": {
+            "count": 3,
+            "mean": 275.964,
+            "median": 189.702,
+            "p95": 453.495,
+            "min": 184.695,
+            "max": 453.495
+          },
+          "cpuMs": {
+            "count": 3,
+            "mean": 78.719,
+            "median": 73.62,
+            "p95": 91.846,
+            "min": 70.69,
+            "max": 91.846
+          },
+          "sentBytes": {
+            "count": 3,
+            "mean": 331012,
+            "median": 331012,
+            "p95": 331012,
+            "min": 331012,
+            "max": 331012
+          },
+          "queuePeakBytes": {
+            "count": 3,
+            "mean": 194896,
+            "median": 194896,
+            "p95": 194896,
+            "min": 194896,
+            "max": 194896
+          },
+          "journalBytesAdded": {
+            "count": 3,
+            "mean": 389297,
+            "median": 389297,
+            "p95": 389297,
+            "min": 389297,
+            "max": 389297
+          },
+          "maxProcessRssKiB": 121312
+        },
+        {
+          "mode": "mldsa",
+          "scenario": "duplicate",
+          "samples": 3,
+          "expectedToFinalize": true,
+          "finalizedTrials": 3,
+          "unexpectedOutcomes": 0,
+          "signatureRawBytesPerSigner": 3309,
+          "elapsedMs": {
+            "count": 3,
+            "mean": 206.709,
+            "median": 198.619,
+            "p95": 226.644,
+            "min": 194.864,
+            "max": 226.644
+          },
+          "cpuMs": {
+            "count": 3,
+            "mean": 88.47,
+            "median": 91.644,
+            "p95": 92.685,
+            "min": 81.082,
+            "max": 92.685
+          },
+          "sentBytes": {
+            "count": 3,
+            "mean": 662024,
+            "median": 662024,
+            "p95": 662024,
+            "min": 662024,
+            "max": 662024
+          },
+          "queuePeakBytes": {
+            "count": 3,
+            "mean": 384935,
+            "median": 384935,
+            "p95": 384935,
+            "min": 384935,
+            "max": 384935
+          },
+          "journalBytesAdded": {
+            "count": 3,
+            "mean": 389297,
+            "median": 389297,
+            "p95": 389297,
+            "min": 389297,
+            "max": 389297
+          },
+          "maxProcessRssKiB": 121696
+        },
+        {
+          "mode": "mldsa",
+          "scenario": "reordered",
+          "samples": 3,
+          "expectedToFinalize": true,
+          "finalizedTrials": 3,
+          "unexpectedOutcomes": 0,
+          "signatureRawBytesPerSigner": 3309,
+          "elapsedMs": {
+            "count": 3,
+            "mean": 187.547,
+            "median": 183.517,
+            "p95": 197.949,
+            "min": 181.176,
+            "max": 197.949
+          },
+          "cpuMs": {
+            "count": 3,
+            "mean": 70.74,
+            "median": 70.934,
+            "p95": 71.853,
+            "min": 69.433,
+            "max": 71.853
+          },
+          "sentBytes": {
+            "count": 3,
+            "mean": 331012,
+            "median": 331012,
+            "p95": 331012,
+            "min": 331012,
+            "max": 331012
+          },
+          "queuePeakBytes": {
+            "count": 3,
+            "mean": 190039,
+            "median": 190039,
+            "p95": 190039,
+            "min": 190039,
+            "max": 190039
+          },
+          "journalBytesAdded": {
+            "count": 3,
+            "mean": 389297,
+            "median": 389297,
+            "p95": 389297,
+            "min": 389297,
+            "max": 389297
+          },
+          "maxProcessRssKiB": 121824
+        },
+        {
+          "mode": "mldsa",
+          "scenario": "leader-offline",
+          "samples": 3,
+          "expectedToFinalize": false,
+          "finalizedTrials": 0,
+          "unexpectedOutcomes": 0,
+          "signatureRawBytesPerSigner": 3309,
+          "elapsedMs": {
+            "count": 3,
+            "mean": 1002.854,
+            "median": 1003.94,
+            "p95": 1004.064,
+            "min": 1000.557,
+            "max": 1004.064
+          },
+          "cpuMs": {
+            "count": 3,
+            "mean": 0.41,
+            "median": 0.35,
+            "p95": 0.59,
+            "min": 0.291,
+            "max": 0.59
+          },
+          "sentBytes": {
+            "count": 3,
+            "mean": 0,
+            "median": 0,
+            "p95": 0,
+            "min": 0,
+            "max": 0
+          },
+          "queuePeakBytes": {
+            "count": 3,
+            "mean": 0,
+            "median": 0,
+            "p95": 0,
+            "min": 0,
+            "max": 0
+          },
+          "journalBytesAdded": {
+            "count": 3,
+            "mean": 0,
+            "median": 0,
+            "p95": 0,
+            "min": 0,
+            "max": 0
+          },
+          "maxProcessRssKiB": 121824
+        },
+        {
+          "mode": "mldsa",
+          "scenario": "two-offline",
+          "samples": 3,
+          "expectedToFinalize": false,
+          "finalizedTrials": 0,
+          "unexpectedOutcomes": 0,
+          "signatureRawBytesPerSigner": 3309,
+          "elapsedMs": {
+            "count": 3,
+            "mean": 1002.859,
+            "median": 1002.232,
+            "p95": 1005.119,
+            "min": 1001.228,
+            "max": 1005.119
+          },
+          "cpuMs": {
+            "count": 3,
+            "mean": 12.176,
+            "median": 12.253,
+            "p95": 12.835,
+            "min": 11.44,
+            "max": 12.835
+          },
+          "sentBytes": {
+            "count": 3,
+            "mean": 58396,
+            "median": 58396,
+            "p95": 58396,
+            "min": 58396,
+            "max": 58396
+          },
+          "queuePeakBytes": {
+            "count": 3,
+            "mean": 19432,
+            "median": 19432,
+            "p95": 19432,
+            "min": 19432,
+            "max": 19432
+          },
+          "journalBytesAdded": {
+            "count": 3,
+            "mean": 45525,
+            "median": 45525,
+            "p95": 45525,
+            "min": 45525,
+            "max": 45525
+          },
+          "maxProcessRssKiB": 121824
+        },
+        {
+          "mode": "hybrid",
+          "scenario": "normal",
+          "samples": 3,
+          "expectedToFinalize": true,
+          "finalizedTrials": 3,
+          "unexpectedOutcomes": 0,
+          "signatureRawBytesPerSigner": 3373,
+          "elapsedMs": {
+            "count": 3,
+            "mean": 286.609,
+            "median": 317.048,
+            "p95": 330.957,
+            "min": 211.821,
+            "max": 330.957
+          },
+          "cpuMs": {
+            "count": 3,
+            "mean": 110.586,
+            "median": 103.588,
+            "p95": 125.465,
+            "min": 102.706,
+            "max": 125.465
+          },
+          "sentBytes": {
+            "count": 3,
+            "mean": 337812,
+            "median": 337812,
+            "p95": 337812,
+            "min": 337812,
+            "max": 337812
+          },
+          "queuePeakBytes": {
+            "count": 3,
+            "mean": 193939,
+            "median": 193939,
+            "p95": 193939,
+            "min": 193939,
+            "max": 193939
+          },
+          "journalBytesAdded": {
+            "count": 3,
+            "mean": 397097,
+            "median": 397097,
+            "p95": 397097,
+            "min": 397097,
+            "max": 397097
+          },
+          "maxProcessRssKiB": 98848
+        },
+        {
+          "mode": "hybrid",
+          "scenario": "one-offline",
+          "samples": 3,
+          "expectedToFinalize": true,
+          "finalizedTrials": 3,
+          "unexpectedOutcomes": 0,
+          "signatureRawBytesPerSigner": 3373,
+          "elapsedMs": {
+            "count": 3,
+            "mean": 175.664,
+            "median": 149.9,
+            "p95": 227.797,
+            "min": 149.294,
+            "max": 227.797
+          },
+          "cpuMs": {
+            "count": 3,
+            "mean": 69.366,
+            "median": 71.651,
+            "p95": 73.071,
+            "min": 63.375,
+            "max": 73.071
+          },
+          "sentBytes": {
+            "count": 3,
+            "mean": 298152,
+            "median": 298152,
+            "p95": 298152,
+            "min": 298152,
+            "max": 298152
+          },
+          "queuePeakBytes": {
+            "count": 3,
+            "mean": 129344,
+            "median": 129344,
+            "p95": 129344,
+            "min": 129344,
+            "max": 129344
+          },
+          "journalBytesAdded": {
+            "count": 3,
+            "mean": 269517,
+            "median": 269517,
+            "p95": 269517,
+            "min": 269517,
+            "max": 269517
+          },
+          "maxProcessRssKiB": 111140
+        },
+        {
+          "mode": "hybrid",
+          "scenario": "delayed",
+          "samples": 3,
+          "expectedToFinalize": true,
+          "finalizedTrials": 3,
+          "unexpectedOutcomes": 0,
+          "signatureRawBytesPerSigner": 3373,
+          "elapsedMs": {
+            "count": 3,
+            "mean": 221.512,
+            "median": 227,
+            "p95": 228.3,
+            "min": 209.237,
+            "max": 228.3
+          },
+          "cpuMs": {
+            "count": 3,
+            "mean": 118.503,
+            "median": 112.278,
+            "p95": 133.916,
+            "min": 109.314,
+            "max": 133.916
+          },
+          "sentBytes": {
+            "count": 3,
+            "mean": 337812,
+            "median": 337812,
+            "p95": 337812,
+            "min": 337812,
+            "max": 337812
+          },
+          "queuePeakBytes": {
+            "count": 3,
+            "mean": 197243.667,
+            "median": 198896,
+            "p95": 198896,
+            "min": 193939,
+            "max": 198896
+          },
+          "journalBytesAdded": {
+            "count": 3,
+            "mean": 397097,
+            "median": 397097,
+            "p95": 397097,
+            "min": 397097,
+            "max": 397097
+          },
+          "maxProcessRssKiB": 121312
+        },
+        {
+          "mode": "hybrid",
+          "scenario": "duplicate",
+          "samples": 3,
+          "expectedToFinalize": true,
+          "finalizedTrials": 3,
+          "unexpectedOutcomes": 0,
+          "signatureRawBytesPerSigner": 3373,
+          "elapsedMs": {
+            "count": 3,
+            "mean": 250.954,
+            "median": 254.798,
+            "p95": 255.572,
+            "min": 242.493,
+            "max": 255.572
+          },
+          "cpuMs": {
+            "count": 3,
+            "mean": 130.67,
+            "median": 129.092,
+            "p95": 133.858,
+            "min": 129.061,
+            "max": 133.858
+          },
+          "sentBytes": {
+            "count": 3,
+            "mean": 675624,
+            "median": 675624,
+            "p95": 675624,
+            "min": 675624,
+            "max": 675624
+          },
+          "queuePeakBytes": {
+            "count": 3,
+            "mean": 392835,
+            "median": 392835,
+            "p95": 392835,
+            "min": 392835,
+            "max": 392835
+          },
+          "journalBytesAdded": {
+            "count": 3,
+            "mean": 397097,
+            "median": 397097,
+            "p95": 397097,
+            "min": 397097,
+            "max": 397097
+          },
+          "maxProcessRssKiB": 121696
+        },
+        {
+          "mode": "hybrid",
+          "scenario": "reordered",
+          "samples": 3,
+          "expectedToFinalize": true,
+          "finalizedTrials": 3,
+          "unexpectedOutcomes": 0,
+          "signatureRawBytesPerSigner": 3373,
+          "elapsedMs": {
+            "count": 3,
+            "mean": 233.559,
+            "median": 233.198,
+            "p95": 251.934,
+            "min": 215.545,
+            "max": 251.934
+          },
+          "cpuMs": {
+            "count": 3,
+            "mean": 103.349,
+            "median": 102.6,
+            "p95": 107.113,
+            "min": 100.334,
+            "max": 107.113
+          },
+          "sentBytes": {
+            "count": 3,
+            "mean": 337812,
+            "median": 337812,
+            "p95": 337812,
+            "min": 337812,
+            "max": 337812
+          },
+          "queuePeakBytes": {
+            "count": 3,
+            "mean": 193939,
+            "median": 193939,
+            "p95": 193939,
+            "min": 193939,
+            "max": 193939
+          },
+          "journalBytesAdded": {
+            "count": 3,
+            "mean": 397097,
+            "median": 397097,
+            "p95": 397097,
+            "min": 397097,
+            "max": 397097
+          },
+          "maxProcessRssKiB": 121824
+        },
+        {
+          "mode": "hybrid",
+          "scenario": "leader-offline",
+          "samples": 3,
+          "expectedToFinalize": false,
+          "finalizedTrials": 0,
+          "unexpectedOutcomes": 0,
+          "signatureRawBytesPerSigner": 3373,
+          "elapsedMs": {
+            "count": 3,
+            "mean": 1002.628,
+            "median": 1002.308,
+            "p95": 1003.43,
+            "min": 1002.146,
+            "max": 1003.43
+          },
+          "cpuMs": {
+            "count": 3,
+            "mean": 0.358,
+            "median": 0.341,
+            "p95": 0.403,
+            "min": 0.331,
+            "max": 0.403
+          },
+          "sentBytes": {
+            "count": 3,
+            "mean": 0,
+            "median": 0,
+            "p95": 0,
+            "min": 0,
+            "max": 0
+          },
+          "queuePeakBytes": {
+            "count": 3,
+            "mean": 0,
+            "median": 0,
+            "p95": 0,
+            "min": 0,
+            "max": 0
+          },
+          "journalBytesAdded": {
+            "count": 3,
+            "mean": 0,
+            "median": 0,
+            "p95": 0,
+            "min": 0,
+            "max": 0
+          },
+          "maxProcessRssKiB": 121824
+        },
+        {
+          "mode": "hybrid",
+          "scenario": "two-offline",
+          "samples": 3,
+          "expectedToFinalize": false,
+          "finalizedTrials": 0,
+          "unexpectedOutcomes": 0,
+          "signatureRawBytesPerSigner": 3373,
+          "elapsedMs": {
+            "count": 3,
+            "mean": 1003.978,
+            "median": 1003.793,
+            "p95": 1004.495,
+            "min": 1003.646,
+            "max": 1004.495
+          },
+          "cpuMs": {
+            "count": 3,
+            "mean": 14.822,
+            "median": 14.047,
+            "p95": 18.192,
+            "min": 12.227,
+            "max": 18.192
+          },
+          "sentBytes": {
+            "count": 3,
+            "mean": 59596,
+            "median": 59596,
+            "p95": 59596,
+            "min": 59596,
+            "max": 59596
+          },
+          "queuePeakBytes": {
+            "count": 3,
+            "mean": 19832,
+            "median": 19832,
+            "p95": 19832,
+            "min": 19832,
+            "max": 19832
+          },
+          "journalBytesAdded": {
+            "count": 3,
+            "mean": 46425,
+            "median": 46425,
+            "p95": 46425,
+            "min": 46425,
+            "max": 46425
+          },
+          "maxProcessRssKiB": 121824
+        }
+      ],
+      "capturedUtc": "2026-10-26T04:47:25.593Z"
+    },
+    "tcpResearch": {
+      "capturedUtc": "2026-10-26T05:03:08.600Z",
+      "tests": 19,
+      "passed": 19,
+      "failed": 0,
+      "skipped": 0,
+      "functionalTrials": [
+        {
+          "mode": "ecdsa",
+          "scenario": "normal",
+          "offline": 0,
+          "allOnlineFinalized": true,
+          "finalized": 4,
+          "elapsedMs": 347.4855160000002,
+          "sentBytes": 90244,
+          "receivedBytes": 63700,
+          "protocolRejected": 6,
+          "workerCpuMs": 279.728,
+          "workerRssBytesAfter": 280006656,
+          "model": "four separate OS processes, real loopback TCP, no TLS, same host, no Besu or EVM",
+          "signatureBytes": 64
+        },
+        {
+          "mode": "ecdsa",
+          "scenario": "duplicate",
+          "offline": 0,
+          "allOnlineFinalized": true,
+          "finalized": 4,
+          "elapsedMs": 361.57559799999945,
+          "sentBytes": 180488,
+          "receivedBytes": 180488,
+          "protocolRejected": 64,
+          "workerCpuMs": 398.713,
+          "workerRssBytesAfter": 280854528,
+          "model": "four separate OS processes, real loopback TCP, no TLS, same host, no Besu or EVM",
+          "signatureBytes": 64
+        },
+        {
+          "mode": "ecdsa",
+          "scenario": "delayed",
+          "offline": 0,
+          "allOnlineFinalized": true,
+          "finalized": 4,
+          "elapsedMs": 341.60425899999973,
+          "sentBytes": 81396,
+          "receivedBytes": 68124,
+          "protocolRejected": 8,
+          "workerCpuMs": 291.722,
+          "workerRssBytesAfter": 279965696,
+          "model": "four separate OS processes, real loopback TCP, no TLS, same host, no Besu or EVM",
+          "signatureBytes": 64
+        },
+        {
+          "mode": "ecdsa",
+          "scenario": "one-offline",
+          "offline": 1,
+          "allOnlineFinalized": true,
+          "finalized": 3,
+          "elapsedMs": 158.8514639999994,
+          "sentBytes": 51186,
+          "receivedBytes": 51186,
+          "protocolRejected": 6,
+          "workerCpuMs": 186.486,
+          "workerRssBytesAfter": 209338368,
+          "model": "four separate OS processes, real loopback TCP, no TLS, same host, no Besu or EVM",
+          "signatureBytes": 64
+        },
+        {
+          "mode": "ecdsa",
+          "scenario": "two-offline",
+          "offline": 2,
+          "allOnlineFinalized": false,
+          "finalized": 0,
+          "elapsedMs": 360.3764250000004,
+          "sentBytes": 3282,
+          "receivedBytes": 3282,
+          "protocolRejected": 0,
+          "workerCpuMs": 73.111,
+          "workerRssBytesAfter": 136712192,
+          "model": "four separate OS processes, real loopback TCP, no TLS, same host, no Besu or EVM",
+          "signatureBytes": 64
+        },
+        {
+          "mode": "mldsa",
+          "scenario": "normal",
+          "offline": 0,
+          "allOnlineFinalized": true,
+          "finalized": 4,
+          "elapsedMs": 308.844255,
+          "sentBytes": 799380,
+          "receivedBytes": 526268,
+          "protocolRejected": 5,
+          "workerCpuMs": 263.846,
+          "workerRssBytesAfter": 287268864,
+          "model": "four separate OS processes, real loopback TCP, no TLS, same host, no Besu or EVM",
+          "signatureBytes": 3309
+        },
+        {
+          "mode": "mldsa",
+          "scenario": "duplicate",
+          "offline": 0,
+          "allOnlineFinalized": true,
+          "finalized": 4,
+          "elapsedMs": 393.07683199999883,
+          "sentBytes": 1598760,
+          "receivedBytes": 1325648,
+          "protocolRejected": 57,
+          "workerCpuMs": 378.609,
+          "workerRssBytesAfter": 287465472,
+          "model": "four separate OS processes, real loopback TCP, no TLS, same host, no Besu or EVM",
+          "signatureBytes": 3309
+        },
+        {
+          "mode": "mldsa",
+          "scenario": "delayed",
+          "offline": 0,
+          "allOnlineFinalized": true,
+          "finalized": 4,
+          "elapsedMs": 427.41800299999886,
+          "sentBytes": 799380,
+          "receivedBytes": 799380,
+          "protocolRejected": 16,
+          "workerCpuMs": 313.251,
+          "workerRssBytesAfter": 287973376,
+          "model": "four separate OS processes, real loopback TCP, no TLS, same host, no Besu or EVM",
+          "signatureBytes": 3309
+        },
+        {
+          "mode": "mldsa",
+          "scenario": "one-offline",
+          "offline": 1,
+          "allOnlineFinalized": true,
+          "finalized": 3,
+          "elapsedMs": 169.98118599999725,
+          "sentBytes": 453318,
+          "receivedBytes": 336270,
+          "protocolRejected": 3,
+          "workerCpuMs": 187.269,
+          "workerRssBytesAfter": 214577152,
+          "model": "four separate OS processes, real loopback TCP, no TLS, same host, no Besu or EVM",
+          "signatureBytes": 3309
+        },
+        {
+          "mode": "mldsa",
+          "scenario": "two-offline",
+          "offline": 2,
+          "allOnlineFinalized": false,
+          "finalized": 0,
+          "elapsedMs": 358.6652639999993,
+          "sentBytes": 29226,
+          "receivedBytes": 29226,
+          "protocolRejected": 0,
+          "workerCpuMs": 79.422,
+          "workerRssBytesAfter": 137531392,
+          "model": "four separate OS processes, real loopback TCP, no TLS, same host, no Besu or EVM",
+          "signatureBytes": 3309
+        },
+        {
+          "mode": "hybrid",
+          "scenario": "normal",
+          "offline": 0,
+          "allOnlineFinalized": true,
+          "finalized": 4,
+          "elapsedMs": 375.6730180000013,
+          "sentBytes": 815780,
+          "receivedBytes": 696332,
+          "protocolRejected": 9,
+          "workerCpuMs": 373.547,
+          "workerRssBytesAfter": 286339072,
+          "model": "four separate OS processes, real loopback TCP, no TLS, same host, no Besu or EVM",
+          "signatureBytes": 3373
+        },
+        {
+          "mode": "hybrid",
+          "scenario": "duplicate",
+          "offline": 0,
+          "allOnlineFinalized": true,
+          "finalized": 4,
+          "elapsedMs": 400.5131250000013,
+          "sentBytes": 1631560,
+          "receivedBytes": 1512112,
+          "protocolRejected": 61,
+          "workerCpuMs": 427.922,
+          "workerRssBytesAfter": 288903168,
+          "model": "four separate OS processes, real loopback TCP, no TLS, same host, no Besu or EVM",
+          "signatureBytes": 3373
+        },
+        {
+          "mode": "hybrid",
+          "scenario": "delayed",
+          "offline": 0,
+          "allOnlineFinalized": true,
+          "finalized": 4,
+          "elapsedMs": 331.23442200000136,
+          "sentBytes": 775964,
+          "receivedBytes": 611739,
+          "protocolRejected": 8,
+          "workerCpuMs": 327.608,
+          "workerRssBytesAfter": 286941184,
+          "model": "four separate OS processes, real loopback TCP, no TLS, same host, no Besu or EVM",
+          "signatureBytes": 3373
+        },
+        {
+          "mode": "hybrid",
+          "scenario": "one-offline",
+          "offline": 1,
+          "allOnlineFinalized": true,
+          "finalized": 3,
+          "elapsedMs": 253.4540470000029,
+          "sentBytes": 462618,
+          "receivedBytes": 462618,
+          "protocolRejected": 6,
+          "workerCpuMs": 264.107,
+          "workerRssBytesAfter": 215490560,
+          "model": "four separate OS processes, real loopback TCP, no TLS, same host, no Besu or EVM",
+          "signatureBytes": 3373
+        },
+        {
+          "mode": "hybrid",
+          "scenario": "two-offline",
+          "offline": 2,
+          "allOnlineFinalized": false,
+          "finalized": 0,
+          "elapsedMs": 353.3190910000012,
+          "sentBytes": 29826,
+          "receivedBytes": 29826,
+          "protocolRejected": 0,
+          "workerCpuMs": 79.623,
+          "workerRssBytesAfter": 137285632,
+          "model": "four separate OS processes, real loopback TCP, no TLS, same host, no Besu or EVM",
+          "signatureBytes": 3373
+        }
+      ],
+      "multiHostTested": false,
+      "tlsImplemented": false,
+      "limit": "Functional trials, one sample per condition; not statistical benchmark or security audit"
+    },
+    "backup": {
+      "verifiedFiles": 325,
+      "isolatedByteRecoveryVerified": true,
+      "nodeProcessesStarted": 0,
+      "databaseBootTested": false,
+      "encryptedOffsiteBackupCompleted": false
+    },
+    "acceptance": {
+      "realWalletDevicesTested": false,
+      "externalAuditPerformed": false,
+      "publicNetworkLaunched": false,
+      "browserValidatorOrRealRewardsImplemented": false
+    },
+    "siteTests": {
+      "tests": 79,
+      "passed": 79,
+      "failed": 0,
+      "skipped": 0
+    },
+    "pythonTests": {
+      "tests": 36,
+      "passed": 36,
+      "failed": 0
+    },
+    "syntheticEncryptionTests": {
+      "tests": 12,
+      "passed": 12,
+      "failed": 0,
+      "actualBackupEncrypted": false
+    },
+    "liveObservation": {
+      "status": "PASS",
+      "readOnly": true,
+      "validatorProcessesUnchanged": true,
+      "validatorProcesses": 4,
+      "observedRpcEndpoints": 1,
+      "allValidatorsExposedRpc": false,
+      "nodes": [
+        {
+          "heightBefore": 27775,
+          "heightAfter": 27780,
+          "chainId": 9127,
+          "validatorCount": 4,
+          "peers": 3,
+          "advancing": true
+        }
+      ],
+      "sampleIntervalSeconds": 5,
+      "limit": "Only existing RPC endpoints observed; no RPC enabled on other nodes. Not full monitoring or security assurance."
+    },
+    "browser": {
+      "verdict": "success",
+      "fakeProviderOnly": true,
+      "realDeviceTested": false,
+      "unexercised": [
+        "Multiple-provider collision in real browser (unit covered)",
+        "Fetch error/retry in browser",
+        "Populated form preservation during locale switching in this pass"
+      ],
+      "knownIssue": "Two inline-style CSP refusals observed; source not conclusively identified, no visible functional issue."
+    },
+    "source": {
+      "separateResearchWorktree": true,
+      "mainMerged": false,
+      "researchCommitCreated": false,
+      "localPureSourceArchiveCreated": true,
+      "gitProtectionOverridden": false
+    }
+  }
+}

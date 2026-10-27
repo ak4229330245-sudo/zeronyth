@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="color-scheme" content="dark">
+  <meta name="theme-color" content="#0d1117">
+  <title>ZERONYTH | ブラウザ内 AI 実験室</title>
+  <meta name="description" content="ZERONYTH のブラウザ内 AI 実験室（小さな SmolLM2 モデルをブラウザで試す隔離環境）。案内 AI チャットは別のサーバー上の Qwen3-4B です。価値のない実験です。">
+  <link rel="icon" href="assets/favicon-64.png" type="image/png">
+  <link rel="stylesheet" href="assets/styles.css?v=20261027b">
+  <link rel="stylesheet" href="assets/ai.css?v=20261027b">
+  <link rel="stylesheet" href="assets/page-i18n.css?v=20261027c">
+</head>
+<body data-title-key="meta.title.ai">
+  <header class="topbar">
+    <a class="brand" href="index.html" aria-label="ZERONYTH Explorer home">
+      <img src="assets/znyt-token-168.png" alt="" width="40" height="40">
+      <span class="brand-text"><strong>ZERONYTH</strong><small>Isolated AI lab</small></span>
+    </a>
+    <nav class="sections" aria-label="AI lab sections">
+      <a href="#inference">Inference</a>
+      <a href="#workers">Workers</a>
+      <a href="#training">Toy training</a>
+      <a href="#limits">Limits</a>
+    </nav>
+    <div class="controls">
+      <label class="lang"><span class="sr-only">Language</span>
+        <select id="languageSelect" aria-label="Language">
+          <option value="ja">日本語</option><option value="en">English</option>
+          <option value="zh-CN">简体中文</option><option value="ko">한국어</option>
+        </select>
+      </label>
+      <a class="btn ghost" href="index.html">← Dashboard</a>
+    </div>
+  </header>
+
+  <main class="wrap ai-wrap">
+    <section class="ai-hero" aria-labelledby="aiTitle">
+      <div class="ai-hero-copy">
+        <span class="tag">EXPERIMENT 04 / BROWSER-SIDE / NO VALUE</span>
+        <h1 id="aiTitle">A small model.<br><em>A clear boundary.</em></h1>
+        <p class="lead">Compare two public instruction-tuned ONNX language models and explore a toy federated classifier in an isolated browser lab.</p>
+        <p class="boundary" role="note">サイトの案内 AI チャット（<a href="chat.html">chat.html</a>）は、運営サーバーの CPU で動く <strong>Qwen3-4B</strong>（Qwen3-4B-Instruct-2507、4bit 量子化）です。このページはそれとは別の、ブラウザ内で小さなモデル（SmolLM2）を試す実験室です。</p>
+        <p class="boundary" role="note"><strong id="aiBoundaryTitle">Not a Besu feature.</strong> <span id="aiBoundaryText">Validators do not train, evaluate, or approve models. This lab has no value and makes no chain, wallet, or production changes.</span></p>
+        <div class="ai-locale-note" aria-label="This experiment is available in four interface languages">
+          <span lang="ja">日本語</span><span lang="en">English</span><span lang="zh-CN">简体中文</span><span lang="ko">한국어</span>
+        </div>
+      </div>
+      <section class="ai-status panel" aria-labelledby="statusTitle">
+        <div class="row spread">
+          <div><span class="k">LAB STATUS</span><h2 id="statusTitle">Session readout</h2></div>
+          <span class="ai-state"><i aria-hidden="true"></i> Isolated</span>
+        </div>
+        <dl class="ai-readouts">
+          <div><dt>Mode</dt><dd id="aiMode">Browser experiment</dd></div>
+          <div><dt>Model registry</dt><dd id="modelRegistryReading">No model selected</dd></div>
+          <div><dt>Evaluation</dt><dd id="evaluationReading">Awaiting public test prompts</dd></div>
+          <div><dt>Training</dt><dd id="trainingReading">No round started</dd></div>
+          <div><dt>Remote workers</dt><dd id="workersReading">Opt-in only</dd></div>
+        </dl>
+        <p class="small muted">No account, payment, token, or wallet connection is part of this lab.</p>
+      </section>
+    </section>
+
+    <section class="panel ai-boundary-band" aria-label="Experiment boundary">
+      <span class="boundary-mark" aria-hidden="true">LAB / 04</span>
+        <p><strong id="aiPublicSetTitle">Fixed public evaluation set only.</strong> <span id="aiPublicSetText">Remote workers receive only the published test prompts shown below. Never submit private, personal, confidential, or sensitive information.</span></p>
+      <span class="boundary-no">NO VALUE · NO CHAIN WRITES</span>
+    </section>
+
+    <section class="panel ai-section" id="inference" aria-labelledby="inferenceTitle">
+      <div class="ai-section-head">
+          <div><span class="tag">01 / PUBLIC ONNX INSTRUCT MODELS</span><h2 id="inferenceTitle">Compare model responses</h2></div>
+        <p class="muted small">Pinned public Hugging Face revisions. Browser inference uses <code>@huggingface/transformers v3.7.2</code> from the CDN. Check the repository and license before consenting to each model download.</p>
+      </div>
+      <div class="ai-model-grid">
+        <article class="ai-model">
+          <div class="ai-model-top"><span class="model-index">A</span><span class="tag">PUBLIC · ONNX</span></div>
+          <h3>SmolLM2-135M-Instruct</h3>
+          <p class="small muted">Compact instruction-tuned language model · ONNX q4.</p>
+          <a class="ai-repo-link" href="https://huggingface.co/HuggingFaceTB/SmolLM2-135M-Instruct/tree/12fd25f77366fa6b3b4b768ec3050bf629380bac" target="_blank" rel="noopener noreferrer">
+            HuggingFaceTB / SmolLM2-135M-Instruct <span aria-hidden="true">↗</span>
+          </a>
+          <dl class="model-meta">
+            <div><dt>Pinned revision</dt><dd><code>12fd25f77366fa6b3b4b768ec3050bf629380bac</code></dd></div>
+            <div><dt>License</dt><dd>Apache-2.0</dd></div>
+            <div><dt>Format</dt><dd>ONNX q4</dd></div>
+            <div><dt>Download size</dt><dd>CPU q4 182.1 MB · WebGPU q4f16 117.7 MB, plus tokenizer/config (measured)</dd></div>
+          </dl>
+          <label class="ai-check"><input type="checkbox" id="modelASelect"><span>Select for comparison</span></label>
+          <div class="ai-model-foot"><span class="small muted">Download</span><strong id="modelAStatus">Not downloaded</strong></div>
+          <label class="ai-consent model-download-consent"><input type="checkbox" id="modelAConsent"><span>I consent to download model A from Hugging Face and load it for browser inference.</span></label>
+          <button type="button" class="btn ai-download" id="downloadModelA">Download model A</button>
+        </article>
+        <article class="ai-model ai-model-b">
+          <div class="ai-model-top"><span class="model-index">B</span><span class="tag">PUBLIC · ONNX</span></div>
+          <h3>SmolLM2-360M-Instruct</h3>
+          <p class="small muted">Larger instruction-tuned language model · ONNX q4.</p>
+          <a class="ai-repo-link" href="https://huggingface.co/HuggingFaceTB/SmolLM2-360M-Instruct/tree/a10cc1512eabd3dde888204e902eca88bddb4951" target="_blank" rel="noopener noreferrer">
+            HuggingFaceTB / SmolLM2-360M-Instruct <span aria-hidden="true">↗</span>
+          </a>
+          <dl class="model-meta">
+            <div><dt>Pinned revision</dt><dd><code>a10cc1512eabd3dde888204e902eca88bddb4951</code></dd></div>
+            <div><dt>License</dt><dd>Apache-2.0</dd></div>
+            <div><dt>Format</dt><dd>ONNX q4</dd></div>
+            <div><dt>Download size</dt><dd>CPU q4 387.9 MB · WebGPU q4f16 272.7 MB, plus tokenizer/config (measured)</dd></div>
+          </dl>
+          <label class="ai-check"><input type="checkbox" id="modelBSelect"><span>Select for comparison</span></label>
+          <div class="ai-model-foot"><span class="small muted">Download</span><strong id="modelBStatus">Not downloaded</strong></div>
+          <label class="ai-consent model-download-consent"><input type="checkbox" id="modelBConsent"><span>I consent to download model B from Hugging Face and load it for browser inference.</span></label>
+          <button type="button" class="btn ai-download" id="downloadModelB">Download model B</button>
+        </article>
+      </div>
+      <section class="public-eval-set" aria-labelledby="evalSetTitle">
+        <div class="eval-set-heading">
+          <div><span class="k">FIXED PUBLIC DATA</span><h3 id="evalSetTitle">Public evaluation set</h3></div>
+          <span class="eval-fixed-label">FIXED · NO CUSTOM PROMPTS</span>
+        </div>
+        <p class="small muted" id="publicSetNote">The comparison uses only this pre-defined set. No free-form prompt field is available.</p>
+        <ol class="public-prompt-list" id="publicPromptList" aria-label="Fixed public evaluation prompts">
+        </ol>
+        <label class="ai-consent eval-consent"><input type="checkbox" id="evaluationConfirm"><span>I confirm this public evaluation set may be run and, if I opt in, shared with remote evaluation workers.</span></label>
+        <div class="row ai-action-row">
+          <button type="button" class="btn primary" id="startEvaluation">Run public evaluation set</button>
+          <span class="small muted">Starts only after your explicit confirmation and click.</span>
+        </div>
+      </section>
+      <div class="ai-results" aria-label="Model comparison results">
+        <div class="ai-results-title"><span class="k">COMPARISON</span><span id="comparisonStatus" class="small muted" role="status" aria-live="polite">No comparison run</span></div>
+        <div class="ai-result-columns">
+          <div><span class="result-label">Model A result</span><output id="modelAResult">—</output></div>
+          <div><span class="result-label">Model B result</span><output id="modelBResult">—</output></div>
+          <div><span class="result-label">Held-out score</span><output id="heldOutScore">—</output></div>
+        </div>
+        <p id="evaluationSummary" class="evaluation-summary" role="status" aria-live="polite">Evaluation summary will appear here after a run.</p>
+        <div class="ai-language-adoption">
+          <label class="ai-consent"><input type="checkbox" id="languageAdoptConfirmation">
+            <span>I reviewed the evaluation and confirm adopting only the higher-scoring model.</span>
+          </label>
+          <button type="button" class="btn warn" id="adoptLanguageCandidate" disabled>Adopt improved language model</button>
+          <p id="languageAdoptionStatus" class="tiny-note" role="status" aria-live="polite">Adoption stays disabled until both-worker comparison is complete and a candidate beats the active model.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="ai-two-col" id="workers">
+      <section class="panel ai-section ai-worker-panel" aria-labelledby="workersTitle">
+        <div class="ai-section-head">
+          <div><span class="tag">02 / REMOTE PARTICIPATION</span><h2 id="workersTitle">Choose to contribute</h2></div>
+        </div>
+        <p class="small muted">A remote browser worker is never started in the background. Pick one role, review its scope, then explicitly consent and join.</p>
+        <div class="worker-option">
+          <div><span class="worker-role">EVALUATE</span><h3>Public prompt evaluation</h3><p class="small muted">Run public test examples and return their evaluation result.</p></div>
+          <label class="ai-consent"><input type="checkbox" id="evaluateConsent"><span>I consent to join as an evaluation worker.</span></label>
+          <button type="button" class="btn" id="joinEvaluateWorker">Opt in to evaluate</button>
+        </div>
+        <div class="worker-option">
+          <div><span class="worker-role">TRAIN</span><h3>Toy classifier training</h3><p class="small muted">Contribute updates to the isolated logistic-classifier demo only.</p></div>
+          <label class="ai-consent"><input type="checkbox" id="trainConsent"><span>I consent to join as a training worker.</span></label>
+          <button type="button" class="btn" id="joinTrainWorker">Opt in to train</button>
+        </div>
+        <div class="worker-readout" role="status" aria-live="polite">
+          <span class="k">WORKER SESSION</span><strong id="workerStatus">Not joined</strong>
+          <span class="small muted" id="workerIdReading">No worker ID</span>
+        </div>
+        <button type="button" class="btn ghost" id="leaveWorker" disabled>Stop participation and leave</button>
+        <p class="tiny-note">Joining is an explicit action. Participation is voluntary; this demo is not Sybil resistant.</p>
+      </section>
+
+      <aside class="panel ai-api-panel" aria-labelledby="apiTitle">
+        <span class="tag">INTEGRATION SURFACE</span>
+        <h2 id="apiTitle">What the interface will connect to</h2>
+        <p class="small muted">The browser uses these lab routes for status, explicit evaluation and training starts, and consent-based worker participation.</p>
+        <ul class="endpoint-list">
+          <li><code>GET /ai-lab/status</code><span>Returns <code>{mode, modelRegistry, evaluation, training, workers}</code></span></li>
+          <li><code>POST /ai-lab/evaluation/start</code> · <code>POST /ai-lab/training/start</code><span>Starts a fixed public experiment with <code>{confirm:true}</code></span></li>
+          <li><code>POST /ai-lab/worker/join</code><span>Accepts <code>{role,consent:true}</code> after explicit role consent</span></li>
+          <li><code>GET /ai-lab/worker/next</code><span>Bearer-authenticated; returns the next permitted task</span></li>
+          <li><code>POST /ai-lab/worker/result</code> · <code>POST /ai-lab/worker/gradient</code> · <code>POST /ai-lab/worker/leave</code><span>Bearer-authenticated worker requests</span></li>
+          <li><code>POST /ai-lab/models/adopt</code><span>Explicitly adopts only a fully evaluated improved candidate</span></li>
+        </ul>
+      </aside>
+    </section>
+
+    <section class="panel ai-section ai-training" id="training" aria-labelledby="trainingTitle">
+      <div class="ai-section-head">
+        <div><span class="tag">03 / TOY FEDERATED CLASSIFIER</span><h2 id="trainingTitle">One isolated training round</h2></div>
+        <span class="ai-toy-stamp">NOT AN LLM</span>
+      </div>
+      <div class="training-layout">
+        <div class="training-copy">
+          <p>A deliberately small logistic classifier learns from a toy public dataset. This is a teaching demo, not large-language-model training and not work performed by ZERONYTH validators.</p>
+          <div class="round-readout">
+            <span class="k">TRAINING ROUND</span>
+            <strong id="trainingRoundReading">No round started</strong>
+            <span class="small muted" id="candidateScoreReading">Candidate held-out score: —</span>
+          </div>
+          <div class="row ai-action-row">
+          <button type="button" class="btn primary" id="startTrainingRound">Start isolated training round</button>
+            <span class="small muted">Runs only after this explicit click.</span>
+          </div>
+        </div>
+        <div class="candidate-panel">
+          <div class="candidate-header"><span class="k">CANDIDATE REVIEW</span><span class="candidate-mark">REVIEW BEFORE ADOPT</span></div>
+          <p id="candidateReviewReading" class="small muted">No improved candidate is available to review.</p>
+          <dl class="candidate-scores">
+            <div><dt>Previous held-out score</dt><dd id="previousScoreReading">—</dd></div>
+            <div><dt>Candidate score</dt><dd id="candidateScoreDetailReading">—</dd></div>
+          </dl>
+          <label class="ai-consent ai-adopt-consent"><input type="checkbox" id="adoptConfirmation"><span>I reviewed this candidate and explicitly confirm adoption.</span></label>
+          <button type="button" class="btn warn" id="adoptCandidate">Review / adopt improved candidate</button>
+          <p class="tiny-note">Adoption is allowed only after a candidate beats the previous held-out score and you confirm.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel ai-limits" id="limits" aria-labelledby="limitsTitle">
+      <div class="limits-heading"><span class="tag">04 / READ BEFORE PARTICIPATING</span><h2 id="limitsTitle">A fenced experiment, by design</h2></div>
+      <ul class="limits-list">
+        <li><strong id="limitValueTitle">No value.</strong><span id="limitValueText">No payments, rewards, tokens, or wallet actions.</span></li>
+        <li><strong id="limitSybilTitle">Not Sybil resistant.</strong><span id="limitSybilText">Worker identity and participation do not establish uniqueness.</span></li>
+        <li><strong id="limitLlmTitle">Not a trained LLM.</strong><span id="limitLlmText">The training example is a toy logistic classifier, entirely separate from public ONNX inference.</span></li>
+        <li><strong id="limitChainTitle">No production or chain changes.</strong><span id="limitChainText">No Besu validator training, candidate approval, chain writes, or deployment changes.</span></li>
+        <li><strong id="limitConsentTitle">Consent first.</strong><span id="limitConsentText">Remote evaluation and training require separate explicit opt-in and a user click.</span></li>
+      </ul>
+    </section>
+
+    <details class="panel ai-contract">
+      <summary>Evaluation and training contract notes</summary>
+      <div class="contract-body">
+        <p><code>POST /ai-lab/evaluation/start</code> with <code>{confirm:true}</code> starts the fixed public evaluation set.</p>
+        <p><code>POST /ai-lab/training/start</code> with <code>{confirm:true}</code> starts an isolated classifier training round.</p>
+        <p><code>POST /ai-lab/models/adopt</code> accepts <code>{kind,candidateId,confirm:true}</code> and only accepts a candidate that beat the previous score.</p>
+        <p><code>POST /ai-lab/worker/join</code> accepts <code>{role,consent:true}</code>. Bearer authentication protects the worker task, result, gradient, and leave routes.</p>
+      </div>
+    </details>
+    <footer class="footer">
+      <p>ZERONYTH / Isolated AI experiment / No-value browser lab</p>
+      <p class="mono"><a href="index.html">Return to the ZERONYTH dashboard</a></p>
+    </footer>
+  </main>
+  <script src="assets/ai-ui.mjs" type="module"></script>
+  <script type="module" src="assets/i18n-ui.mjs"></script>
+  <script type="module" src="assets/page-i18n.mjs?v=20261027b"></script>
+</body>
+</html>

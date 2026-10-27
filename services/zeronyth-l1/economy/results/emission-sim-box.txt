@@ -1,0 +1,85 @@
+PASS year 1 emission = 4,500,000 ZNYT 4500000.0
+PASS year 1 per day ≈ 12,328.77 ZNYT 12328.767123287671232876
+PASS year 2 emission = 3,825,000 ZNYT 3825000.0
+PASS year 3 emission = 3,251,250 ZNYT 3251250.0
+PASS after 100 years pool still > 0 2.62430208903258361 ZNYT left
+PASS integer wei schedule never reaches zero (allowance floors to 0 while pool > 0) after 354 years remaining 6 wei, allowance 0
+PASS vesting: release before cliff reverts 
+PASS on-chain year 1 start pool = 30,000 / allowance 4,500 4500.0
+PASS on-chain year 2 allowance = 3,825 (15% of 25,500) 3825.0
+PASS on-chain year 3 allowance = 3,251.25 3251.25
+PASS giveBack in year 3 raises year-4 base (re-emitted later) 19423.75
+PASS totalReleased == exact model at last release 15480.42375 vs 15480.42375
+PASS pool balance > 0 and == model 15519.57625
+PASS vesting: linear amount after cliff matches formula 736.666666666666666666 at t+54s
+PASS vesting: 100% released to beneficiary at cliff + linear end 
+PASS emission split into L1/AI/VPS 40/30/30 released 31.5
+PASS per-participant cap: 70% L1 worker capped at 25% of L1 bucket 5.5125
+PASS pro-rata below cap: 10% L1 worker gets 10% of L1 bucket + 25% rental 3.6225
+PASS no work -> no emission 
+PASS empty AI bucket + capped excess returned to pool; paid + returned == released returned 15.12
+PASS returned amount is back in the pool 
+
+[
+ {
+  "year": 1,
+  "remainingAtStart": "30000000.0",
+  "emission": "4500000.0",
+  "perDay": "12328.767123287671232876"
+ },
+ {
+  "year": 2,
+  "remainingAtStart": "25500000.0",
+  "emission": "3825000.0",
+  "perDay": "10479.452054794520547945"
+ },
+ {
+  "year": 3,
+  "remainingAtStart": "21675000.0",
+  "emission": "3251250.0",
+  "perDay": "8907.534246575342465753"
+ },
+ {
+  "year": 4,
+  "remainingAtStart": "18423750.0",
+  "emission": "2763562.5",
+  "perDay": "7571.40410958904109589"
+ },
+ {
+  "year": 5,
+  "remainingAtStart": "15660187.5",
+  "emission": "2349028.125",
+  "perDay": "6435.693493150684931506"
+ },
+ {
+  "year": 6,
+  "remainingAtStart": "13311159.375",
+  "emission": "1996673.90625",
+  "perDay": "5470.33946917808219178"
+ },
+ {
+  "year": 7,
+  "remainingAtStart": "11314485.46875",
+  "emission": "1697172.8203125",
+  "perDay": "4649.788548801369863013"
+ },
+ {
+  "year": 8,
+  "remainingAtStart": "9617312.6484375",
+  "emission": "1442596.897265625",
+  "perDay": "3952.320266481164383561"
+ },
+ {
+  "year": 9,
+  "remainingAtStart": "8174715.751171875",
+  "emission": "1226207.36267578125",
+  "perDay": "3359.472226508989726027"
+ },
+ {
+  "year": 10,
+  "remainingAtStart": "6948508.38849609375",
+  "emission": "1042276.2582744140625",
+  "perDay": "2855.551392532641267123"
+ }
+]
+{"passed":21,"failed":0}

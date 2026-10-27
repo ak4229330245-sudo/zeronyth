@@ -1,0 +1,32 @@
+ZERONYTH public genesis rehearsal 2026-10-27T04:24:43.206Z (box, isolated ports, throwaway keys)
+PASS genesis has no Hardhat account 
+PASS genesis alloc sums to 100,000,000 ZNYT 
+PASS 4 fresh validators produce blocks height=3
+PASS validator set = genesis validators 4 validators
+PASS chainId 9127
+PASS balance developer 2000000.0
+PASS balance grants 20000000.0
+PASS balance treasury 14999000.0
+PASS balance liquidity 10000000.0
+PASS balance earlyParticipants 9900000.0
+PASS balance faucet 100000.0
+PASS balance opsDeployer 1000.0
+PASS EmissionPool holds 30M, immutables patched 
+PASS DevVesting holds 13M, 1y cliff + 3y linear to developer 
+PASS DevVesting nothing releasable before cliff half vested at cliff+1.5y = 6.5M
+PASS only opsDeployer can start the pool 
+PASS launch-deploy: economy at expected CREATE address, pool started 
+PASS daily emission ≈ 12,328.77 ZNYT 12328.767123287671232876
+PASS supply conserved (100M) after launch txs 100000000.0
+PASS faucet: first claim 200 ok
+PASS faucet: same address again (addr daily=1) 429 This address already claimed today
+PASS faucet: ip#1 claim 2 200 ok
+PASS faucet: ip#1 claim 3 200 ok
+PASS faucet: ip#1 claim 4 (ip daily=3) 429 Daily limit for your network reached
+PASS faucet: funded address refused 409 Address already has enough ZNYT for gas
+PASS faucet: ip#3 claim (4th success) 200 ok
+PASS faucet: ip#4 claim (5th success) 200 ok
+PASS faucet: ip#5 claim (global daily=5) 429 Daily faucet budget reached; try again after 09:00 JST (00:00 UTC)
+PASS public /rpc refuses writes 
+PASS faucet daily counters persisted {"day":"2026-10-27","total":5}
+30/30 PASS

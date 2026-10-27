@@ -1,0 +1,10 @@
+validator join rehearsal Tue Oct 27 2026 13:45:53 GMT+0900 (Japan Standard Time)
+PASS 4 validators produce blocks h=3
+PASS applicant full node syncs h5=8
+PASS review-application: READY 
+PASS review-application rejects wrong address 
+PASS 2 of 4 votes are not enough 
+PASS 3 of 4 votes add the applicant 5 validators
+PASS new validator proposes a block block 23
+PASS 3 of 5 votes remove it 4 validators
+PASS chain continues after removal with applicant offline +8 blocks in 8s

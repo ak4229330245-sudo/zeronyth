@@ -1,0 +1,48 @@
+{
+ "gasPriceWei": "1000000000",
+ "userTxs": 40,
+ "userFeesWei": "840000000000000",
+ "splitterGainedWei": "840000000000000",
+ "splitterGainEqualsFees": true,
+ "distribute": {
+  "block": 2009,
+  "amountWei": "939136000000000",
+  "burnedWei": "187827200000000",
+  "toPoolWei": "751308800000000",
+  "burnPct": 20,
+  "poolPct": 80
+ },
+ "supply": {
+  "beforeDistributeWei": "99999999999752981000000000",
+  "afterDistributeWei": "99999999999565153800000000",
+  "deltaWei": "-187827200000000",
+  "deltaEqualsMinusBurned": true,
+  "trieComplete": true,
+  "windowStartWei": "99999999999752981000000000"
+ },
+ "poolReceivedWei": "751308800000000",
+ "poolReceivedEqualsToPool": true,
+ "validators": [
+  {
+   "v": "0x31439C6E310c883245114Cec412FEe83955DcA25",
+   "pendingWei": "434846200000000",
+   "receivedWei": "434846200000000"
+  },
+  {
+   "v": "0x48B61798921D8BE3590E73715216A9aC1eB05740",
+   "pendingWei": "434846200000000",
+   "receivedWei": "434846200000000"
+  },
+  {
+   "v": "0x727A05F64365cd7B97A6D0dc4B0089e7B0bC20fF",
+   "pendingWei": "434846200000000",
+   "receivedWei": "434846200000000"
+  },
+  {
+   "v": "0xdB211cFcB444e71264aC48E85Edd2A2bb38066e9",
+   "pendingWei": "434846200000000",
+   "receivedWei": "434846200000000"
+  }
+ ],
+ "distributeTxFeeWei": "99136000000000"
+}

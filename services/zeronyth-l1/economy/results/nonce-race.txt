@@ -1,0 +1,3 @@
+{"mode":"naive","processes":3,"perProcess":10,"attempted":30,"accepted":10,"failed":20,"mined":10,"errors":["could not coalesce error"],"sec":3.972}
+{"mode":"queued","processes":3,"perProcess":10,"attempted":30,"accepted":30,"failed":0,"mined":30,"errors":[],"sec":4.882}
+{"mode":"mixed","processes":3,"perProcess":10,"attempted":30,"accepted":29,"queuedFailed":0,"failed":1,"mined":21,"errors":["could not coalesce error"],"sec":4.153}

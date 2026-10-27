@@ -1,0 +1,35 @@
+name: ZERONYTH Experimental ML-DSA Protocol Lab
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  experimental-pq-lab:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Verify native Node ML-DSA support
+        run: node -e "const {generateKeyPairSync}=require('node:crypto'); if(generateKeyPairSync('ml-dsa-65').publicKey.asymmetricKeyType!=='ml-dsa-65') process.exit(1)"
+      - name: Experimental ML-DSA-only transaction and consensus tests
+        run: node --test pq-native/*.test.mjs pq-native/test.mjs
+      - name: In-memory WebRTC signaling and opt-in browser P2P UI tests
+        run: node --test p2p-signal/*.test.mjs tests/web-p2p.test.mjs tests/web-node.test.mjs
+      - name: Auditable DEV-CREDIT node-reward accounting (simulation only)
+        run: node pq-native/compute-market-demo.mjs
+      - name: Signed PC server phone tablet device participation simulation
+        run: node pq-native/device-network-demo.mjs
+      - name: Honest in-memory load benchmark (not real TPS certification)
+        run: node pq-native/benchmark.mjs --transactions 32 --blocks 5
+      - name: Four separate localhost validator process demo
+        run: node pq-native/network-demo.mjs
+      - name: Parallel admission and compact staged quorum across two blocks
+        run: node pq-native/network-demo.mjs 8 --blocks 2 --preverify --compact
+      - name: Durable restart and serial-cross-checked parallel execution
+        run: node pq-native/network-demo.mjs 32 --blocks 2 --senders 4 --preverify --compact --parallel-exec --restart-after-first

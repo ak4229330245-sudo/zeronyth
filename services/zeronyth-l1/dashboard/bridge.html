@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="color-scheme" content="dark"><meta name="theme-color" content="#0d1117">
+  <meta name="description" content="ZERONYTH テストネット ブリッジ: ZNYT ⇄ wZNYT（テストネット専用・実資産なし）">
+  <title>ZERONYTH | テストネット ブリッジ (ZNYT ⇄ wZNYT)</title><link rel="icon" href="assets/favicon-64.png" type="image/png"><link rel="stylesheet" href="assets/styles.css?v=20261027b"><link rel="stylesheet" href="assets/ecosystem.css?v=20261027b"><link rel="stylesheet" href="assets/bridge.css?v=20261027b">
+  <link rel="stylesheet" href="assets/page-i18n.css?v=20261027c">
+</head>
+<body class="eco-page" data-title-key="meta.title.bridge">
+  <header class="topbar"><a class="brand" href="index.html" aria-label="ZERONYTH Explorer home"><img src="assets/znyt-token-168.png" alt="" width="40" height="40"><span class="brand-text"><strong>ZERONYTH</strong><small data-i18n="brand.sub">公開テストネット コンソール</small></span></a>
+    <nav class="eco-nav" aria-label="Ecosystem navigation"><a href="index.html">コンソール</a><a href="networks.html">ネットワーク</a><a href="multichain-swap.html">スワップ</a><span aria-current="page">ブリッジ</span><a href="liquidity.html">流動性</a><a href="activity.html">アクティビティ</a></nav><div class="controls"><span class="tag">TESTNET ONLY</span></div>
+  </header>
+  <main class="eco-wrap">
+    <section class="eco-hero" aria-labelledby="pageTitle"><div><p class="eco-eyebrow">ZERONYTH / ECOSYSTEM / BRIDGE</p><h1 id="pageTitle">ZNYT ⇄ wZNYT<br>ブリッジ<span>.</span></h1><p class="eco-lead">ZERONYTH (chain 9127) の ZNYT を金庫コントラクトにロックすると、選んだテストネットで同量の wZNYT (ERC-20, 18桁) がミントされます。wZNYT をバーンすると ZNYT が戻ります。<br><small class="muted">Lock ZNYT on 9127 → mint wZNYT on an EVM testnet; burn wZNYT → release ZNYT.</small></p></div><aside class="eco-hero-note"><span class="k">ブリッジ状態</span><p id="br-health">読み込み中…</p></aside></section>
+    <p class="eco-boundary br-disclaimer" role="note"><strong>ご注意（テストネット専用）</strong><span>これはテスト用のブリッジです。ZNYT・wZNYT・各テストネットのガス代に金銭的価値はありません。本物の資金（メインネット資産）を送らないでください。署名者（リレイヤー）は現在 1 人の運営者が 3 鍵を管理しており、分散化されていません。不具合・停止・仕様変更がありえます。秘密鍵やシードフレーズを求めることは絶対にありません。</span></p>
+
+    <section class="panel" aria-labelledby="chainsTitle"><div class="eco-section-head"><div><span class="eco-index">01 / 対応チェーン</span><h2 id="chainsTitle">チェーン一覧</h2></div></div>
+      <div class="br-chains" id="br-chains" role="list"></div>
+      <p class="small muted">「稼働中」= 送金可能。「ガス待ち」= コントラクトのアドレスは確定済み、デプロイ用テストネットガス待ち。「予定」= 設計のみ（未実装）。</p>
+    </section>
+
+    <section class="panel" aria-labelledby="formTitle"><div class="eco-section-head"><div><span class="eco-index">02 / 送金</span><h2 id="formTitle">ブリッジする</h2></div><span class="eco-status pending" id="br-wallet-state">ウォレット未接続</span></div>
+      <div class="eco-operation">
+        <div>
+          <form class="eco-form" id="br-form" aria-label="ブリッジ送金" novalidate>
+            <label for="br-wallet">ウォレット<select id="br-wallet"></select></label>
+            <div class="br-row"><button type="button" class="btn primary" id="br-connect">ウォレットを接続</button><button type="button" class="btn ghost" id="br-add-home">ZERONYTH をウォレットに追加</button></div>
+            <label for="br-direction">方向<select id="br-direction"><option value="out">ZNYT (ZERONYTH) → wZNYT (テストネット)</option><option value="in">wZNYT (テストネット) → ZNYT (ZERONYTH)</option></select></label>
+            <label for="br-chain">相手チェーン<select id="br-chain"></select></label>
+            <label for="br-amount">数量<input id="br-amount" type="text" inputmode="decimal" placeholder="例: 1.0" autocomplete="off"></label>
+            <p class="small muted" id="br-caps">上限を読み込み中…</p>
+            <p class="small muted" id="br-balance"></p>
+            <div class="br-row"><button type="submit" class="btn primary" id="br-submit" disabled>送金する</button><button type="button" class="btn ghost" id="br-add-token" disabled>wZNYT をウォレットに追加</button></div>
+            <p class="small" id="br-msg" role="status" aria-live="polite"></p>
+          </form>
+        </div>
+        <aside>
+          <ol class="br-steps" id="br-steps" aria-label="進行状況">
+            <li data-step="1"><strong>① ロック / バーン</strong><span data-detail>未開始</span></li>
+            <li data-step="2"><strong>② 署名（<span id="br-step-threshold">3-of-4</span> リレイヤー）</strong><span data-detail>—</span></li>
+            <li data-step="3"><strong>③ ミント / 返却</strong><span data-detail>—</span></li>
+          </ol>
+          <p class="small muted">着金までの目安: 送金元チェーンの「確定 (finalized)」待ち + 数十秒。ZERONYTH 側は 2 ブロック確認。ページを閉じても処理は続き、下の履歴で確認できます。</p>
+        </aside>
+      </div>
+    </section>
+
+    <section class="panel" aria-labelledby="histTitle"><div class="eco-section-head"><div><span class="eco-index">03 / 履歴</span><h2 id="histTitle">このアドレスの送金履歴</h2></div></div>
+      <div id="br-history" class="br-history"><p class="small muted">ウォレットを接続すると表示されます。</p></div>
+    </section>
+
+    <section class="panel" aria-labelledby="trustTitle"><div class="eco-section-head"><div><span class="eco-index">04 / 仕組みと安全装置</span><h2 id="trustTitle">信頼モデル</h2></div></div>
+      <ul class="br-list">
+        <li>ミント・返却には <b id="br-trust-threshold">4 人中 3 人</b>のリレイヤーの <b>ECDSA 署名</b>がオンチェーンで必要です。署名は公開掲示板コントラクト（BridgeAttestationBoard）で共有され、しきい値に達すれば<b>どのリレイヤーでも自分のガスで提出</b>できます（管理者ウォレットは提出に関与しません）。</li>
+        <li>各リレイヤーは耐量子署名 <b>ML-DSA-65</b> でも同じ内容に署名し、公開ログ（/api/bridge/attestations）に残します。<b>ML-DSA はオンチェーンでは検証されていません</b>（監査用の追加記録です）。</li>
+        <li>二重処理防止（リプレイ保護）、1 回あたり・1 日あたりの上限、ガーディアンによる緊急停止、確定待ち。</li>
+        <li>不変条件: 発行済み wZNYT 合計 ≤ ロック中の ZNYT。30 秒ごとに検査し、違反時は自動停止します。<a href="/api/bridge/invariant">現在の検査結果</a></li>
+        <li id="br-contracts"></li>
+      </ul>
+    </section>
+    <section class="panel" aria-labelledby="relTitle"><div class="eco-section-head"><div><span class="eco-index">05 / リレイヤー</span><h2 id="relTitle">リレイヤーセットとタイムロック</h2></div><span class="eco-status pending" id="br-rel-state">読み込み中…</span></div>
+      <p class="small muted" id="br-rel-summary">—</p>
+      <div class="br-history" id="br-rel-table"></div>
+      <h3 class="small">チェーンごとの設定</h3>
+      <div class="br-history" id="br-rel-chains"></div>
+      <ul class="br-list">
+        <li id="br-rel-timelock">タイムロック: 読み込み中…</li>
+        <li id="br-rel-pause">緊急停止: 読み込み中…</li>
+        <li id="br-rel-rule">しきい値ルール: —</li>
+        <li><b>正直な現状:</b> 2 台のマシン（box と ABLENET VPS）に分かれたため、<b>どちらか 1 台が乗っ取られても単独では署名できません</b>。ただし両方とも同じ運営者（ZeroLayer）が動かしており、<b>運営者レベルではまだ分散化されていません</b>。外部オペレーターの参加を募集中です（<a href="/api/bridge/status">/api/bridge/status</a> の relayerSet）。</li>
+      </ul>
+    </section>
+    <footer class="eco-footer"><a href="networks.html">ネットワーク一覧</a><span>テストネット専用 · 実資産なし · 署名者は 2 台のマシンに分散（運営者は 1 者）</span></footer>
+  </main>
+  <script type="module" src="assets/bridge-app.mjs"></script>
+  <script type="module" src="assets/page-i18n.mjs?v=20261027b"></script>
+</body>
+</html>

@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="color-scheme" content="dark"><meta name="theme-color" content="#0d1117">
+  <title>ZERONYTH | AI の学習状況</title><meta name="description" content="ZERONYTH 案内 AI の学習状況（学習メモリの版・評価テストの結果・件数）を表示する読み取り専用ページです。"><link rel="icon" href="assets/favicon-64.png" type="image/png">
+  <link rel="stylesheet" href="assets/styles.css?v=20261027b"><link rel="stylesheet" href="assets/tokenomics.css?v=20261027b"><link rel="stylesheet" href="assets/chat.css?v=20261027b"><link rel="stylesheet" href="assets/learning.css?v=20261027b">
+  <link rel="stylesheet" href="assets/page-i18n.css?v=20261027c">
+</head>
+<body>
+  <header class="tk-top"><a class="tk-brand" href="index.html"><img src="assets/znyt-token-168.png" alt="" width="36" height="36"><strong>ZERONYTH</strong></a>
+    <nav class="tk-nav"><a href="join.html">参加する</a><a href="chat.html">AI チャット</a><span aria-current="page">学習状況</span></nav></header>
+  <main class="tk-wrap c-wrap">
+    <section class="c-notice"><strong>案内 AI の学習状況（テストネット・試験運用）</strong>
+      <p>このページは読み取り専用です。表示しているのは件数・バージョン・時刻だけで、会話の中身や個人情報は表示しません。</p></section>
+    <div class="lg-grid" id="cards"><div class="lg-card"><small>読み込み中…</small></div></div>
+    <section class="lg-sec"><h2>どうやって学習しているの？</h2><ul>
+      <li>チャットで「改善に使ってよい」を<b>オンにした会話と 👍👎 だけ</b>を使います（初期設定はオフ）。IP アドレスは保存しません。</li>
+      <li>30 分ごとに自動で、👍 がついた答えを「学習メモリ」に追加します。同じ質問はまとめます。</li>
+      <li>秘密鍵・パスワードなどの秘密情報、攻撃的な内容、投資のすすめ、別サイトへの誘導、AI への指示の乗っ取り、公式の事実（チェーン ID 9127、AI プラン 5 ZNYT／VPS プラン 100 ZNYT・10 日間・預かり金、ガス代のバーン（20%）は未実装・予定、ZNYT に価値はない など）と食い違う内容は<b>はじきます</b>。</li>
+      <li>新しく覚えた内容は、決まったテスト問題（評価セット）に合格したときだけ使われます。だめなら前の版に戻せます。</li>
+      <li>👎 がついた答えや、何度も聞かれるのに答えられない質問は「見直し待ち」になり、運営が正しい答えを用意します。</li>
+      <li>公式の資料（kb）と学習メモリが食い違うときは、公式の資料が優先です。</li>
+      <li>モデル自体の追加学習（LoRA）は毎晩、小さなモデルで試し、テストで今のモデルより良いときだけ切り替えます。CPU だけのサーバーなので、いまは小さな試験運転です。</li></ul></section>
+    <p class="c-status" id="updated"></p>
+  </main>
+  <script type="module" src="assets/learning.mjs"></script>
+  <script type="module" src="assets/page-i18n.mjs?v=20261027b"></script>
+</body>
+</html>

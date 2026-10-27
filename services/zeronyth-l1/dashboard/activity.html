@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="color-scheme" content="dark"><meta name="theme-color" content="#0d1117">
+  <meta name="description" content="テストネット エコシステムの最近の動き。読み込み中・データなし・エラー・未対応の状態もそのまま表示します。">
+  <title>ZERONYTH | エコシステムの動き</title><link rel="icon" href="assets/favicon-64.png" type="image/png"><link rel="stylesheet" href="assets/styles.css?v=20261027b"><link rel="stylesheet" href="assets/ecosystem.css?v=20261027b">
+  <link rel="stylesheet" href="assets/page-i18n.css?v=20261027c">
+</head>
+<body class="eco-page" data-title-key="meta.title.activity">
+  <header class="topbar"><a class="brand" href="index.html" aria-label="ZERONYTH Explorer home"><img src="assets/znyt-token-168.png" alt="" width="40" height="40"><span class="brand-text"><strong>ZERONYTH</strong><small data-i18n="brand.sub">公開テストネット コンソール</small></span></a>
+    <nav class="eco-nav" aria-label="Ecosystem navigation"><a href="index.html" data-eco-i18n="nav.console">Console</a><a href="networks.html" data-eco-i18n="nav.networks">Networks</a><a href="multichain-swap.html" data-eco-i18n="nav.swap">Swap</a><a href="bridge.html" data-eco-i18n="nav.bridge">Bridge</a><a href="liquidity.html" data-eco-i18n="nav.liquidity">Liquidity</a><span aria-current="page" data-eco-i18n="nav.activity">Activity</span></nav><div class="controls"><label class="lang"><span class="sr-only">Language</span><select id="ecoLanguage" aria-label="Language"></select></label><span class="tag">READ-ONLY VIEW</span></div>
+          <select id="languageSelect" aria-label="Language"></select>
+      </header>
+  <main class="eco-wrap">
+    <section class="eco-hero" aria-labelledby="pageTitle"><div><p class="eco-eyebrow">ZERONYTH / ECOSYSTEM / ACTIVITY</p><h1 id="pageTitle">Activity<br>ledger<span>.</span></h1><p class="eco-lead">A testnet-only list of transaction hashes you look up manually. This is not an account-wide indexer.</p></div><aside class="eco-hero-note"><span class="k">DATA SOURCE</span><p id="activity-source-status" data-source-status="manual-rpc">Manual read-only RPC lookup · no global indexer</p></aside></section>
+     <p class="eco-boundary" role="note"><strong>Manual lookup only.</strong><span>No global activity indexer is configured. The list below contains only hashes you submit during this browser session; it is not saved.</span></p>
+     <section class="panel" aria-labelledby="lookupTitle">
+       <div class="eco-section-head"><div><span class="eco-index">LOOKUP / READ ONLY</span><h2 id="lookupTitle">Check a transaction or signature</h2></div><p>Only a read-only RPC request is sent. The hash is not stored in local storage or sent to ZERONYTH servers.</p></div>
+       <form class="eco-form eco-lookup-form" id="activity-lookup-form">
+         <label for="activity-network">Testnet<select id="activity-network" required><option value="">Choose a testnet</option></select></label>
+         <label for="activity-hash">Transaction hash / Solana signature<input id="activity-hash" type="text" autocomplete="off" spellcheck="false" required placeholder="0x… or a Solana signature"></label>
+         <button class="btn primary" id="activity-lookup-button" data-eco-i18n="activity.lookup" type="submit">Look up transaction</button>
+       </form>
+       <p id="activity-result-status" class="eco-wallet-status" role="status" aria-live="polite">No lookup started.</p>
+     </section>
+     <section class="panel" aria-labelledby="feedTitle"><div class="eco-section-head"><div><span class="eco-index">01 / ACTIVITY FEED</span><h2 id="feedTitle">Lookups in this session</h2></div><p>Rows appear only after a successful read-only RPC lookup. They are held in memory for this page session and are not saved.</p></div>
+       <div class="eco-state" id="activity-loading" data-state="loading" role="status" hidden><span class="eco-skeleton" aria-hidden="true"></span><strong>Looking up transaction</strong><p>Waiting for the selected RPC response.</p></div>
+       <div class="eco-state eco-state-empty" id="activity-empty" data-state="empty" role="status" aria-live="polite"><span class="empty-mark" aria-hidden="true"></span><strong>No lookups yet</strong><p>Submit a testnet transaction hash or Solana signature above.</p></div>
+       <div class="eco-state" id="activity-error" data-state="error" role="alert" hidden><strong>Activity lookup unavailable</strong><p>The form above reports the lookup error; no transaction state is inferred.</p></div>
+       <div class="eco-state" id="activity-unsupported" data-state="unsupported" role="status" hidden><strong>Unsupported network</strong><p>No read-only RPC lookup is configured for this network.</p></div>
+      <div class="table-wrap eco-activity-table">
+        <table aria-label="Testnet activity">
+          <thead><tr><th scope="col">Chain</th><th scope="col">Transaction hash</th><th scope="col">Type</th><th scope="col">State</th><th scope="col">Explorer</th></tr></thead>
+          <tbody id="activity-rows">
+             <tr id="activity-row-template" data-activity-chain="" data-activity-hash="" data-activity-type="" data-activity-state="" data-activity-explorer-url="" hidden><td>—</td><td><code>—</code></td><td>—</td><td>—</td><td>Unavailable</td></tr>
+          </tbody>
+        </table>
+      </div>
+     <p class="small muted">Activity records are created from successful RPC responses only. “Included on chain” does not define a finality policy or prove bridge completion.</p>
+    </section>
+    <section class="panel" aria-labelledby="stateTitle"><div class="eco-section-head"><div><span class="eco-index">02 / STATE DEFINITIONS</span><h2 id="stateTitle">Evidence before labels</h2></div></div><div class="eco-readout"><div><dt>Pending</dt><dd>Provider-reported, not final</dd></div><div><dt>Confirmed</dt><dd>Must be backed by chain evidence</dd></div><div><dt>Failed</dt><dd>Must be backed by provider or chain response</dd></div><div><dt>Unknown</dt><dd>Never upgraded to success by inference</dd></div></div></section>
+    <footer class="eco-footer"><a href="networks.html">Review network profiles</a><span>Activity is provider-sourced · no fabricated records</span></footer>
+  </main>
+   <script type="module" src="assets/ecosystem.mjs"></script>
+  <script type="module" src="assets/i18n-ui.mjs"></script>
+  <script type="module" src="assets/page-i18n.mjs?v=20261027b"></script>
+</body>
+</html>

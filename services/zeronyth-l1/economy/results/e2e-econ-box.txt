@@ -1,0 +1,20 @@
+PASS liar contributor registered + attested (ML-DSA decl) 
+  bench {"mode":"relay","n":1500,"invalidPct":40,"senders":20,"batch":50,"concurrency":4,"valid":895,"accepted":895,"rejected":605,"submitMs":2381,"submitTxPerSec":630,"minedValid":895,"inclusionTps":266,"latencyMs":{"p50":1411,"p95":2372,"max":2409},"blocks":5}
+PASS liar struck >= 3 times (spot-check / invalid re-check) strikes=5
+PASS honest providers have no strikes 0xd791B5,0x35dB12
+PASS struck provider refused new jobs (403) 
+PASS epoch rewards for 0xd791B51A (l1 units 11770, credits 11805) earned 28.715336362694091608 ZNYT
+PASS epoch rewards for 0x35dB12c1 (l1 units 2874, credits 2939) earned 42.284663637305908371 ZNYT
+PASS liar forfeits L1 units (no l1 credit on-chain) l1Units=0
+PASS AI job answered by 2 independent providers in agreement 0x20dc1f14db689645
+PASS subscribe: expiry = payment time + period expiry 1793072264 (period 30s; main contract = 864000 s = 10 days)
+PASS renewal extends from current expiry 1793072264 -> 1793072294
+PASS wrong price rejected 
+PASS status page sees active VPS plan 
+PASS both 10-day(test) payments settled by coordinator 
+PASS escrow paid to providers that served (heartbeats) 0xd791B5,0x35dB12
+PASS no provider served -> full refund 99.999856365 -> 99.999856365
+PASS refundUnsettled too early reverts 
+PASS refundUnsettled returns full payment 
+PASS provider has withdrawable ZNYT 36.782003029360758273
+{"passed":18,"failed":0}

@@ -1,0 +1,9 @@
+{
+  "name": "zeronyth-discord",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "main": "bot.mjs",
+  "scripts": { "start": "node --env-file=.env bot.mjs", "register": "node --env-file=.env register.mjs", "status-test": "node lib.mjs" },
+  "dependencies": { "discord.js": "^14.27.0" }
+}

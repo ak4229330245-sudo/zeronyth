@@ -1,0 +1,203 @@
+{
+ "name": "base",
+ "cfg": {},
+ "startedAt": "2026-10-27T08:13:53.923Z",
+ "idle": {
+  "n": 17,
+  "avgMs": 947,
+  "p95Ms": 1027,
+  "maxMs": 1027
+ },
+ "idleProposers": {
+  "0x50ccc409dacb460ee914fc3a4a39af0feff4c60d": {
+   "n": 5,
+   "avgMs": 828,
+   "maxMs": 1019
+  },
+  "0x6b6311479e526d2525c939e2d524be1fffafe212": {
+   "n": 4,
+   "avgMs": 979,
+   "maxMs": 1020
+  },
+  "0xd1cd66bfd39256a2aae253bd597f782ed5fede78": {
+   "n": 4,
+   "avgMs": 1005,
+   "maxMs": 1027
+  },
+  "0xeb292f14d6087663c46733a99c41aa28a82706da": {
+   "n": 4,
+   "avgMs": 1007,
+   "maxMs": 1022
+  }
+ },
+ "pqIdle": {
+  "blocks": 20,
+  "failures": 0,
+  "lastErr": "",
+  "maxBacklog": 4,
+  "lagMs": {
+   "p50": 66,
+   "p95": 285,
+   "max": 285
+  },
+  "perBlockMs": {
+   "sign4": 39.4,
+   "verifyCert": 15.3,
+   "ecdsaHeader": 7.7
+  }
+ },
+ "runs": [
+  {
+   "kind": "transfer",
+   "n": 6000,
+   "url": "direct",
+   "batch": 100,
+   "conc": 4,
+   "rejected": 0,
+   "errors": [],
+   "mined": 6000,
+   "submitTxPerSec": 1934,
+   "endToEndTps": 1297,
+   "blockTps": 1316,
+   "finalityMs": {
+    "p50": 1551,
+    "p95": 2206,
+    "max": 2606
+   },
+   "blocks": 5,
+   "maxTxPerBlock": 1428,
+   "avgGasPerBlock": 25200000,
+   "gasLimit": 30000000,
+   "gasPerTx": 21000,
+   "intervalUnderLoad": {
+    "n": 5,
+    "avgMs": 912,
+    "p95Ms": 1054,
+    "maxMs": 1054
+   },
+   "resources": {
+    "cpuPct": 432,
+    "peakRssMB": 1259,
+    "minMemAvailMB": 1704
+   },
+   "pq": {
+    "blocks": 6,
+    "failures": 1,
+    "lastErr": "Cannot read properties of null (reading 'extraData')",
+    "maxBacklog": 1,
+    "lagMs": {
+     "p50": 92,
+     "p95": 322,
+     "max": 322
+    },
+    "perBlockMs": {
+     "sign4": 40.5,
+     "verifyCert": 16.1,
+     "ecdsaHeader": 9.4
+    }
+   }
+  },
+  {
+   "kind": "erc20",
+   "n": 4000,
+   "url": "direct",
+   "batch": 100,
+   "conc": 4,
+   "rejected": 0,
+   "errors": [],
+   "mined": 4000,
+   "submitTxPerSec": 2160,
+   "endToEndTps": 608,
+   "blockTps": 633,
+   "finalityMs": {
+    "p50": 3268,
+    "p95": 5113,
+    "max": 5543
+   },
+   "blocks": 7,
+   "maxTxPerBlock": 584,
+   "avgGasPerBlock": 29294350,
+   "gasLimit": 30000000,
+   "gasPerTx": 51265,
+   "intervalUnderLoad": {
+    "n": 7,
+    "avgMs": 903,
+    "p95Ms": 1061,
+    "maxMs": 1061
+   },
+   "resources": {
+    "cpuPct": 313,
+    "peakRssMB": 1521,
+    "minMemAvailMB": 1504
+   },
+   "pq": {
+    "blocks": 8,
+    "failures": 0,
+    "lastErr": "Cannot read properties of null (reading 'extraData')",
+    "maxBacklog": 1,
+    "lagMs": {
+     "p50": 69,
+     "p95": 104,
+     "max": 104
+    },
+    "perBlockMs": {
+     "sign4": 40.9,
+     "verifyCert": 15.2,
+     "ecdsaHeader": 6.9
+    }
+   }
+  },
+  {
+   "kind": "swap",
+   "n": 3000,
+   "url": "direct",
+   "batch": 100,
+   "conc": 4,
+   "rejected": 0,
+   "errors": [],
+   "mined": 3000,
+   "submitTxPerSec": 6167,
+   "endToEndTps": 682,
+   "blockTps": 683,
+   "finalityMs": {
+    "p50": 2426,
+    "p95": 3360,
+    "max": 4122
+   },
+   "blocks": 5,
+   "maxTxPerBlock": 739,
+   "avgGasPerBlock": 24277200,
+   "gasLimit": 30000000,
+   "gasPerTx": 40462,
+   "intervalUnderLoad": {
+    "n": 5,
+    "avgMs": 878,
+    "p95Ms": 967,
+    "maxMs": 967
+   },
+   "resources": {
+    "cpuPct": 265,
+    "peakRssMB": 1577,
+    "minMemAvailMB": 1468
+   },
+   "pq": {
+    "blocks": 6,
+    "failures": 0,
+    "lastErr": "Cannot read properties of null (reading 'extraData')",
+    "maxBacklog": 1,
+    "lagMs": {
+     "p50": 79,
+     "p95": 88,
+     "max": 88
+    },
+    "perBlockMs": {
+     "sign4": 44.8,
+     "verifyCert": 15.2,
+     "ecdsaHeader": 7.2
+    }
+   }
+  }
+ ],
+ "diskMB": 75,
+ "height": 81
+}

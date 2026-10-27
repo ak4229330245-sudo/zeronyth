@@ -1,0 +1,8 @@
+{
+  "name": "zeronyth-scan",
+  "private": true,
+  "type": "module",
+  "description": "ZERONYTH Scan: lean read-only block explorer for chain 9127 (Node + SQLite indexer + static site)",
+  "scripts": { "start": "node explorer-service.mjs", "test": "node test/smoke.mjs" },
+  "dependencies": { "better-sqlite3": "^11.10.0", "ethers": "^6.13.4" }
+}

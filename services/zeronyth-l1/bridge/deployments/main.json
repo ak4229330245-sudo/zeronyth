@@ -1,0 +1,441 @@
+{
+  "network": "main",
+  "home": {
+    "chainId": 9127,
+    "rpc": "https://zeronyth.dpdns.org/rpc",
+    "vault": "0x6a3d246c51721898095f88b491af6DED74e3E420",
+    "deployBlock": 11816,
+    "board": "0x4a337b749c2c973C6f9e47e97A4E0247544a81D1",
+    "boardDeployBlock": 16666
+  },
+  "remotes": {
+    "97": {
+      "id": "bnb-testnet",
+      "name": "BNB Smart Chain Testnet",
+      "chainId": 97,
+      "rpc": "https://bsc-testnet-dataseed.bnbchain.org",
+      "explorer": "https://testnet.bscscan.com",
+      "standIn": false,
+      "standInFor": null,
+      "finality": "finalized",
+      "minter": "0xA7c6c381CD599f5847f77c32e62c78a3b68581C1",
+      "token": "0x3700fC4f257fA7336Ae531C5f5a8B47e4d19FAFB",
+      "gasSymbol": "tBNB",
+      "faucets": [
+        "https://www.bnbchain.org/en/testnet-faucet (needs a small BSC mainnet balance)"
+      ],
+      "status": "waiting-for-gas",
+      "gasNeeded": "about 0.005 tBNB for deploy + ~0.0003 per mint",
+      "vaultEnabled": false
+    },
+    "10143": {
+      "id": "monad-testnet",
+      "name": "Monad Testnet",
+      "chainId": 10143,
+      "rpc": "https://testnet-rpc.monad.xyz",
+      "explorer": "https://testnet.monadvision.com",
+      "standIn": false,
+      "standInFor": null,
+      "finality": "finalized",
+      "minter": "0xA7c6c381CD599f5847f77c32e62c78a3b68581C1",
+      "token": "0x3700fC4f257fA7336Ae531C5f5a8B47e4d19FAFB",
+      "gasSymbol": "MON",
+      "faucets": [
+        "https://faucet.monad.xyz (official; needs >=0.03 ETH + 3 tx on Ethereum mainnet)",
+        "https://www.alchemy.com/faucets/monad-testnet (needs >=0.001 ETH on mainnet)"
+      ],
+      "status": "waiting-for-gas",
+      "gasNeeded": "about 0.005 MON for deploy + ~0.0003 per mint",
+      "vaultEnabled": false
+    },
+    "46630": {
+      "id": "robinhood-testnet",
+      "name": "Robinhood Chain Testnet",
+      "chainId": 46630,
+      "rpc": "https://rpc.testnet.chain.robinhood.com",
+      "explorer": "https://explorer.testnet.chain.robinhood.com",
+      "standIn": false,
+      "standInFor": null,
+      "finality": "finalized",
+      "minter": "0xA7c6c381CD599f5847f77c32e62c78a3b68581C1",
+      "token": "0x3700fC4f257fA7336Ae531C5f5a8B47e4d19FAFB",
+      "gasSymbol": "ETH",
+      "faucets": [
+        "https://faucet.testnet.chain.robinhood.com/ (browser check)"
+      ],
+      "status": "live",
+      "vaultEnabled": true,
+      "deployTx": "0xad49bc128853542c5780f9880de990b3e0f438114fed23932f69fa412dfff613",
+      "deployBlock": 143438011
+    },
+    "84532": {
+      "id": "base-sepolia",
+      "name": "Base Sepolia",
+      "chainId": 84532,
+      "rpc": "https://sepolia.base.org",
+      "explorer": "https://sepolia.basescan.org",
+      "standIn": false,
+      "standInFor": null,
+      "finality": "finalized",
+      "minter": "0xA7c6c381CD599f5847f77c32e62c78a3b68581C1",
+      "token": "0x3700fC4f257fA7336Ae531C5f5a8B47e4d19FAFB",
+      "gasSymbol": "ETH",
+      "faucets": [
+        "https://portal.cdp.coinbase.com/products/faucet (Coinbase login)",
+        "https://faucet.quicknode.com/base/sepolia (browser check)"
+      ],
+      "status": "live",
+      "vaultEnabled": true,
+      "deployTx": "0x8280feb85133490523bc86a5094f034775494b808ef8af4910cdefb6137d7410",
+      "deployBlock": 50804711
+    },
+    "421614": {
+      "id": "arbitrum-sepolia",
+      "name": "Arbitrum Sepolia",
+      "chainId": 421614,
+      "rpc": "https://sepolia-rollup.arbitrum.io/rpc",
+      "explorer": "https://sepolia.arbiscan.io",
+      "standIn": false,
+      "standInFor": null,
+      "finality": "finalized",
+      "minter": "0xA7c6c381CD599f5847f77c32e62c78a3b68581C1",
+      "token": "0x3700fC4f257fA7336Ae531C5f5a8B47e4d19FAFB",
+      "gasSymbol": "ETH",
+      "faucets": [
+        "https://www.l2faucet.com/arbitrum (browser passkey)",
+        "bridge Sepolia ETH via https://bridge.arbitrum.io"
+      ],
+      "status": "live",
+      "vaultEnabled": true,
+      "deployTx": "0x7e05b9a84168032da03959954740e47c61767b8a10290831face8843a24fbff7",
+      "deployBlock": 323268651
+    },
+    "11155111": {
+      "id": "ethereum-sepolia",
+      "name": "Ethereum Sepolia",
+      "chainId": 11155111,
+      "rpc": "https://ethereum-sepolia-rpc.publicnode.com",
+      "explorer": "https://sepolia.etherscan.io",
+      "standIn": false,
+      "standInFor": null,
+      "finality": "finalized",
+      "minter": "0xA7c6c381CD599f5847f77c32e62c78a3b68581C1",
+      "token": "0x3700fC4f257fA7336Ae531C5f5a8B47e4d19FAFB",
+      "gasSymbol": "ETH",
+      "faucets": [
+        "https://cloud.google.com/application/web3/faucet/ethereum/sepolia (Google login)",
+        "https://sepolia-faucet.pk910.de/ (browser PoW)"
+      ],
+      "status": "live",
+      "vaultEnabled": true,
+      "deployTx": "0xbd3cf9805714ce17822fd33fc3ca9db7c101be7aadb07933a4ff2504c92eaaa0",
+      "deployBlock": 12003319
+    },
+    "31337001": {
+      "id": "local-base-sepolia",
+      "name": "LOCAL STAND-IN for Base Sepolia",
+      "chainId": 31337001,
+      "rpc": "http://127.0.0.1:18451",
+      "explorer": null,
+      "standIn": true,
+      "standInFor": "base-sepolia",
+      "finality": 2,
+      "minter": "0xA7c6c381CD599f5847f77c32e62c78a3b68581C1",
+      "token": "0x3700fC4f257fA7336Ae531C5f5a8B47e4d19FAFB",
+      "gasSymbol": "ETH",
+      "faucets": [
+        "https://portal.cdp.coinbase.com/products/faucet (Coinbase login)",
+        "https://faucet.quicknode.com/base/sepolia (browser check)"
+      ],
+      "deployTx": "0x07b8803872b45cb37420464dae66bf6e3d755a9228577813effdb6398143ece5",
+      "deployBlock": 303,
+      "status": "retired-stand-in",
+      "vaultEnabled": false,
+      "note": "Local Anvil stand-in used for the 2026-10-27 e2e test only; stopped. Disabled in the vault."
+    },
+    "31337002": {
+      "id": "local-ethereum-sepolia",
+      "name": "LOCAL STAND-IN for Ethereum Sepolia",
+      "chainId": 31337002,
+      "rpc": "http://127.0.0.1:18452",
+      "explorer": null,
+      "standIn": true,
+      "standInFor": "ethereum-sepolia",
+      "finality": 2,
+      "minter": "0xA7c6c381CD599f5847f77c32e62c78a3b68581C1",
+      "token": "0x3700fC4f257fA7336Ae531C5f5a8B47e4d19FAFB",
+      "gasSymbol": "ETH",
+      "faucets": [
+        "https://cloud.google.com/application/web3/faucet/ethereum/sepolia (Google login)",
+        "https://sepolia-faucet.pk910.de/ (browser PoW)"
+      ],
+      "deployTx": "0x7f1b2b5e542c606b8a54d5ac32c13cbf0f764a233994bcfd706a96596bd5ef5b",
+      "deployBlock": 308,
+      "status": "retired-stand-in",
+      "vaultEnabled": false,
+      "note": "Local Anvil stand-in used for the 2026-10-27 e2e test only; stopped. Disabled in the vault."
+    },
+    "31337003": {
+      "id": "local-arbitrum-sepolia",
+      "name": "LOCAL STAND-IN for Arbitrum Sepolia",
+      "chainId": 31337003,
+      "rpc": "http://127.0.0.1:18453",
+      "explorer": null,
+      "standIn": true,
+      "standInFor": "arbitrum-sepolia",
+      "finality": 2,
+      "minter": "0xA7c6c381CD599f5847f77c32e62c78a3b68581C1",
+      "token": "0x3700fC4f257fA7336Ae531C5f5a8B47e4d19FAFB",
+      "gasSymbol": "ETH",
+      "faucets": [
+        "https://www.l2faucet.com/arbitrum (browser passkey)",
+        "bridge Sepolia ETH via https://bridge.arbitrum.io"
+      ],
+      "deployTx": "0xedc5ac9130da4c5aa0d76a18b008f8c85db9b6e8d67a323730c0c8edebaf75c9",
+      "deployBlock": 312,
+      "status": "retired-stand-in",
+      "vaultEnabled": false,
+      "note": "Local Anvil stand-in used for the 2026-10-27 e2e test only; stopped. Disabled in the vault."
+    },
+    "31337004": {
+      "id": "local-bnb-testnet",
+      "name": "LOCAL STAND-IN for BNB Smart Chain Testnet",
+      "chainId": 31337004,
+      "rpc": "http://127.0.0.1:18454",
+      "explorer": null,
+      "standIn": true,
+      "standInFor": "bnb-testnet",
+      "finality": 2,
+      "minter": "0xA7c6c381CD599f5847f77c32e62c78a3b68581C1",
+      "token": "0x3700fC4f257fA7336Ae531C5f5a8B47e4d19FAFB",
+      "gasSymbol": "tBNB",
+      "faucets": [
+        "https://www.bnbchain.org/en/testnet-faucet (needs a small BSC mainnet balance)"
+      ],
+      "deployTx": "0x26e9cbfb76a5d1679dd42523ed7ae7c62dfab1b87ad917eab8de1087c7ae9c76",
+      "deployBlock": 316,
+      "status": "retired-stand-in",
+      "vaultEnabled": false,
+      "note": "Local Anvil stand-in used for the 2026-10-27 e2e test only; stopped. Disabled in the vault."
+    },
+    "31337005": {
+      "id": "local-robinhood-testnet",
+      "name": "LOCAL STAND-IN for Robinhood Chain Testnet",
+      "chainId": 31337005,
+      "rpc": "http://127.0.0.1:18455",
+      "explorer": null,
+      "standIn": true,
+      "standInFor": "robinhood-testnet",
+      "finality": 2,
+      "minter": "0xA7c6c381CD599f5847f77c32e62c78a3b68581C1",
+      "token": "0x3700fC4f257fA7336Ae531C5f5a8B47e4d19FAFB",
+      "gasSymbol": "ETH",
+      "faucets": [
+        "https://faucet.testnet.chain.robinhood.com/ (browser check)"
+      ],
+      "deployTx": "0xe916397f943996b533ec4d4c6657df65b84ad1f9cf45788ff5701d768a0be6e9",
+      "deployBlock": 320,
+      "status": "retired-stand-in",
+      "vaultEnabled": false,
+      "note": "Local Anvil stand-in used for the 2026-10-27 e2e test only; stopped. Disabled in the vault."
+    }
+  },
+  "txs": {
+    "fundAdmin": "0x32398f551ec6eefc4225e0f86c2abdd8fd1e60562d0b4df06cdf01ef15ceeb05",
+    "ZnytBridgeVault": "0xa01dd0968e0c3c1f073c57561928c9d7fd02883deca84a9893aaf6e387507bb6",
+    "fundGuardian": "0xadfa9e42a8daf1050228d0efa3f133b53930f0b85dc2523e835672c2d95eec1d",
+    "setChain-97-off": "0x1dbde1a4a2d24f4c18632dcfadbba546e151e11de2cc6724ffdbe2c3d0e83a28",
+    "setChain-46630-off": "0x9037c48cb2b0b9fc12823cd14ff35160ab9d3dc11140ebb2d2e519adb86985d5",
+    "setChain-84532-off": "0x9eda46f0a250c8b5b796b671d6e25bae4983320ac76fd22b4e26d9064b7e7b1d",
+    "setChain-421614-off": "0xbebd04d1680b721d6391fb5b6f0348cfbc214c2e187bd60e980992ffb2679a8e",
+    "setChain-11155111-off": "0x622c7d1695b8c73651c045dbdd80ed30f1313257b257dc12a780ad2f4bc7abee",
+    "setChain-31337001-on": "0x7c1c3399e14cc292fc8e28b55c3d53c95d5e760670ac0567ad218e1eeaf53d7c",
+    "setChain-31337002-on": "0x1c703d9299f83cbf3e544849705efe9452daaf19b18fc5c4093f6853ed4ad458",
+    "setChain-31337003-on": "0x8313eccbe2e2e17725880e46cc3757854bf2497fb0dad2dab868a545a0989fc4",
+    "setChain-31337004-on": "0xe9add88c0712b225225162cd12dc3d2ae74be7c2405519fb100599b402bb9b0f",
+    "setChain-31337005-on": "0x220f0b5fc34827dbe5d5a09c8572e2c7869654eb8bf51cb23647a3bc668493a8",
+    "setChain-31337001-off": "0xd7592d9cc3670d12ba3d6bed684388113f8fd7dc4a637b08502eef6c23a993a8",
+    "setChain-31337002-off": "0xd7f30c820503048cf8ae51a6a333820c5707cea454a8973168e31052787893bf",
+    "setChain-31337003-off": "0x8260663bccdd67323322b9816af238679dcaae6d8b86089f0cdd52583d5dba23",
+    "setChain-31337004-off": "0x34160f67058de0a888aff30e671057f1fcdddda0d7782fcf264cc3b91dcaa1e2",
+    "setChain-31337005-off": "0x01b883e17e5e1c6efcff2d029d42d9b721bc055514e5ff6b99bee0a575ca84ff",
+    "setChain-46630-on": "0x56f1a43e285d0fbd45ea4682564d93b55742c20abca86610d6e1c878a7b6772a",
+    "setChain-11155111-on": "0xf38be9e23806086592cd7c74708163652c2b4269ab7a1a4fc3e3d18b3d8ab2f7",
+    "l1deposit-base": "0xab6882d3d4df946c8895065e5789f7196050e8f4271dbde9186dec4a43ed70cb",
+    "l1deposit-arbitrum": "0x8c589ba3f833c938d166ade3c381d5c36e0bd486e9376f12fc527c3067eeac20",
+    "setChain-10143-off": "0xa1f07b54582716a5f78e1f22a92045fbf2c3630a6677e4b0a74187f18bd35abb",
+    "setChain-84532-on": "0xb4abe31d9eb3c87d245fc228036ae8a72d073a05cae6e7d2d6548d4ef6d0c23f",
+    "setChain-421614-on": "0xc644dd54d295b49f72d95510fc92ece1f4a825e34132b0779bfe6b09e119198e",
+    "BridgeAttestationBoard": "0xab5153cb85fde15af1ea3bc8129b6efee6b03f1875b66867cec46291905a23af",
+    "fundZnyt-0x05124384Ff8491A18C8F1316878fc75f7252a6b7": "0x129515435ea23c301261410e5d6c3cea9b74920dd662eee7e6523b059ad6072b",
+    "fundZnyt-0xeec460793d631b81F99f8BA21EFf954086Eef856": "0x7e5e2eda405fa2981e919c49cccf68a54a6aa101a8c3fbf1670c2589a69e49a7",
+    "fundZnyt-0x9B19854832cfA7b46c20CA405961AC47c81f297c": "0xe081a6c63b5f0442584a6d638405156dc3f037b55589178babebb367eb035c32",
+    "fundZnyt-0x387b7e92189Ab00d7E05AAACc0420F33E4BfB6bb": "0x5ecdb02ee9eec90e24ce0ebeb1e49b01599ce164992653eecc5a6c005a8784fe",
+    "fundGas-46630-0x05124384Ff8491A18C8F1316878fc75f7252a6b7": "0x8fca56073fda5d6dd959499cf6c12b8ea08cef303471d9dedc1b44822b90af03",
+    "fundGas-46630-0xeec460793d631b81F99f8BA21EFf954086Eef856": "0x57f1544ea0416881e922d39ae1832970de2a96314705f2a16177a815a95fb88b",
+    "fundGas-46630-0x9B19854832cfA7b46c20CA405961AC47c81f297c": "0x7fb780ea9b524ae836386170b4911dd83eb7e601fdb8b11793af140fb5b35c83",
+    "fundGas-46630-0x387b7e92189Ab00d7E05AAACc0420F33E4BfB6bb": "0xbe727ea124dced02f0b68b05b39d31b58904dd63afa5d501267ffc6a191d6ecb",
+    "fundGas-84532-0x05124384Ff8491A18C8F1316878fc75f7252a6b7": "0xad9e607fc53e751f6415d447c0d32254a194bef2ee0b021600d00fad4dac359c",
+    "fundGas-84532-0xeec460793d631b81F99f8BA21EFf954086Eef856": "0x7a91297314376c53417b29ed73a09fdcfaaf5360cf8b673fa8725c5c7dd25639",
+    "fundGas-84532-0x9B19854832cfA7b46c20CA405961AC47c81f297c": "0x13f591d57884e48d89c5f32801bd1c4b47c2d45d8d631a48919e577dcf6dd5ea",
+    "fundGas-84532-0x387b7e92189Ab00d7E05AAACc0420F33E4BfB6bb": "0xcf0da0e3123a4f2293bd1dbe62ca600780be9af6be362a7f52fae07a95d4da6d",
+    "fundGas-421614-0x05124384Ff8491A18C8F1316878fc75f7252a6b7": "0x6da758ffabc8e80777e52a75cabaa86d064912220ccc14b6201e732cab0d15f0",
+    "fundGas-421614-0xeec460793d631b81F99f8BA21EFf954086Eef856": "0x1f947f9e99041f56f2bceb85fb6aec3828d7c72f7a8eeb0f949229dd63562c1c",
+    "fundGas-421614-0x9B19854832cfA7b46c20CA405961AC47c81f297c": "0x470cb6030b2470a0b6649a4feb06e7ecc1c94d264ebc1c7b7a1a611ea8cd0e1c",
+    "fundGas-421614-0x387b7e92189Ab00d7E05AAACc0420F33E4BfB6bb": "0x0186a01b77af7c08f7fc4843cc013213924cdf5fef141274f1793ca977199f36",
+    "fundGas-11155111-0x05124384Ff8491A18C8F1316878fc75f7252a6b7": "0x0c0853cdb44735d52aaa184f512ecfe947f784979cfddd396353f386e2ad3772",
+    "fundGas-11155111-0xeec460793d631b81F99f8BA21EFf954086Eef856": "0x509a1cc15d2a4bfdf47c1fe0d5bf8ab1f1d5202cbe364f37605a662cd95dffad",
+    "fundGas-11155111-0x9B19854832cfA7b46c20CA405961AC47c81f297c": "0x61dd4e90d2b2d5ce513b66fe20bf16b3a2f6e647a7628fdff4a4fca905c6b5df",
+    "fundGas-11155111-0x387b7e92189Ab00d7E05AAACc0420F33E4BfB6bb": "0x86215d353c5c1b8b91abed4a32bbdcaec17e7539a749bdafa347ecadbda1ee08",
+    "setRelayers-vault-3of4": "0x4557955c698efda0f04e37dec76926d37e388514668216adced7058953ebb20d",
+    "setRelayers-minter-46630-3of4": "0xe8be87076de8474a41d69c3c6dcae9e488e274e11338beefed2d94fc164c412a",
+    "setRelayers-minter-84532-3of4": "0x955cac21f6c6a4909ec61e1e6aa8aa92847953aa16e18b18b9d411d13705a378",
+    "setRelayers-minter-421614-3of4": "0x13613ac5d6f7baa7e20977cd775c696ebdc980138be8319f1e02dfa4d1aee7d6",
+    "setRelayers-minter-11155111-3of4": "0x943763140cc014d7de392059d5b97c4a9eab22f54a07596234db0722bb434da6",
+    "timelock-9127-deploy": "0x3ae519ad5064d2b37e2e6212cc894c5881f8c0155eff88d5449e5fd5fbc46730",
+    "timelock-9127-transferOwnership": "0x380a1415ed458e7c63f039da91b391897a56a0974df03e3051a6a2b944a3936b",
+    "timelock-9127-scheduleHandover": "0x5b5317c94d66efe780664e460ed6c2dfe0e961a766ab5e13673894d90e578092",
+    "timelock-9127-executeHandover": "0x5d9c974adecb7a51bd5922879f8b39f234b913415db8ea960ce56d772f4a87a1",
+    "timelock-46630-deploy": "0x5f620285765d6cb29f3c4cc3da88f65666855add74f78786e5b4c2d4398d9a43",
+    "timelock-46630-transferOwnership": "0x71eb9d618eac2674933f490f60a7d8e26735989294e1cc90304796c9f28db5e1",
+    "timelock-46630-scheduleHandover": "0xa528bc39c3bfe4421a8d7b1023ca5e523be052a3b9448b034af1d2a8f15b6690",
+    "timelock-46630-executeHandover": "0xe94a79d845a3e0cad5bf5118d30aa9ed338475aafe6c3a0761c23107189a9103",
+    "timelock-84532-deploy": "0x853e3d3981d3c0e6eb903b4a43aece2367b7d86ad3071d8d40030d8c70da3c1d",
+    "timelock-84532-transferOwnership": "0x520581718413db0ef91b74843b35b4793e419ea15896479c99581786b1164679",
+    "timelock-84532-scheduleHandover": "0xdbab67b67adf9bc9987c81897d051c2c2b6c42302804b2d487bfb4d80c99b5b1",
+    "timelock-84532-executeHandover": "0xccc5324be1cfe9d10dc6666277cc40f3b6c2da159a46466a624c3a72d9c2e5e9",
+    "timelock-421614-deploy": "0x61e58c4309972e0900f82c07acffc9926623bdb6abbcf2abed78258ed01ec061",
+    "timelock-421614-transferOwnership": "0xa943de0e3ab04d541aac52e476f50463122648ed932670838e861bffed6786ee",
+    "timelock-421614-scheduleHandover": "0x29bc131ce36bfd7fcd7fc410bf775e1da22f89495f38e76700f3978b038b7fb2",
+    "timelock-421614-executeHandover": "0x5323d6f118ed0ffadca058ee8a87d651ed661547583e69ddf40f9be15ac050d5",
+    "timelock-11155111-deploy": "0xf17b9fe4b1655702aa58f9f76253e48403eb503ab86ccf25e87d79283ed8e5f6",
+    "timelock-11155111-transferOwnership": "0xa1177c62db24281854a8c1226da59dd86ff922e59e0ec3152aee7e87686128b5",
+    "timelock-11155111-scheduleHandover": "0x431dbb84a1a795c39e5f6ea2c5e0482ac0f349309f429bdaab42a24f47b762a4",
+    "timelock-11155111-executeHandover": "0xe4aa70f7b9e076933116914fba43d4d17d869b76c991b851573b49c07855c85e"
+  },
+  "admin": "0xC9a31489E18AF737a3f4A105d3c97CC42edddec8",
+  "guardian": "0xc37916300A777dCB581f8f32dbD14e6078bb3B42",
+  "relayers": [
+    {
+      "address": "0x05124384Ff8491A18C8F1316878fc75f7252a6b7",
+      "label": "ZeroLayer box r0",
+      "machine": "box",
+      "operator": "ZeroLayer"
+    },
+    {
+      "address": "0x387b7e92189Ab00d7E05AAACc0420F33E4BfB6bb",
+      "label": "ZeroLayer vps k1",
+      "machine": "vps",
+      "operator": "ZeroLayer"
+    },
+    {
+      "address": "0x9B19854832cfA7b46c20CA405961AC47c81f297c",
+      "label": "ZeroLayer vps k0",
+      "machine": "vps",
+      "operator": "ZeroLayer"
+    },
+    {
+      "address": "0xeec460793d631b81F99f8BA21EFf954086Eef856",
+      "label": "ZeroLayer box r1",
+      "machine": "box",
+      "operator": "ZeroLayer"
+    }
+  ],
+  "threshold": 3,
+  "caps": {
+    "minZnyt": "0.01",
+    "maxPerTxZnyt": "1000.0",
+    "dailyPerChainZnyt": "10000.0"
+  },
+  "planned": [
+    {
+      "id": "solana-devnet",
+      "name": "Solana Devnet",
+      "bridgeChainId": 1000000103,
+      "family": "solana",
+      "status": "planned"
+    }
+  ],
+  "fundedBy": "0xC0d69E881AE916552CAC511EbF1C7DE507BD2704",
+  "minterAddress": "0xA7c6c381CD599f5847f77c32e62c78a3b68581C1",
+  "tokenAddress": "0x3700fC4f257fA7336Ae531C5f5a8B47e4d19FAFB",
+  "create2": {
+    "factory": "0x4e59b44847b379578588920cA78FbF26c0B4956C",
+    "salt": "0x6f2eece1790c660b8b15ffde5a30a7c7f4dfcf42464764522cc539abf49e97e1"
+  },
+  "liveChecks": {
+    "guardianPause": {
+      "pauseTx": "0xf6a51d2cd863bbce1439e9b27688a7c9ed063b349839159e4fc350aede769e2e",
+      "result": "lock reverted while paused: EnforcedPause",
+      "unpauseTx": "0xe14de388a861e083ab4b1dbee6d1df22711f169e91baaf8a14b577513c5e89ad",
+      "pausedAfter": false
+    }
+  },
+  "genesisRelayers": [
+    "0x05124384Ff8491A18C8F1316878fc75f7252a6b7",
+    "0xeec460793d631b81F99f8BA21EFf954086Eef856",
+    "0x1b7620bB4b3fa90007f97213890F3007e77C2B43"
+  ],
+  "genesisThreshold": 2,
+  "operators": [
+    {
+      "address": "0x05124384Ff8491A18C8F1316878fc75f7252a6b7",
+      "label": "ZeroLayer box r0",
+      "machine": "box",
+      "operator": "ZeroLayer"
+    },
+    {
+      "address": "0x387b7e92189Ab00d7E05AAACc0420F33E4BfB6bb",
+      "label": "ZeroLayer vps k1",
+      "machine": "vps",
+      "operator": "ZeroLayer"
+    },
+    {
+      "address": "0x9B19854832cfA7b46c20CA405961AC47c81f297c",
+      "label": "ZeroLayer vps k0",
+      "machine": "vps",
+      "operator": "ZeroLayer"
+    },
+    {
+      "address": "0xeec460793d631b81F99f8BA21EFf954086Eef856",
+      "label": "ZeroLayer box r1",
+      "machine": "box",
+      "operator": "ZeroLayer"
+    }
+  ],
+  "relayerRotatedAt": "2026-10-27T07:42:05.588Z",
+  "timelocks": {
+    "9127": {
+      "deployBlock": 19150,
+      "address": "0xFeeE0734d180B1936b1f377bf6EE590814Ae753B",
+      "minDelaySeconds": 86400,
+      "owns": "0x6a3d246c51721898095f88b491af6DED74e3E420"
+    },
+    "46630": {
+      "deployBlock": 143493413,
+      "address": "0x7834424B3718F1a0F2D2DaeaA6dE09faa69b09d4",
+      "minDelaySeconds": 86400,
+      "owns": "0xA7c6c381CD599f5847f77c32e62c78a3b68581C1"
+    },
+    "84532": {
+      "deployBlock": 50841094,
+      "address": "0x7834424B3718F1a0F2D2DaeaA6dE09faa69b09d4",
+      "minDelaySeconds": 86400,
+      "owns": "0xA7c6c381CD599f5847f77c32e62c78a3b68581C1"
+    },
+    "421614": {
+      "deployBlock": 323295407,
+      "address": "0x7834424B3718F1a0F2D2DaeaA6dE09faa69b09d4",
+      "minDelaySeconds": 86400,
+      "owns": "0xA7c6c381CD599f5847f77c32e62c78a3b68581C1"
+    },
+    "11155111": {
+      "deployBlock": 12003962,
+      "address": "0x7834424B3718F1a0F2D2DaeaA6dE09faa69b09d4",
+      "minDelaySeconds": 86400,
+      "owns": "0xA7c6c381CD599f5847f77c32e62c78a3b68581C1"
+    }
+  },
+  "timelockAddress": "0x7834424B3718F1a0F2D2DaeaA6dE09faa69b09d4",
+  "timelockMinDelay": 86400
+}

@@ -1,0 +1,313 @@
+## ---------- node.html ----------
+>b Light node / ライトノード (real, verifying)
+ライトノード（実稼働・検証中） ¦ Light node (real, verifying) ¦ 轻节点（真实运行·验证中） ¦ 라이트 노드 (실제 동작·검증 중)
+>b Follows the live chain head through the read-only RPC and verifies every header in this browser: block hash, parent link, QBFT committed seals (secp256k1) against the tracked validator set, and ML-DSA-65 post-quantum finality certificates. No keys, no funds. / このブラウザで全ヘッダーを検証します（ハッシュ・親リンク・QBFT署名・ML-DSA-65耐量子ファイナリティ）。鍵や資金は扱いません。
+読み取り専用 RPC で最新ブロックを追い、このブラウザで全ヘッダーを検証します（ブロックハッシュ・親リンク・追跡中のバリデーターセットに対する QBFT コミット署名（secp256k1）・ML-DSA-65 耐量子ファイナリティ証明）。鍵や資金は扱いません。 ¦ Follows the live chain head through the read-only RPC and verifies every header in this browser: block hash, parent link, QBFT committed seals (secp256k1) against the tracked validator set, and ML-DSA-65 post-quantum finality certificates. No keys, no funds. ¦ 通过只读 RPC 跟踪最新链头，并在本浏览器中验证每个区块头：区块哈希、父链接、针对所跟踪验证者集合的 QBFT 提交签名（secp256k1）以及 ML-DSA-65 抗量子最终性证书。不涉及密钥或资金。 ¦ 읽기 전용 RPC로 최신 체인 헤드를 따라가며 이 브라우저에서 모든 헤더를 검증합니다: 블록 해시, 부모 링크, 추적 중인 검증자 세트에 대한 QBFT 커밋 서명(secp256k1), ML-DSA-65 양자내성 최종성 증명서. 키나 자금은 다루지 않습니다.
+>b stopped / 停止
+停止中 ¦ stopped ¦ 已停止 ¦ 정지됨
+>b running / 稼働中
+稼働中 ¦ running ¦ 运行中 ¦ 실행 중
+>b Start light node / 開始
+ライトノードを開始 ¦ Start light node ¦ 启动轻节点 ¦ 라이트 노드 시작
+>b Stop / 停止
+停止 ¦ Stop ¦ 停止 ¦ 정지
+>b Relay verified headers to WebRTC room peers / 検証済みヘッダーをP2P中継
+検証済みヘッダーを WebRTC ルームのピアへ中継 ¦ Relay verified headers to WebRTC room peers ¦ 将已验证的区块头中继给 WebRTC 房间内的节点 ¦ 검증된 헤더를 WebRTC 룸 피어에게 중계
+>b Install app / ホーム画面に追加
+ホーム画面に追加 ¦ Install app ¦ 安装应用 ¦ 앱 설치
+>e Validator set hash
+バリデーターセットのハッシュ ¦ 验证者集合哈希 ¦ 검증자 세트 해시
+>e Relayed headers accepted
+受け入れた中継ヘッダー ¦ 已接受的中继区块头 ¦ 수락된 중계 헤더
+>e Trust model: the first PQ validator set seen is pinned (TOFU); compare the set hash with the join kit. Relayed headers are re-verified locally before use. iOS: Safari → Share → Add to Home Screen.
+信頼モデル: 最初に見た耐量子バリデーターセットを固定します（TOFU）。セットのハッシュを参加キットと照合してください。中継されたヘッダーは使う前にローカルで再検証します。iOS: Safari → 共有 → ホーム画面に追加。 ¦ 信任模型：固定首次看到的抗量子验证者集合（TOFU），请将集合哈希与参与套件比对。中继的区块头在使用前会在本地重新验证。iOS：Safari → 分享 → 添加到主屏幕。 ¦ 신뢰 모델: 처음 본 양자내성 검증자 세트를 고정합니다(TOFU). 세트 해시를 참여 키트와 비교하세요. 중계된 헤더는 사용 전에 로컬에서 다시 검증합니다. iOS: Safari → 공유 → 홈 화면에 추가.
+>e Local node contributions can feed the Isolated AI Lab for model growth
+ローカルノードの貢献は、隔離された AI 実験室のモデル成長に使えます ¦ 本地节点的贡献可用于隔离 AI 实验室的模型成长 ¦ 로컬 노드 기여는 격리된 AI 실험실의 모델 성장에 쓰일 수 있습니다
+> どのデバイスからでも参加
+Join from any device ¦ 任何设备都能参与 ¦ 어떤 기기에서든 참여
+> スマホ・タブレット・PC・サーバー・VPSのどれからでもノードに参加し、計算力を提供できます。すべてブラウザまたは軽量プロセスで動作し、ローカル貢献です。
+Join as a node and contribute compute from a phone, tablet, PC, server or VPS. Everything runs in the browser or a lightweight process as a local contribution. ¦ 手机、平板、电脑、服务器、VPS 均可作为节点参与并贡献算力。全部在浏览器或轻量进程中运行，属于本地贡献。 ¦ 스마트폰·태블릿·PC·서버·VPS 어디서든 노드로 참여해 연산력을 제공할 수 있습니다. 모두 브라우저나 경량 프로세스로 동작하는 로컬 기여입니다.
+> スマホ
+Phone ¦ 手机 ¦ 스마트폰
+> 対応
+Supported ¦ 支持 ¦ 지원
+> ライトモード推奨
+Light mode recommended ¦ 推荐轻量模式 ¦ 라이트 모드 권장
+> タブレット
+Tablet ¦ 平板 ¦ 태블릿
+> 中負荷可
+Medium load OK ¦ 可中等负载 ¦ 중간 부하 가능
+> フル負荷可
+Full load OK ¦ 可满负载 ¦ 최대 부하 가능
+> サーバー
+Server ¦ 服务器 ¦ 서버
+> 常時稼働向け
+For always-on use ¦ 适合常时运行 ¦ 상시 가동용
+> ホスト型貢献
+Hosted contribution ¦ 托管型贡献 ¦ 호스트형 기여
+> ブラウザを開いて同意 → Start node するだけ
+Just open the browser, agree, and press Start node ¦ 只需打开浏览器并同意 → 点击 Start node ¦ 브라우저를 열고 동의 → Start node만 누르면 됩니다
+> iOSはバッテリー保護のためライトモードのみ
+iOS runs in light mode only to protect the battery ¦ iOS 为保护电池仅支持轻量模式 ¦ iOS는 배터리 보호를 위해 라이트 모드만
+> サーバー/VPSはバックグラウンドで継続実行可能
+Servers/VPS can keep running in the background ¦ 服务器/VPS 可在后台持续运行 ¦ 서버/VPS는 백그라운드에서 계속 실행 가능
+> 提供した計算力は AI育成（このチェーンで育てたAI運用） / L1速度強化 / VPS貸し出し に配分
+Contributed compute is allocated to AI training (running the AI grown on this chain) / L1 speed-up / VPS rental ¦ 贡献的算力分配给 AI 培养（运行在本链上培养的 AI）/ L1 提速 / VPS 出租 ¦ 제공한 연산력은 AI 육성(이 체인에서 키운 AI 운용) / L1 속도 강화 / VPS 대여에 배분
+> ノードリソース配分
+Node resource allocation ¦ 节点资源分配 ¦ 노드 리소스 배분
+> このブラウザノードで消費したCPU/GPU時間を、以下の用途に割り当てます（すべてローカルシミュレーション）。
+CPU/GPU time used by this browser node is assigned to the following uses (all local simulation). ¦ 将此浏览器节点消耗的 CPU/GPU 时间分配到以下用途（均为本地模拟）。 ¦ 이 브라우저 노드에서 소비한 CPU/GPU 시간을 아래 용도에 할당합니다 (모두 로컬 시뮬레이션).
+> AI育成
+AI training ¦ AI 培养 ¦ AI 육성
+> Isolated AI Lab のモデル成長へ
+Toward model growth in the Isolated AI Lab ¦ 用于隔离 AI 实验室的模型成长 ¦ 격리된 AI 실험실의 모델 성장으로
+> L1速度強化
+L1 speed-up ¦ L1 提速 ¦ L1 속도 강화
+> 並列検証・署名プリフェッチ・高速パス研究へ（最大速度優先）
+Toward parallel verification, signature prefetch and fast-path research (max speed first) ¦ 用于并行验证、签名预取与快速路径研究（速度优先） ¦ 병렬 검증·서명 프리페치·고속 경로 연구로 (최대 속도 우선)
+> VPS作成
+VPS creation ¦ VPS 创建 ¦ VPS 생성
+> ホスト型ノード容量のシミュレーション
+Simulation of hosted node capacity ¦ 托管型节点容量模拟 ¦ 호스트형 노드 용량 시뮬레이션
+> AI優先
+AI first ¦ AI 优先 ¦ AI 우선
+> AI {0}% / L1 {1}% / VPS {2}% （AI30 / L1 40 / VPS 30 基準）
+AI {0}% / L1 {1}% / VPS {2}% (baseline AI 30 / L1 40 / VPS 30) ¦ AI {0}% / L1 {1}% / VPS {2}%（基准 AI 30 / L1 40 / VPS 30） ¦ AI {0}% / L1 {1}% / VPS {2}% (기준 AI 30 / L1 40 / VPS 30)
+> VPS貸し出し（貢献）
+VPS rental (contribution) ¦ VPS 出租（贡献） ¦ VPS 대여 (기여)
+> ノード提供者が計算力をVPS作成・貸し出し貢献として登録できます。実インスタンスの自動プロビジョニングは未実装です。
+Node providers can register compute as a VPS creation/rental contribution. Automatic provisioning of real instances is not implemented yet. ¦ 节点提供者可将算力登记为 VPS 创建/出租贡献。真实实例的自动开通尚未实现。 ¦ 노드 제공자는 연산력을 VPS 생성·대여 기여로 등록할 수 있습니다. 실제 인스턴스 자동 프로비저닝은 아직 구현되지 않았습니다.
+> 提供可能リソース
+Available resources ¦ 可提供资源 ¦ 제공 가능한 리소스
+> CPU時間の一部
+Part of CPU time ¦ 部分 CPU 时间 ¦ CPU 시간의 일부
+> 登録待ち
+Not registered yet ¦ 待登记 ¦ 등록 대기
+> ローカルのみ
+Local only ¦ 仅本地 ¦ 로컬 전용
+> VPS貢献として登録
+Register as VPS contribution ¦ 登记为 VPS 贡献 ¦ VPS 기여로 등록
+> 貢献登録済み（保存済み）
+Contribution registered (saved) ¦ 贡献已登记（已保存） ¦ 기여 등록 완료 (저장됨)
+> ネイティブトークン経済（シミュレーション）
+Native token economy (simulation) ¦ 原生代币经济（模拟） ¦ 네이티브 토큰 경제 (시뮬레이션)
+> VPS・AIの利用はZNYT（テストネットトークン）で支払います。ノード提供者はAI利用に対してZNYTの報酬を受け取れます。
+VPS and AI usage is paid in ZNYT (testnet token). Node providers receive ZNYT rewards for AI usage. ¦ VPS 和 AI 的使用以 ZNYT（测试网代币）支付。节点提供者可因 AI 使用获得 ZNYT 奖励。 ¦ VPS, AI 이용료는 ZNYT(테스트넷 토큰)로 지불합니다. 노드 제공자는 AI 이용에 대해 ZNYT 보상을 받을 수 있습니다.
+> AI / VPS 利用料
+AI / VPS fees ¦ AI / VPS 使用费 ¦ AI / VPS 이용료
+> 利用時にテストネットトークンで支払い
+Paid in testnet tokens at time of use ¦ 使用时以测试网代币支付 ¦ 이용 시 테스트넷 토큰으로 지불
+> ノード提供者報酬
+Node provider rewards ¦ 节点提供者奖励 ¦ 노드 제공자 보상
+> AI利用に応じて報酬（シミュレーション）
+Rewards based on AI usage (simulation) ¦ 按 AI 使用量获得奖励（模拟） ¦ AI 이용량에 따른 보상 (시뮬레이션)
+> バーン済み
+Burned ¦ 已销毁 ¦ 소각됨
+> バーン（ガス代の20%）は未実装・予定
+Burning (20% of gas fees) is planned, not implemented ¦ 销毁（燃料费的 20%）尚未实现，仅为计划 ¦ 소각(가스비의 20%)은 미구현·예정
+> AIを利用（シミュレーション）
+Use AI (simulation) ¦ 使用 AI（模拟） ¦ AI 이용 (시뮬레이션)
+> VPSを利用（シミュレーション）
+Use VPS (simulation) ¦ 使用 VPS（模拟） ¦ VPS 이용 (시뮬레이션)
+> テストネットトークンのみ。実価値なし。
+Testnet tokens only. No real value. ¦ 仅限测试网代币，无实际价值。 ¦ 테스트넷 토큰만. 실제 가치 없음.
+> AI利用: 0.50 ZNYT 支払い → 提供者に報酬（シミュレーション）
+AI usage: pay 0.50 ZNYT → reward to providers (simulation) ¦ AI 使用：支付 0.50 ZNYT → 奖励给提供者（模拟） ¦ AI 이용: 0.50 ZNYT 지불 → 제공자에게 보상 (시뮬레이션)
+> VPS利用: 1.20 ZNYT 支払い → 提供者に報酬（シミュレーション）
+VPS usage: pay 1.20 ZNYT → reward to providers (simulation) ¦ VPS 使用：支付 1.20 ZNYT → 奖励给提供者（模拟） ¦ VPS 이용: 1.20 ZNYT 지불 → 제공자에게 보상 (시뮬레이션)
+> AI利用: {0} ZNYT → 提供者報酬 {1} ZNYT
+AI usage: {0} ZNYT → provider reward {1} ZNYT ¦ AI 使用：{0} ZNYT → 提供者奖励 {1} ZNYT ¦ AI 이용: {0} ZNYT → 제공자 보상 {1} ZNYT
+> VPS利用: {0} ZNYT → 提供者報酬 {1} ZNYT
+VPS usage: {0} ZNYT → provider reward {1} ZNYT ¦ VPS 使用：{0} ZNYT → 提供者奖励 {1} ZNYT ¦ VPS 이용: {0} ZNYT → 제공자 보상 {1} ZNYT
+> 実際の10日プラン: 代金はいったん契約（ZnytEconomy）に預けられ（エスクロー）、期限後にその期間オンラインだった提供者へ分配されます。だれもいなかった時間の分は返金。バーンは未実装です。詳しくは
+Actual 10-day plans: payment is held in escrow by the contract (ZnytEconomy) and, after the term, distributed to providers who were online during it. Time with no provider online is refunded. Burning is not implemented. Details: ¦ 实际的 10 天套餐：费用先托管在合约（ZnytEconomy）中，期满后分配给该期间在线的提供者。无人在线的时段将退款。销毁尚未实现。详情见 ¦ 실제 10일 플랜: 대금은 일단 컨트랙트(ZnytEconomy)에 예치(에스크로)되고, 기간 종료 후 그 기간에 온라인이었던 제공자에게 분배됩니다. 아무도 없던 시간분은 환불. 소각은 미구현입니다. 자세히는
+> ブラウザでライトノードを動かして ZERONYTH Testnet のブロックと ML-DSA-65 証明を検証する Web Node Lab。
+Web Node Lab: run a light node in your browser to verify ZERONYTH Testnet blocks and ML-DSA-65 proofs. ¦ Web Node Lab：在浏览器中运行轻节点，验证 ZERONYTH 测试网的区块与 ML-DSA-65 证明。 ¦ Web Node Lab: 브라우저에서 라이트 노드를 실행해 ZERONYTH 테스트넷 블록과 ML-DSA-65 증명을 검증합니다.
+> ワーカーが停止したため、安全側で処理を終了しました
+The worker stopped, so processing was ended safely ¦ 工作线程已停止，已安全终止处理 ¦ 워커가 정지되어 안전하게 처리를 종료했습니다
+> このブラウザでは計算ワーカーを開始できません
+This browser cannot start the compute worker ¦ 此浏览器无法启动计算工作线程 ¦ 이 브라우저에서는 계산 워커를 시작할 수 없습니다
+> 安全なジョブを生成できませんでした
+Could not create a safe job ¦ 无法生成安全的任务 ¦ 안전한 작업을 생성하지 못했습니다
+> 計算結果の形式またはジョブIDが不正です
+Invalid result format or job ID ¦ 计算结果格式或任务 ID 无效 ¦ 계산 결과 형식 또는 작업 ID가 올바르지 않습니다
+> 結果の再検証に失敗しました
+Result re-verification failed ¦ 结果复验失败 ¦ 결과 재검증에 실패했습니다
+> P2P参加に失敗しました
+Failed to join P2P ¦ 加入 P2P 失败 ¦ P2P 참여에 실패했습니다
+> シグナリング一時停止
+Signaling paused ¦ 信令已暂停 ¦ 시그널링 일시 정지
+> WebRTC PeerConnectionを生成できません
+Cannot create a WebRTC PeerConnection ¦ 无法创建 WebRTC PeerConnection ¦ WebRTC PeerConnection을 생성할 수 없습니다
+
+## ---------- wallet-core errors ----------
+> 接続・ネットワーク変更はキャンセルされました。
+The connection or network change was cancelled. ¦ 连接或网络切换已取消。 ¦ 연결·네트워크 변경이 취소되었습니다.
+> ウォレットに確認待ちの要求があります。ウォレットを開いて確認してください。
+Your wallet has a pending request. Open your wallet to review it. ¦ 钱包中有待确认的请求，请打开钱包确认。 ¦ 지갑에 확인 대기 중인 요청이 있습니다. 지갑을 열어 확인해 주세요.
+> ウォレットでエラーが発生しました。
+The wallet reported an error. ¦ 钱包发生错误。 ¦ 지갑에서 오류가 발생했습니다.
+> RPC URLは認証情報やクエリーを含まないHTTPS URLにしてください。
+The RPC URL must be an HTTPS URL without credentials or a query string. ¦ RPC URL 必须是不含认证信息或查询参数的 HTTPS URL。 ¦ RPC URL은 인증 정보나 쿼리가 없는 HTTPS URL이어야 합니다.
+> 外部のウォレットにはlocalhostのRPCを設定できません。
+A localhost RPC cannot be set in an external wallet. ¦ 外部钱包无法设置 localhost RPC。 ¦ 외부 지갑에는 localhost RPC를 설정할 수 없습니다.
+> ウォレットの確認を完了してから操作してください。
+Finish the confirmation in your wallet first. ¦ 请先在钱包中完成确认再操作。 ¦ 지갑에서 확인을 완료한 후 진행해 주세요.
+> ウォレットが見つかりません。
+No wallet found. ¦ 未找到钱包。 ¦ 지갑을 찾을 수 없습니다.
+> 接続するアカウントが選択されていません。
+No account was selected to connect. ¦ 未选择要连接的账户。 ¦ 연결할 계정이 선택되지 않았습니다.
+> ウォレットから不正なアカウント・ネットワーク情報が返されました。
+The wallet returned invalid account or network information. ¦ 钱包返回了无效的账户或网络信息。 ¦ 지갑이 잘못된 계정·네트워크 정보를 반환했습니다.
+> 先にウォレットを接続してください。
+Connect your wallet first. ¦ 请先连接钱包。 ¦ 먼저 지갑을 연결해 주세요.
+> 確認待ちの操作を完了してください。
+Finish the pending operation. ¦ 请完成待确认的操作。 ¦ 대기 중인 작업을 완료해 주세요.
+> ウォレット用RPC URLが未設定です。
+The wallet RPC URL is not configured. ¦ 尚未设置钱包 RPC URL。 ¦ 지갑용 RPC URL이 설정되지 않았습니다.
+> RPCのChain IDが9127と一致しません。
+The RPC chain ID does not match 9127. ¦ RPC 的链 ID 与 9127 不一致。 ¦ RPC의 체인 ID가 9127과 일치하지 않습니다.
+> 接続状態が変わりました。もう一度操作してください。
+The connection changed. Please try again. ¦ 连接状态已变化，请重试。 ¦ 연결 상태가 바뀌었습니다. 다시 시도해 주세요.
+> ウォレットのネットワーク切替が完了していません。
+The wallet has not finished switching networks. ¦ 钱包尚未完成网络切换。 ¦ 지갑의 네트워크 전환이 완료되지 않았습니다.
+
+## ---------- activity.html (English leftovers in ja/zh/ko) ----------
+> テストネット エコシステムの最近の動き。読み込み中・データなし・エラー・未対応の状態もそのまま表示します。
+Recent activity in the testnet ecosystem. Loading, empty, error and unsupported states are shown as they are. ¦ 测试网生态的最新动态。加载中、无数据、错误和不支持的状态也会如实显示。 ¦ 테스트넷 생태계의 최근 움직임. 로딩 중·데이터 없음·오류·미지원 상태도 그대로 표시합니다.
+>e A testnet-only list of transaction hashes you look up manually. This is not an account-wide indexer.
+手動で照会したトランザクションハッシュだけを並べるテストネット専用の一覧です。アカウント全体のインデクサーではありません。 ¦ 仅限测试网的交易哈希列表，只包含你手动查询的哈希。这不是全账户索引器。 ¦ 직접 조회한 트랜잭션 해시만 표시하는 테스트넷 전용 목록입니다. 계정 전체 인덱서가 아닙니다.
+>e Manual lookup only.
+手動照会のみ。 ¦ 仅限手动查询。 ¦ 수동 조회만 가능.
+>e No global activity indexer is configured. The list below contains only hashes you submit during this browser session; it is not saved.
+全体のアクティビティ インデクサーは設定されていません。下の一覧には、このブラウザのセッション中に入力したハッシュだけが表示され、保存されません。 ¦ 未配置全局活动索引器。下方列表只包含你在本次浏览器会话中提交的哈希，不会保存。 ¦ 전체 활동 인덱서가 설정되어 있지 않습니다. 아래 목록에는 이 브라우저 세션 중 입력한 해시만 표시되며 저장되지 않습니다.
+>e Check a transaction or signature
+トランザクションまたは署名を確認 ¦ 查询交易或签名 ¦ 트랜잭션 또는 서명 확인
+>e Only a read-only RPC request is sent. The hash is not stored in local storage or sent to ZERONYTH servers.
+送信されるのは読み取り専用の RPC リクエストだけです。ハッシュはローカルストレージに保存されず、ZERONYTH のサーバーにも送られません。 ¦ 只会发送只读 RPC 请求。哈希不会保存在本地存储中，也不会发送到 ZERONYTH 服务器。 ¦ 읽기 전용 RPC 요청만 전송됩니다. 해시는 로컬 스토리지에 저장되지 않으며 ZERONYTH 서버로도 전송되지 않습니다.
+>e Lookups in this session
+このセッションでの照会 ¦ 本次会话的查询 ¦ 이 세션의 조회
+>e Rows appear only after a successful read-only RPC lookup. They are held in memory for this page session and are not saved.
+行は読み取り専用 RPC での照会に成功したときだけ表示されます。このページを開いている間だけメモリに保持され、保存されません。 ¦ 只有只读 RPC 查询成功后才会显示行。数据仅在本页面会话期间保存在内存中，不会保存。 ¦ 행은 읽기 전용 RPC 조회에 성공한 경우에만 표시됩니다. 이 페이지 세션 동안 메모리에만 보관되며 저장되지 않습니다.
+>e Looking up transaction
+トランザクションを照会中 ¦ 正在查询交易 ¦ 트랜잭션 조회 중
+>e Waiting for the selected RPC response.
+選択した RPC の応答を待っています。 ¦ 正在等待所选 RPC 的响应。 ¦ 선택한 RPC의 응답을 기다리는 중입니다.
+>e Submit a testnet transaction hash or Solana signature above.
+上の欄にテストネットのトランザクションハッシュか Solana の署名を入力してください。 ¦ 请在上方提交测试网交易哈希或 Solana 签名。 ¦ 위에 테스트넷 트랜잭션 해시나 Solana 서명을 입력하세요.
+>e Activity lookup unavailable
+アクティビティを照会できません ¦ 无法查询活动 ¦ 활동 조회 불가
+>e The form above reports the lookup error; no transaction state is inferred.
+照会エラーは上のフォームに表示されます。トランザクションの状態は推測しません。 ¦ 查询错误显示在上方表单中；不会推断交易状态。 ¦ 조회 오류는 위 양식에 표시됩니다. 트랜잭션 상태는 추정하지 않습니다.
+>e No read-only RPC lookup is configured for this network.
+このネットワークには読み取り専用 RPC の照会が設定されていません。 ¦ 此网络未配置只读 RPC 查询。 ¦ 이 네트워크에는 읽기 전용 RPC 조회가 설정되어 있지 않습니다.
+>e Activity records are created from successful RPC responses only. “Included on chain” does not define a finality policy or prove bridge completion.
+アクティビティの記録は成功した RPC 応答からだけ作られます。「チェーンに取り込み済み」はファイナリティの基準を定めるものでも、ブリッジ完了を証明するものでもありません。 ¦ 活动记录仅根据成功的 RPC 响应生成。“已上链”并不代表最终性策略，也不能证明跨链已完成。 ¦ 활동 기록은 성공한 RPC 응답으로만 만들어집니다. '체인에 포함됨'은 최종성 기준을 정의하거나 브리지 완료를 증명하지 않습니다.
+>e Evidence before labels
+ラベルより証拠を優先 ¦ 先证据，后标签 ¦ 라벨보다 증거 우선
+>e Must be backed by chain evidence
+チェーン上の証拠が必要 ¦ 必须有链上证据支持 ¦ 체인 증거로 뒷받침되어야 함
+>e Must be backed by provider or chain response
+プロバイダーまたはチェーンの応答が必要 ¦ 必须有提供方或链的响应支持 ¦ 제공자 또는 체인 응답으로 뒷받침되어야 함
+>e Never upgraded to success by inference
+推測で「成功」に格上げしない ¦ 绝不凭推断升级为成功 ¦ 추정으로 성공 처리하지 않음
+>e Review network profiles
+ネットワーク設定を確認 ¦ 查看网络配置 ¦ 네트워크 프로필 검토
+>e Activity is provider-sourced · no fabricated records
+アクティビティはプロバイダー由来 · 作り話の記録なし ¦ 活动数据来自提供方 · 无虚构记录 ¦ 활동은 제공자 출처 · 조작된 기록 없음
+
+## ---------- ai.html ----------
+> サイトの案内 AI チャット（
+The site's guide AI chat ( ¦ 本站的向导 AI 聊天（ ¦ 사이트 안내 AI 채팅(
+> ）は、運営サーバーの CPU で動く
+) runs ¦ ）运行在运营方服务器的 CPU 上，模型为 ¦ )은 운영 서버의 CPU에서 동작하는
+> （Qwen3-4B-Instruct-2507、4bit 量子化）です。このページはそれとは別の、ブラウザ内で小さなモデル（SmolLM2）を試す実験室です。
+ (Qwen3-4B-Instruct-2507, 4-bit quantized) on the operator's server CPU. This page is a separate lab for trying small models (SmolLM2) inside your browser. ¦ （Qwen3-4B-Instruct-2507，4 位量化）。本页是另一个独立的实验室，用于在浏览器中试用小模型（SmolLM2）。 ¦ (Qwen3-4B-Instruct-2507, 4비트 양자화)입니다. 이 페이지는 그와 별개로 브라우저에서 작은 모델(SmolLM2)을 시험하는 실험실입니다.
+> ZERONYTH のブラウザ内 AI 実験室（小さな SmolLM2 モデルをブラウザで試す隔離環境）。案内 AI チャットは別のサーバー上の Qwen3-4B です。価値のない実験です。
+ZERONYTH's in-browser AI lab (an isolated space for trying small SmolLM2 models in the browser). The guide AI chat is a separate Qwen3-4B on the server. An experiment with no value. ¦ ZERONYTH 的浏览器内 AI 实验室（在浏览器中试用小型 SmolLM2 模型的隔离环境）。向导 AI 聊天是服务器上另行运行的 Qwen3-4B。这是没有价值的实验。 ¦ ZERONYTH의 브라우저 내 AI 실험실(작은 SmolLM2 모델을 브라우저에서 시험하는 격리 환경). 안내 AI 채팅은 별도 서버의 Qwen3-4B입니다. 가치 없는 실험입니다.
+>e Compare two public instruction-tuned ONNX language models and explore a toy federated classifier in an isolated browser lab.
+隔離されたブラウザ実験室で、公開されている 2 つの指示調整済み ONNX 言語モデルを比べ、おもちゃの連合学習分類器を試せます。 ¦ 在隔离的浏览器实验室中比较两个公开的指令微调 ONNX 语言模型，并体验一个玩具级联邦分类器。 ¦ 격리된 브라우저 실험실에서 공개된 두 개의 지시 조정 ONNX 언어 모델을 비교하고 장난감 연합 분류기를 살펴봅니다.
+>e No account, payment, token, or wallet connection is part of this lab.
+この実験室ではアカウント・支払い・トークン・ウォレット接続を一切使いません。 ¦ 本实验室不涉及账户、付款、代币或钱包连接。 ¦ 이 실험실에는 계정·결제·토큰·지갑 연결이 전혀 없습니다.
+>e Pinned public Hugging Face revisions. Browser inference uses
+固定した公開 Hugging Face リビジョンを使います。ブラウザでの推論には ¦ 使用固定的公开 Hugging Face 版本。浏览器推理使用 ¦ 고정된 공개 Hugging Face 리비전을 사용합니다. 브라우저 추론에는
+>e from the CDN. Check the repository and license before consenting to each model download.
+を CDN から読み込みます。各モデルのダウンロードに同意する前に、リポジトリとライセンスを確認してください。 ¦ （来自 CDN）。同意下载每个模型前，请先查看其仓库和许可证。 ¦ 을(를) CDN에서 불러옵니다. 각 모델 다운로드에 동의하기 전에 저장소와 라이선스를 확인하세요.
+>e Compact instruction-tuned language model · ONNX q4.
+小型の指示調整済み言語モデル · ONNX q4。 ¦ 小型指令微调语言模型 · ONNX q4。 ¦ 소형 지시 조정 언어 모델 · ONNX q4.
+>e Larger instruction-tuned language model · ONNX q4.
+より大きな指示調整済み言語モデル · ONNX q4。 ¦ 较大的指令微调语言模型 · ONNX q4。 ¦ 더 큰 지시 조정 언어 모델 · ONNX q4.
+>e What is 17 + 25? Reply with only the number.
+17 + 25 は？ 数字だけで答えてください。 ¦ 17 + 25 等于多少？只回答数字。 ¦ 17 + 25는? 숫자만 답하세요.
+>e What is 9 times 8? Reply with only the number.
+9 × 8 は？ 数字だけで答えてください。 ¦ 9 乘 8 等于多少？只回答数字。 ¦ 9 곱하기 8은? 숫자만 답하세요.
+>e What is the capital of Japan? Reply with one city name.
+日本の首都は？ 都市名をひとつだけ答えてください。 ¦ 日本的首都是哪里？只回答一个城市名。 ¦ 일본의 수도는? 도시 이름 하나만 답하세요.
+>e How many sides does a hexagon have? Reply with only the number.
+六角形の辺はいくつ？ 数字だけで答えてください。 ¦ 六边形有几条边？只回答数字。 ¦ 육각형의 변은 몇 개? 숫자만 답하세요.
+>e Translate “good morning” into Japanese. Reply with the translation only.
+「good morning」を日本語に訳してください。訳だけを答えてください。 ¦ 把 “good morning” 翻译成日语。只回答译文。 ¦ 'good morning'을 일본어로 번역하세요. 번역만 답하세요.
+>e Mina has 3 red and 2 blue cards. How many cards does she have? Reply with only the number.
+ミナは赤いカードを 3 枚、青いカードを 2 枚持っています。カードは全部で何枚？ 数字だけで答えてください。 ¦ Mina 有 3 张红卡和 2 张蓝卡。她一共有几张卡？只回答数字。 ¦ 미나는 빨간 카드 3장과 파란 카드 2장을 가지고 있습니다. 카드는 모두 몇 장? 숫자만 답하세요.
+>e Return exactly this JSON and nothing else: {"ok":true}
+この JSON だけをそのまま返してください: {"ok":true} ¦ 只原样返回这段 JSON：{"ok":true} ¦ 이 JSON만 그대로 반환하세요: {"ok":true}
+>e Should someone share their account password in a public chat? Answer briefly.
+公開チャットでアカウントのパスワードを共有すべき？ 短く答えてください。 ¦ 应该在公开聊天中分享账户密码吗？请简短回答。 ¦ 공개 채팅에서 계정 비밀번호를 공유해야 할까요? 짧게 답하세요.
+>e Starts only after your explicit confirmation and click.
+はっきり確認してクリックしたときだけ始まります。 ¦ 仅在你明确确认并点击后才会开始。 ¦ 명시적으로 확인하고 클릭한 뒤에만 시작됩니다.
+>e Adoption stays disabled until both-worker comparison is complete and a candidate beats the active model.
+両方のワーカーでの比較が終わり、候補が現行モデルを上回るまで、採用はできません。 ¦ 在两个工作端的比较完成且候选模型优于当前模型之前，采用功能保持禁用。 ¦ 두 워커 비교가 끝나고 후보가 현재 모델을 앞설 때까지 채택은 비활성화됩니다.
+>e A remote browser worker is never started in the background. Pick one role, review its scope, then explicitly consent and join.
+リモートのブラウザ ワーカーが裏で勝手に始まることはありません。役割をひとつ選び、範囲を確認してから、はっきり同意して参加してください。 ¦ 远程浏览器工作端绝不会在后台启动。请选择一个角色，查看其范围，然后明确同意并加入。 ¦ 원격 브라우저 워커는 백그라운드에서 시작되지 않습니다. 역할 하나를 고르고 범위를 확인한 뒤 명시적으로 동의하고 참여하세요.
+>e Public prompt evaluation
+公開プロンプトの評価 ¦ 公开提示词评测 ¦ 공개 프롬프트 평가
+>e Run public test examples and return their evaluation result.
+公開テスト例を実行して評価結果を返します。 ¦ 运行公开测试样例并返回评测结果。 ¦ 공개 테스트 예제를 실행하고 평가 결과를 반환합니다.
+>e Toy classifier training
+おもちゃの分類器の学習 ¦ 玩具分类器训练 ¦ 장난감 분류기 학습
+>e Contribute updates to the isolated logistic-classifier demo only.
+隔離されたロジスティック分類器のデモにだけ更新を提供します。 ¦ 仅向隔离的逻辑回归分类器演示贡献更新。 ¦ 격리된 로지스틱 분류기 데모에만 업데이트를 제공합니다.
+>e Joining is an explicit action. Participation is voluntary; this demo is not Sybil resistant.
+参加は明示的な操作です。参加は任意で、このデモはシビル攻撃に耐性がありません。 ¦ 加入需明确操作。参与是自愿的；本演示不具备抗女巫攻击能力。 ¦ 참여는 명시적인 동작입니다. 참여는 자발적이며 이 데모는 시빌 공격에 내성이 없습니다.
+>e The browser uses these lab routes for status, explicit evaluation and training starts, and consent-based worker participation.
+ブラウザは、状態の取得、明示的な評価・学習の開始、同意にもとづくワーカー参加のために、次の実験室ルートを使います。 ¦ 浏览器使用以下实验室路由获取状态、明确启动评测与训练，以及基于同意的工作端参与。 ¦ 브라우저는 상태 조회, 명시적인 평가·학습 시작, 동의 기반 워커 참여를 위해 다음 실험실 경로를 사용합니다.
+>e Starts a fixed public experiment with
+次の内容で固定の公開実験を開始: ¦ 启动固定的公开实验，使用 ¦ 다음으로 고정된 공개 실험을 시작:
+>e after explicit role consent
+役割への明示的な同意のあと ¦ 在明确同意角色之后 ¦ 역할에 명시적으로 동의한 뒤
+>e Bearer-authenticated; returns the next permitted task
+Bearer 認証つき。次に許可されたタスクを返します ¦ 需 Bearer 认证；返回下一个允许的任务 ¦ Bearer 인증 필요. 다음 허용 작업을 반환
+>e Bearer-authenticated worker requests
+Bearer 認証つきのワーカー リクエスト ¦ 需 Bearer 认证的工作端请求 ¦ Bearer 인증 워커 요청
+>e Explicitly adopts only a fully evaluated improved candidate
+評価が完了して改善した候補だけを明示的に採用します ¦ 仅明确采用已完整评测且有改进的候选模型 ¦ 평가가 끝난 개선 후보만 명시적으로 채택
+>e A deliberately small logistic classifier learns from a toy public dataset. This is a teaching demo, not large-language-model training and not work performed by ZERONYTH validators.
+あえて小さくしたロジスティック分類器が、おもちゃの公開データセットから学習します。これは学習用のデモで、大規模言語モデルの学習でも ZERONYTH のバリデーターが行う仕事でもありません。 ¦ 一个刻意做得很小的逻辑回归分类器从玩具公开数据集中学习。这只是教学演示，不是大语言模型训练，也不是 ZERONYTH 验证者执行的工作。 ¦ 일부러 작게 만든 로지스틱 분류기가 장난감 공개 데이터셋으로 학습합니다. 이것은 교육용 데모이며 대규모 언어 모델 학습도, ZERONYTH 검증자가 수행하는 작업도 아닙니다.
+>e Runs only after this explicit click.
+このボタンをはっきりクリックしたときだけ実行されます。 ¦ 仅在明确点击后运行。 ¦ 이 버튼을 명시적으로 클릭했을 때만 실행됩니다.
+>e No improved candidate is available to review.
+確認できる改善候補はありません。 ¦ 暂无可审核的改进候选。 ¦ 검토할 개선 후보가 없습니다.
+>e I reviewed this candidate and explicitly confirm adoption.
+この候補を確認し、採用することをはっきり承認します。 ¦ 我已审核此候选并明确确认采用。 ¦ 이 후보를 검토했으며 채택을 명시적으로 확인합니다.
+>e Adoption is allowed only after a candidate beats the previous held-out score and you confirm.
+候補が以前の検証用スコアを上回り、あなたが承認したときだけ採用できます。 ¦ 仅当候选超过之前的留出集得分并经你确认后才可采用。 ¦ 후보가 이전 홀드아웃 점수를 넘고 당신이 확인한 경우에만 채택할 수 있습니다.
+>e Evaluation and training contract notes
+評価と学習の取り決め ¦ 评测与训练约定说明 ¦ 평가 및 학습 계약 메모
+>e starts the fixed public evaluation set.
+で固定の公開評価セットを開始します。 ¦ 启动固定的公开评测集。 ¦ 은(는) 고정된 공개 평가 세트를 시작합니다.
+>e starts an isolated classifier training round.
+で隔離された分類器の学習ラウンドを開始します。 ¦ 启动一轮隔离的分类器训练。 ¦ 은(는) 격리된 분류기 학습 라운드를 시작합니다.
+>e and only accepts a candidate that beat the previous score.
+で、以前のスコアを上回った候補だけを受け入れます。 ¦ 并且只接受超过之前得分的候选。 ¦ 이며 이전 점수를 넘은 후보만 받아들입니다.
+>e . Bearer authentication protects the worker task, result, gradient, and leave routes.
+。ワーカーのタスク・結果・勾配・離脱のルートは Bearer 認証で保護されます。 ¦ 。工作端的任务、结果、梯度和退出路由受 Bearer 认证保护。 ¦ . 워커의 작업·결과·그래디언트·이탈 경로는 Bearer 인증으로 보호됩니다.
+>e ZERONYTH / Isolated AI experiment / No-value browser lab
+ZERONYTH / 隔離された AI 実験 / 価値のないブラウザ実験室 ¦ ZERONYTH / 隔离 AI 实验 / 无价值的浏览器实验室 ¦ ZERONYTH / 격리된 AI 실험 / 가치 없는 브라우저 실험실
+>e Return to the ZERONYTH dashboard
+ZERONYTH ダッシュボードに戻る ¦ 返回 ZERONYTH 仪表板 ¦ ZERONYTH 대시보드로 돌아가기
+>e This experiment is available in four interface languages
+この実験は 4 つの表示言語で使えます ¦ 本实验提供四种界面语言 ¦ 이 실험은 4개 인터페이스 언어로 이용할 수 있습니다
+>e Fixed public evaluation prompts
+固定の公開評価プロンプト ¦ 固定的公开评测提示词 ¦ 고정된 공개 평가 프롬프트
+>e Model comparison results
+モデルの比較結果 ¦ 模型比较结果 ¦ 모델 비교 결과

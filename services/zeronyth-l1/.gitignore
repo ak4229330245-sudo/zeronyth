@@ -1,0 +1,16 @@
+.env
+networkFiles/
+network-hosts/
+node-data/*
+!node-data/.gitkeep
+config/genesis.json
+config/static-nodes.json
+config/validators.json
+dist/
+.DS_Store
+__pycache__/
+*.pyc
+coverage/
+
+ci-artifacts/
+.faucet-state/

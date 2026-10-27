@@ -1,0 +1,104 @@
+# See https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files for more about ignoring files.
+
+# compiled output
+dist
+tmp
+out-tsc
+*.tsbuildinfo
+.expo
+.expo-shared
+.next
+.turbo
+.svelte-kit
+.nuxt
+.output
+.vercel
+
+# dependencies
+node_modules
+
+# IDEs and editors
+/.idea
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+
+# IDE - VSCode
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# misc
+/.sass-cache
+/connect.lock
+/coverage
+/libpeerconnection.log
+npm-debug.log
+yarn-error.log
+testem.log
+/typings
+
+# System Files
+.DS_Store
+Thumbs.db
+
+.cursor/rules/nx-rules.mdc
+.github/instructions/nx.instructions.md
+
+# Replit
+.cache/
+.local/
+/generated-artifacts/
+
+# local
+generated-artifacts/
+*.log
+.env
+.env.*
+services/zeronyth-l1/config/pq-validators.json
+services/zeronyth-l1/economy/state/
+services/zeronyth-l1/economy/build/
+
+# ---- ZERONYTH public repo: never commit secrets or runtime data ----
+.env
+.env.*
+!.env.example
+!*.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+*.seed
+id_rsa*
+id_ed25519*
+keystore/
+keys/
+.secrets/
+secrets/
+**/networkFiles/
+**/node-data/*
+!**/node-data/.gitkeep
+**/data/
+**/state/
+**/logs/
+*.log
+*.jsonl.bak
+*.bak
+*.bak-*
+*.orig
+pre-vps-quorum-*/
+backup-orig-*/
+.faucet-state
+**/config/static-nodes.json
+**/config/validators.json
+**/config/pq-validators.json
+services/zeronyth-l1/economy/build/
+services/zeronyth-l1/economy/accounting/out/
+generated-artifacts/
+__pycache__/
+*.pyc

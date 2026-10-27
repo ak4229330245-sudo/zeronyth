@@ -1,0 +1,208 @@
+{
+ "name": "base",
+ "cfg": {},
+ "benchXmx": "256m",
+ "startedAt": "2026-10-27T08:42:52.460Z",
+ "idle": {
+  "n": 20,
+  "avgMs": 978,
+  "p95Ms": 1050,
+  "maxMs": 1050
+ },
+ "idleProposers": {
+  "0x50ccc409dacb460ee914fc3a4a39af0feff4c60d": {
+   "n": 5,
+   "avgMs": 928,
+   "maxMs": 1050
+  },
+  "0x6b6311479e526d2525c939e2d524be1fffafe212": {
+   "n": 5,
+   "avgMs": 986,
+   "maxMs": 1002
+  },
+  "0xd1cd66bfd39256a2aae253bd597f782ed5fede78": {
+   "n": 5,
+   "avgMs": 1010,
+   "maxMs": 1019
+  },
+  "0xeb292f14d6087663c46733a99c41aa28a82706da": {
+   "n": 5,
+   "avgMs": 987,
+   "maxMs": 1002
+  }
+ },
+ "pqIdle": {
+  "blocks": 23,
+  "failures": 0,
+  "skips": 0,
+  "lastErr": "",
+  "maxBacklog": 4,
+  "lagMs": {
+   "p50": 66,
+   "p95": 345,
+   "max": 345
+  },
+  "perBlockMs": {
+   "sign4": 40.6,
+   "verifyCert": 14.8,
+   "ecdsaHeader": 7.5
+  }
+ },
+ "runs": [
+  {
+   "kind": "transfer",
+   "n": 6000,
+   "url": "direct",
+   "batch": 100,
+   "conc": 4,
+   "rejected": 0,
+   "errors": [],
+   "mined": 6000,
+   "submitTxPerSec": 1836,
+   "endToEndTps": 1184,
+   "blockTps": 1180,
+   "finalityMs": {
+    "p50": 1479,
+    "p95": 2451,
+    "max": 2766
+   },
+   "blocks": 5,
+   "maxTxPerBlock": 1428,
+   "avgGasPerBlock": 25200000,
+   "gasLimit": 30000000,
+   "gasPerTx": 21000,
+   "intervalUnderLoad": {
+    "n": 5,
+    "avgMs": 1017,
+    "p95Ms": 1629,
+    "maxMs": 1629
+   },
+   "resources": {
+    "cpuPct": 497,
+    "peakRssMB": 1251,
+    "minMemAvailMB": 1436
+   },
+   "pq": {
+    "blocks": 6,
+    "failures": 0,
+    "skips": 0,
+    "lastErr": "",
+    "maxBacklog": 1,
+    "lagMs": {
+     "p50": 142,
+     "p95": 159,
+     "max": 159
+    },
+    "perBlockMs": {
+     "sign4": 65,
+     "verifyCert": 23,
+     "ecdsaHeader": 8.7
+    }
+   }
+  },
+  {
+   "kind": "erc20",
+   "n": 4000,
+   "url": "direct",
+   "batch": 100,
+   "conc": 4,
+   "rejected": 0,
+   "errors": [],
+   "mined": 4000,
+   "submitTxPerSec": 1732,
+   "endToEndTps": 564,
+   "blockTps": 580,
+   "finalityMs": {
+    "p50": 3753,
+    "p95": 5564,
+    "max": 5771
+   },
+   "blocks": 7,
+   "maxTxPerBlock": 584,
+   "avgGasPerBlock": 29294309,
+   "gasLimit": 30000000,
+   "gasPerTx": 51265,
+   "intervalUnderLoad": {
+    "n": 7,
+    "avgMs": 985,
+    "p95Ms": 1108,
+    "maxMs": 1108
+   },
+   "resources": {
+    "cpuPct": 308,
+    "peakRssMB": 1462,
+    "minMemAvailMB": 1682
+   },
+   "pq": {
+    "blocks": 9,
+    "failures": 0,
+    "skips": 0,
+    "lastErr": "",
+    "maxBacklog": 1,
+    "lagMs": {
+     "p50": 83,
+     "p95": 123,
+     "max": 123
+    },
+    "perBlockMs": {
+     "sign4": 47,
+     "verifyCert": 15.6,
+     "ecdsaHeader": 9.7
+    }
+   }
+  },
+  {
+   "kind": "swap",
+   "n": 3000,
+   "url": "direct",
+   "batch": 100,
+   "conc": 4,
+   "rejected": 0,
+   "errors": [],
+   "mined": 3000,
+   "submitTxPerSec": 4612,
+   "endToEndTps": 589,
+   "blockTps": 590,
+   "finalityMs": {
+    "p50": 2941,
+    "p95": 3861,
+    "max": 4622
+   },
+   "blocks": 6,
+   "maxTxPerBlock": 739,
+   "avgGasPerBlock": 20231000,
+   "gasLimit": 30000000,
+   "gasPerTx": 40462,
+   "intervalUnderLoad": {
+    "n": 6,
+    "avgMs": 848,
+    "p95Ms": 1431,
+    "maxMs": 1431
+   },
+   "resources": {
+    "cpuPct": 259,
+    "peakRssMB": 1494,
+    "minMemAvailMB": 1640
+   },
+   "pq": {
+    "blocks": 7,
+    "failures": 0,
+    "skips": 0,
+    "lastErr": "",
+    "maxBacklog": 1,
+    "lagMs": {
+     "p50": 85,
+     "p95": 174,
+     "max": 174
+    },
+    "perBlockMs": {
+     "sign4": 48.6,
+     "verifyCert": 16.7,
+     "ecdsaHeader": 8.3
+    }
+   }
+  }
+ ],
+ "diskMB": 75,
+ "height": 91
+}

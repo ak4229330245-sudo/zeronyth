@@ -1,0 +1,67 @@
+{
+ "at": "2026-10-27T05:43:15.400Z",
+ "chain": "box test chain 9127 (genesis 0x6ff4fbac…)",
+ "concurrency": 8,
+ "seconds": 10,
+ "mix": "eth_call 1.7M-gas loop",
+ "before_single_upstream": {
+  "rps": 163.2,
+  "ok": 1632,
+  "err": 0,
+  "p50_ms": 39.9,
+  "p99_ms": 133.3,
+  "upstreams": {
+   "enabled": false,
+   "upstreams": [
+    {
+     "url": ":8545/",
+     "healthy": true,
+     "head": 0,
+     "served": 0,
+     "fails": 0
+    }
+   ]
+  }
+ },
+ "after_balanced_8545+8646+8647+8648": {
+  "rps": 254.9,
+  "ok": 2549,
+  "err": 0,
+  "p50_ms": 29.2,
+  "p99_ms": 65.5,
+  "upstreams": {
+   "enabled": true,
+   "upstreams": [
+    {
+     "url": ":8545/",
+     "healthy": true,
+     "head": 10286,
+     "served": 638,
+     "fails": 0
+    },
+    {
+     "url": ":8646/",
+     "healthy": true,
+     "head": 10286,
+     "served": 637,
+     "fails": 0
+    },
+    {
+     "url": ":8647/",
+     "healthy": true,
+     "head": 10286,
+     "served": 637,
+     "fails": 0
+    },
+    {
+     "url": ":8648/",
+     "healthy": true,
+     "head": 10286,
+     "served": 637,
+     "fails": 0
+    }
+   ]
+  }
+ },
+ "speedup": 1.56
+}

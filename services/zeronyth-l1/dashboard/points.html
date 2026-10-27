@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="color-scheme" content="dark"><meta name="theme-color" content="#0d1117">
+  <title>ZERONYTH | テストネット ポイント</title>
+  <meta name="description" content="ZERONYTH テストネットのポイントとランキング。ノード稼働・スワップ・流動性などの参加でポイントがたまります。"><link rel="icon" href="assets/favicon-64.png" type="image/png">
+  <link rel="stylesheet" href="assets/styles.css?v=20261027b"><link rel="stylesheet" href="assets/tokenomics.css?v=20261027b"><link rel="stylesheet" href="assets/plans.css?v=20261027b"><link rel="stylesheet" href="assets/points.css?v=20261027b">
+  <link rel="stylesheet" href="assets/page-i18n.css?v=20261027c">
+</head>
+<body>
+  <header class="tk-top"><a class="tk-brand" href="index.html"><img src="assets/znyt-token-168.png" alt="" width="36" height="36"><strong>ZERONYTH</strong></a>
+    <nav class="tk-nav"><a href="join.html">参加する</a><span aria-current="page">ポイント</span><a href="points-rules.html">ポイントのルール</a><a href="amm.html">スワップ・流動性</a><a href="plans.html">10日プラン</a></nav></header>
+  <main class="tk-wrap p-wrap">
+    <h1>テストネット ポイント</h1>
+    <section class="p-card p-warn">
+      <p><b>⚠️ ポイントはテスト用で、お金としての価値はありません。</b>売買・換金・譲渡はできません。</p>
+      <p>不正（複数ウォレットの大量作成、自作自演の取引、ボット・自動スクリプトなど）が見つかった場合は BAN となり、ポイントは没収されます。これは投資の勧誘ではありません。</p>
+      <p><b>秘密鍵・シードフレーズは絶対に入力しないでください。</b>ログインはウォレットでの「署名」だけです（署名ではお金は動きません）。</p>
+    </section>
+    <section class="p-card">
+      <h2>いちばんポイントが多くたまるのは「ノード稼働」です</h2>
+      <div class="pt-order" id="order">読み込み中…</div>
+      <p class="p-small">くわしくは <a href="points-rules.html">ポイントのルール</a> へ。ノードは <a href="join.html">参加ページ</a> から始められます。</p>
+    </section>
+    <section class="p-card">
+      <h2>わたしのポイント</h2>
+      <p><button type="button" id="connect">ウォレットを接続（チェーン 9127）</button> <button type="button" id="login" disabled>署名してログイン</button> <span id="addr" class="p-mono"></span></p>
+      <div id="mine" hidden>
+        <div class="pt-grid">
+          <div class="pt-stat"><span>合計ポイント</span><b id="total">-</b></div>
+          <div class="pt-stat"><span>順位</span><b id="rank">-</b></div>
+          <div class="pt-stat"><span>状態</span><b id="status">-</b></div>
+          <div class="pt-stat"><span>今日のチェックイン</span><b><button type="button" id="checkin">チェックイン（+1）</button></b></div>
+        </div>
+        <p class="p-small" id="factor"></p>
+        <div class="p-card p-warn" id="ban-notice" hidden></div>
+        <h3>内訳と今日の上限（日本時間の 0 時に更新）</h3>
+        <table id="breakdown"></table>
+      </div>
+    </section>
+    <section class="p-card">
+      <h2>ランキング（上位）</h2>
+      <p class="p-small" id="lbnote"></p>
+      <table id="leaderboard"><tr><td>読み込み中…</td></tr></table>
+    </section>
+    <section class="p-card">
+      <h2>毎日の記録（スナップショット）</h2>
+      <p class="p-small">毎日（日本時間 0 時すぎ）全員のポイントを固めて、その「指紋」（Merkle ルート）をチェーン 9127 に書き込みます。あとから記録を書き換えていないことを誰でも確かめられます。</p>
+      <table id="snaps"><tr><td>読み込み中…</td></tr></table>
+    </section>
+  </main>
+  <script type="module" src="assets/points.mjs"></script>
+  <script type="module" src="assets/page-i18n.mjs?v=20261027b"></script>
+</body>
+</html>

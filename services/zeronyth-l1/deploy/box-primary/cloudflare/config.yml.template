@@ -1,0 +1,15 @@
+# cloudflared named tunnel for the ZERONYTH primary (box). Fill <TUNNEL_ID> and <DOMAIN> (setup.sh does it).
+# Only the explorer gateway is published. The gateway itself enforces: read-only /rpc allowlist (30 req/s per client IP),
+# faucet claim 6/min per IP, econ/p2p/ai limits; it trusts CF-Connecting-IP only from loopback (ZERONYTH_TRUST_CF=1).
+# Besu RPC 9545, faucet 9797, signaling 9798, pq 9799, api 5100 are NOT published.
+tunnel: <TUNNEL_ID>
+credentials-file: /home/box/.cloudflared/<TUNNEL_ID>.json
+no-autoupdate: true
+ingress:
+  - hostname: <DOMAIN>
+    service: http://127.0.0.1:22780
+    originRequest:
+      connectTimeout: 10s
+      noHappyEyeballs: true
+      httpHostHeader: localhost
+  - service: http_status:404

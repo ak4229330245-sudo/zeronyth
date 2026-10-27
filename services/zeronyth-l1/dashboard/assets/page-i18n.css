@@ -1,0 +1,27 @@
+/* page-i18n: injected language selector (#zlLang) + mobile overflow guards (2026-10-27) */
+.zl-lang{background:#0d1117;color:#e6edf3;border:1px solid #30363d;border-radius:8px;padding:6px 8px;font:inherit;font-size:14px;min-height:36px;max-width:9.5em;margin-left:auto}
+/* simple pages (chat / join / tokenomics / plans / points / learning / start): header never wider than the screen */
+.tk-top{max-width:100%;min-width:0}
+.tk-brand{flex:none}
+.tk-nav{min-width:0;row-gap:6px}
+.tk-nav a,.tk-nav span{overflow-wrap:anywhere}
+#tkLang,#jLang{max-width:9.5em}
+/* AI chat: messages, chips, composer and footer stay inside the frame */
+.c-wrap,.c-log,.c-notice,.c-suggest,.c-bar{min-width:0;max-width:100%}
+.c-msg{overflow-wrap:anywhere;min-width:0}
+.c-msg pre,.c-msg code{white-space:pre-wrap;overflow-wrap:anywhere}
+.c-chip{max-width:100%;white-space:normal;text-align:left}
+.c-form{min-width:0;max-width:100%}
+.c-form textarea{min-width:0;width:100%;box-sizing:border-box}
+.c-send{flex:none}
+.c-consent{flex-wrap:wrap;min-width:0}
+@media (max-width:640px){
+  .tk-top{gap:10px;padding:10px 14px}
+  .tk-nav{gap:10px;flex:1 1 auto}
+  .zl-lang,#tkLang,#jLang{margin-left:0}
+  .c-status{margin-left:0}
+}
+/* last-resort guard: iOS Safari ignores body{overflow-x:hidden}; clip (not hidden) keeps position:sticky working */
+@supports (overflow:clip){html{overflow-x:clip}}
+/* Long runs without break opportunities (token lists, addresses) must wrap instead of leaving the card. */
+main p, main li, main dd, main dt, main h1, main h2, main h3, main label, main summary { overflow-wrap: break-word; }

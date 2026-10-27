@@ -1,0 +1,12 @@
+# Extends the default gitleaks rules. Public on-chain data (contract addresses,
+# tx hashes) in deployment manifests is not secret.
+[extend]
+useDefault = true
+
+[allowlist]
+description = "public deployment manifests and known test fixtures"
+paths = [
+  '''services/zeronyth-l1/bridge/deployments/.*\.json''',
+  '''services/zeronyth-l1/deployments/.*\.json''',
+  '''services/zeronyth-l1/economy/deployments/.*\.json''',
+]

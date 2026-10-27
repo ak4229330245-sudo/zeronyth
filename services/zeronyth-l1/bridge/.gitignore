@@ -1,0 +1,6 @@
+.secrets/
+state/
+out/
+cache/
+node_modules/
+logs/

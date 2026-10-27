@@ -1,0 +1,69 @@
+{
+  "network": "main",
+  "startedAt": "2026-10-27T08:06:46.079Z",
+  "testWallet": "0x652075111a43a92A2F7b846e9b897eB301A2d33d",
+  "amount": "1.0",
+  "runs": [
+    {
+      "chainId": 11155111,
+      "chain": "Ethereum Sepolia",
+      "standIn": false,
+      "lockTx": "0x98e5b862d1518f4149c54b066accf8c3c9638c77530238db786682b1ca89aeba",
+      "lockTransfer": "9127-12",
+      "mintSignatures": 4,
+      "wznytBalance": "1.0",
+      "mintBoardAttestations": [
+        {
+          "signer": "0xeec460793d631b81F99f8BA21EFf954086Eef856",
+          "machine": "box",
+          "tx": "0x61771ad3dca4fa925f2353df315461e3dc53f17a9c32c90769f4a951792b5987"
+        },
+        {
+          "signer": "0x05124384Ff8491A18C8F1316878fc75f7252a6b7",
+          "machine": "box",
+          "tx": "0xa84184ba1d7906ef97545a8897312dcacf49d9ee9b0dc4f4286ebdb1e53a3c69"
+        },
+        {
+          "signer": "0x9B19854832cfA7b46c20CA405961AC47c81f297c",
+          "machine": "vps",
+          "tx": "0x592bba414ca54c0a167faea0c8165292b8362dbb9ad0d3bccfad8244f4a75df2"
+        },
+        {
+          "signer": "0x387b7e92189Ab00d7E05AAACc0420F33E4BfB6bb",
+          "machine": "vps",
+          "tx": "0xe021b5cddd4cea9dff30d05fbb62077134cee2b1373ded3fcdbff0b3e8a27152"
+        }
+      ],
+      "mintSubmitter": "0xeec460793d631b81F99f8BA21EFf954086Eef856",
+      "mintSigners": [
+        "0x05124384Ff8491A18C8F1316878fc75f7252a6b7",
+        "0x387b7e92189Ab00d7E05AAACc0420F33E4BfB6bb",
+        "0x9B19854832cfA7b46c20CA405961AC47c81f297c",
+        "0xeec460793d631b81F99f8BA21EFf954086Eef856"
+      ],
+      "threshold": "3-of-4",
+      "mldsa65ValidSignatures": 4,
+      "replayMint": "reverted as expected: AlreadyProcessed",
+      "wrongSigner": "reverted as expected: SignerNotRelayer",
+      "tooFewSignatures": "reverted as expected: AlreadyProcessed",
+      "remoteGasTx": "0x827cba96680d22d507265e352d72454c935dd52821379a6946b10e1a9bb7b934",
+      "burnTx": "0xef333ddbe36be8cdf4ec0b3abae3476718a1e45e93398cbf2651d72d8cccee97",
+      "burnTransfer": "11155111-1",
+      "releaseTx": "0x79718950dad74eb7d90735313cdd12088bcb637667ae0ac266e3ecbe9fa6c993",
+      "releaseSignatures": 3,
+      "releaseSigners": [
+        "0x05124384Ff8491A18C8F1316878fc75f7252a6b7",
+        "0x9B19854832cfA7b46c20CA405961AC47c81f297c",
+        "0xeec460793d631b81F99f8BA21EFf954086Eef856"
+      ],
+      "releaseSubmitter": "0x05124384Ff8491A18C8F1316878fc75f7252a6b7",
+      "wznytAfter": "0.0",
+      "outstandingAfter": "0.0",
+      "mintTx": "0x6e6fc659eba62068afbfff5b8325cc0e7525ee9bd735e2dac620d8700073c52b",
+      "mintTxSource": "submitting relayer log; receipt status 1 checked on the destination chain"
+    }
+  ],
+  "fundTx": "0x26e976ca0a09b9ac8ee1f8420781453110d9e49b54abb038fbc509b5ffc54a11",
+  "refundTx": "0xbcc8bd81012315ef160198b9dbc1e04c81325c2f9ed5f2a197277f632ab87e5d",
+  "finishedAt": "2026-10-27T08:27:32.126Z"
+}

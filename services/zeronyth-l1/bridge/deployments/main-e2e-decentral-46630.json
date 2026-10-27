@@ -1,0 +1,62 @@
+{
+  "network": "main",
+  "startedAt": "2026-10-27T07:42:25.931Z",
+  "testWallet": "0xE5eA03Cb701674f558e2a499F351DcbCFcAdBb03",
+  "amount": "1.0",
+  "runs": [
+    {
+      "chainId": 46630,
+      "chain": "Robinhood Chain Testnet",
+      "standIn": false,
+      "lockTx": "0x0b6dac86d189aa1dfc4ea0d310365549d58920737195321f0276ba5e96e12ce4",
+      "lockTransfer": "9127-9",
+      "mintTx": "0xa11e5aab06a0121272ef989fbc4bdf6c91d0b5dcdc9b0b7ea8978970314a6364",
+      "mintSignatures": 3,
+      "wznytBalance": "1.0",
+      "mintBoardAttestations": [
+        {
+          "signer": "0xeec460793d631b81F99f8BA21EFf954086Eef856",
+          "machine": "box",
+          "tx": "0x26c6b6d05e62c0d14564db658ec2f0627faf06bb3db31c54a1b9e7a2b877a658"
+        },
+        {
+          "signer": "0x05124384Ff8491A18C8F1316878fc75f7252a6b7",
+          "machine": "box",
+          "tx": "0x42908050f5b80df3a940b260127efdb79b8b8774029e419bdd50cae0f9a8b771"
+        },
+        {
+          "signer": "0x9B19854832cfA7b46c20CA405961AC47c81f297c",
+          "machine": "vps",
+          "tx": "0xeb741fb32bb5d1a3fdab731c2de688fc7ee944f92107c2b1e312e75349ae9d57"
+        }
+      ],
+      "mintSubmitter": "0x05124384Ff8491A18C8F1316878fc75f7252a6b7",
+      "mintSigners": [
+        "0x05124384Ff8491A18C8F1316878fc75f7252a6b7",
+        "0x9B19854832cfA7b46c20CA405961AC47c81f297c",
+        "0xeec460793d631b81F99f8BA21EFf954086Eef856"
+      ],
+      "threshold": "3-of-4",
+      "mldsa65ValidSignatures": 3,
+      "replayMint": "reverted as expected: AlreadyProcessed",
+      "wrongSigner": "reverted as expected: SignerNotRelayer",
+      "tooFewSignatures": "reverted as expected: AlreadyProcessed",
+      "remoteGasTx": "0xbd64e4d79662dcdd06288ec7612db957e06e697f5fa753db66db1e95893db7a4",
+      "burnTx": "0xc60fa84b28d5123745e5e9b9cd1f089afa17bd5b44e5048812d08d89fa0e39c7",
+      "burnTransfer": "46630-1",
+      "releaseTx": "0x9de5a5b9f066ce51558d0859168c728ff7089f1c62773080465b388a6b718562",
+      "releaseSignatures": 3,
+      "releaseSigners": [
+        "0x05124384Ff8491A18C8F1316878fc75f7252a6b7",
+        "0x387b7e92189Ab00d7E05AAACc0420F33E4BfB6bb",
+        "0x9B19854832cfA7b46c20CA405961AC47c81f297c"
+      ],
+      "releaseSubmitter": "0x05124384Ff8491A18C8F1316878fc75f7252a6b7",
+      "wznytAfter": "0.0",
+      "outstandingAfter": "0.0"
+    }
+  ],
+  "fundTx": "0xff645e89de08206d3e8565763245c4d78b68d534b6c22feab519df9953131084",
+  "refundTx": "0xced5ff93e04131dbb7096aba1b90017b5881f89256748e7f6cc209aa13636de1",
+  "finishedAt": "2026-10-27T08:03:22.975Z"
+}

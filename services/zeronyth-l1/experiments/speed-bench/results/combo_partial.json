@@ -1,0 +1,124 @@
+{
+ "name": "combo",
+ "cfg": {
+  "gasLimit": 60000000,
+  "periodMs": 500,
+  "nodeFlags": [
+   "--tx-pool-max-size=20000",
+   "--tx-pool-limit-by-account-percentage=0.05"
+  ],
+  "window": 6000,
+  "workloads": [
+   [
+    "transfer",
+    12000
+   ],
+   [
+    "swap",
+    3000
+   ]
+  ]
+ },
+ "benchXmx": "256m",
+ "startedAt": "2026-10-27T08:58:01.432Z",
+ "idle": {
+  "n": 38,
+  "avgMs": 520,
+  "p95Ms": 547,
+  "maxMs": 550
+ },
+ "idleProposers": {
+  "0x50ccc409dacb460ee914fc3a4a39af0feff4c60d": {
+   "n": 10,
+   "avgMs": 513,
+   "maxMs": 542
+  },
+  "0x6b6311479e526d2525c939e2d524be1fffafe212": {
+   "n": 10,
+   "avgMs": 519,
+   "maxMs": 547
+  },
+  "0xd1cd66bfd39256a2aae253bd597f782ed5fede78": {
+   "n": 9,
+   "avgMs": 529,
+   "maxMs": 547
+  },
+  "0xeb292f14d6087663c46733a99c41aa28a82706da": {
+   "n": 9,
+   "avgMs": 519,
+   "maxMs": 550
+  }
+ },
+ "pqIdle": {
+  "blocks": 42,
+  "failures": 0,
+  "skips": 0,
+  "lastErr": "",
+  "maxBacklog": 5,
+  "lagMs": {
+   "p50": 71,
+   "p95": 133,
+   "max": 544
+  },
+  "perBlockMs": {
+   "sign4": 48.9,
+   "verifyCert": 18.1,
+   "ecdsaHeader": 7.9
+  }
+ },
+ "runs": [
+  {
+   "kind": "transfer",
+   "n": 12000,
+   "url": "direct",
+   "batch": 100,
+   "conc": 4,
+   "rejected": 0,
+   "errors": [],
+   "mined": 12000,
+   "submitTxPerSec": 2137,
+   "endToEndTps": 1739,
+   "blockTps": 1769,
+   "finalityMs": {
+    "p50": 1950,
+    "p95": 2809,
+    "max": 3054
+   },
+   "blocks": 6,
+   "maxTxPerBlock": 2857,
+   "avgGasPerBlock": 42000000,
+   "gasLimit": 60000000,
+   "gasPerTx": 21000,
+   "intervalUnderLoad": {
+    "n": 6,
+    "avgMs": 1131,
+    "p95Ms": 1836,
+    "maxMs": 1836
+   },
+   "resources": {
+    "cpuPct": 540,
+    "peakRssMB": 1523,
+    "minMemAvailMB": 1168
+   },
+   "pq": {
+    "blocks": 9,
+    "failures": 0,
+    "skips": 0,
+    "lastErr": "",
+    "maxBacklog": 1,
+    "lagMs": {
+     "p50": 106,
+     "p95": 196,
+     "max": 196
+    },
+    "perBlockMs": {
+     "sign4": 47.7,
+     "verifyCert": 17.6,
+     "ecdsaHeader": 11.2
+    }
+   }
+  }
+ ],
+ "error": "MemAvailable 1134 MB",
+ "aborted": true
+}

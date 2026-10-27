@@ -1,0 +1,3 @@
+{"faucetAddrMatches":true,"server":"BEFORE primary faucet (ethers NonceManager)","claims":24,"http200":23,"otherStatus":["500:nonce has already been used"],"dripsMinedOk":23,"sideSender":{"ok":3,"failed":3,"errs":["TRANSACTION_REPLACED"]},"nonceAdvanced":26}
+{"faucetAddrMatches":true,"server":"AFTER primary faucet + QueuedSigner","claims":24,"http200":24,"otherStatus":[],"dripsMinedOk":24,"sideSender":{"ok":6,"failed":0,"errs":[]},"nonceAdvanced":30}
+{"faucetAddrMatches":true,"server":"AFTER repo faucet + QueuedSigner","claims":24,"http200":24,"otherStatus":[],"dripsMinedOk":24,"sideSender":{"ok":6,"failed":0,"errs":[]},"nonceAdvanced":30}

@@ -1,0 +1,2 @@
+{ "note": "Demo cases for facts that are NOT in kb/ and can only be answered from learned memory.",
+  "cases": [ { "id": "learned:ai-speed", "q": "案内AIの返事が遅いのはなぜ？1回何秒くらいかかる？", "ctx": ["20\\s*秒"], "ans": ["20\\s*秒"], "not": [] } ] }

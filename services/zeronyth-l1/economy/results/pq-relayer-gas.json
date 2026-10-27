@@ -1,0 +1,24 @@
+{
+  "backend": "native",
+  "node": "v24.22.1",
+  "gasPriceWei": "1000000000",
+  "deployGas": 517311,
+  "pqRelayedTransferGas": 191495,
+  "calldataBytes": 3588,
+  "pqRelayedTransferGasSteady": 112013,
+  "plainTransferGas": 21000,
+  "audit": {
+    "keyMatchesOnChainHash": true,
+    "signatureVerifiesFromChainData": true
+  },
+  "negatives": {
+    "tamperedValue": "relayer: ML-DSA-65 signature invalid -> refused",
+    "bitFlippedSig": "relayer: ML-DSA-65 signature invalid -> refused",
+    "nonRelayerCaller": "NotRelayer",
+    "overDailyLimit": "OverDailyLimit"
+  },
+  "overheadVsPlainFirst": 9.12,
+  "overheadVsPlainSteady": 5.33,
+  "relayerFeeZnyt": "0.01",
+  "relayerGasCostZnyt": "0.000191495"
+}

@@ -1,0 +1,125 @@
+# tokenomics.html + tokenomics.mjs (en from the page's own T.en)
+> 報酬プール（EmissionPool）
+Reward pool (EmissionPool) ¦ 奖励池（EmissionPool） ¦ 보상 풀 (EmissionPool)
+> 助成・エコシステム
+Grants / ecosystem ¦ 资助与生态 ¦ 지원·에코시스템
+> トレジャリー
+Treasury ¦ 金库 ¦ 트레저리
+> 開発者（ロック＋段階解放）
+Developer (locked + vesting) ¦ 开发者（锁定＋分阶段释放） ¦ 개발자 (잠금+단계적 해제)
+> 流動性
+Liquidity ¦ 流动性 ¦ 유동성
+> 初期参加者
+Early participants ¦ 早期参与者 ¦ 초기 참가자
+> 開発者（即時）
+Developer (unlocked) ¦ 开发者（即时） ¦ 개발자 (즉시)
+> フォーセット（無料配布）
+Faucet ¦ 水龙头（免费发放） ¦ 파우셋 (무료 배포)
+> 運用（コントラクト展開用）
+Ops (contract deployment) ¦ 运维（合约部署用） ¦ 운영 (컨트랙트 배포용)
+> 毎年残高の15%を放出。L1 40 / AI 30 / VPS 30。
+15% of remaining per year. L1 40 / AI 30 / VPS 30. ¦ 每年释放余额的 15%。L1 40 / AI 30 / VPS 30。 ¦ 매년 잔액의 15%를 방출. L1 40 / AI 30 / VPS 30.
+> 1年ロック → 3年で線形解放
+1-year cliff, then 3-year linear ¦ 锁定 1 年 → 3 年线性释放 ¦ 1년 잠금 → 3년간 선형 해제
+> ZnytEconomy の展開ガス用
+gas for deploying ZnytEconomy ¦ 用于部署 ZnytEconomy 的 Gas ¦ ZnytEconomy 배포 가스용
+> このサーバーでは経済サービス（/api/econ）が動いていないため、ライブ値はありません。上の数字はローンチ予定の設計値です。
+No economy service (/api/econ) on this server, so there are no live values. The numbers above are the planned launch design. ¦ 此服务器未运行经济服务（/api/econ），因此没有实时数值。上方数字为计划上线时的设计值。 ¦ 이 서버에서는 경제 서비스(/api/econ)가 동작하지 않아 실시간 값이 없습니다. 위의 숫자는 출시 예정 설계값입니다.
+> プール残高
+Pool remaining ¦ 池余额 ¦ 풀 잔액
+> 現在の年
+Current year ¦ 当前年份 ¦ 현재 연도
+> 今年の放出枠
+This year's allowance ¦ 今年的释放额度 ¦ 올해 방출 한도
+> 累計放出
+Released (total) ¦ 累计释放 ¦ 누적 방출
+> 仕事への支払い累計
+Paid for work (total) ¦ 工作报酬累计 ¦ 작업 지급 누계
+> プールへ戻った分
+Returned to pool ¦ 退回池中的部分 ¦ 풀로 돌아간 몫
+> 最新エポック
+Latest epoch ¦ 最新纪元 ¦ 최신 에포크
+> 参加者（オンライン / 登録）
+Participants (online / registered) ¦ 参与者（在线 / 已登记） ¦ 참가자 (온라인 / 등록)
+> 焼却された手数料（焼却は未実装・予定）
+Fees burned (burn not implemented yet) ¦ 已销毁的手续费（销毁尚未实现，计划中） ¦ 소각된 수수료 (소각은 미구현·예정)
+> プールへ入った手数料
+Fees to pool ¦ 进入池中的手续费 ¦ 풀에 들어간 수수료
+> 開発者ロック 解放済み / 総額
+Dev vesting released / total ¦ 开发者锁仓 已释放 / 总额 ¦ 개발자 잠금 해제분 / 총액
+> 現在の総供給量
+Current total supply ¦ 当前总供应量 ¦ 현재 총공급량
+> ブロック
+Block ¦ 区块 ¦ 블록
+> コンソール
+Console ¦ 控制台 ¦ 콘솔
+> ノードに参加
+Join as a node ¦ 作为节点参与 ¦ 노드로 참여
+> トークノミクス
+Tokenomics ¦ 代币经济 ¦ 토크노믹스
+> 総発行量は 1億 ZNYT で固定。追加発行はありません。報酬は「報酬プール」から毎年少しずつ、実際に検証された仕事に対してだけ支払われます。
+Total supply is fixed at 100M ZNYT with no further minting. Rewards are released slowly from the reward pool and paid only for verified work. ¦ 总发行量固定为 1 亿 ZNYT，不会增发。奖励每年从“奖励池”中逐步释放，只支付给经过验证的实际工作。 ¦ 총발행량은 1억 ZNYT로 고정이며 추가 발행은 없습니다. 보상은 '보상 풀'에서 매년 조금씩, 실제로 검증된 작업에 대해서만 지급됩니다.
+> 総供給量
+Total supply ¦ 总供应量 ¦ 총공급량
+> 報酬プール
+Reward pool ¦ 奖励池 ¦ 보상 풀
+> 1年目の報酬
+Year-1 rewards ¦ 第 1 年奖励 ¦ 1년 차 보상
+> 手数料の行き先
+Gas fees ¦ 手续费去向 ¦ 수수료의 행방
+> 報酬プールへ（20%焼却は未実装・予定）
+to the reward pool (20% burn: planned, not implemented yet) ¦ 进入奖励池（20% 销毁尚未实现，计划中） ¦ 보상 풀로 (20% 소각은 미구현·예정)
+> 1. 配分（ジェネシス時点）
+1. Allocation at genesis ¦ 1. 分配（创世时） ¦ 1. 배분 (제네시스 시점)
+> ローンチ予定の設計値（launch/public/public-genesis.config.json）。アドレスはローンチ時に確定します。
+Planned launch values (launch/public/public-genesis.config.json). Addresses are fixed at launch. ¦ 计划上线时的设计值（launch/public/public-genesis.config.json）。地址在上线时确定。 ¦ 출시 예정 설계값(launch/public/public-genesis.config.json). 주소는 출시 시 확정됩니다.
+> 2. 報酬の放出（毎年、残高の15%）
+2. Emission: 15% of what remains, every year ¦ 2. 奖励释放（每年释放余额的 15%） ¦ 2. 보상 방출 (매년 잔액의 15%)
+> 報酬プールは毎年「残っている量の15%」だけを放出します。だから毎年少しずつ減り、ゼロにはなりません。1日分は 1年分 ÷ 365。
+Each year the pool releases 15% of its remaining balance, so emission shrinks every year and never quite reaches zero. Daily = yearly ÷ 365. ¦ 奖励池每年只释放“剩余量的 15%”，所以每年逐步减少，但不会归零。每日份额 = 年份额 ÷ 365。 ¦ 보상 풀은 매년 '남은 양의 15%'만 방출합니다. 그래서 매년 조금씩 줄어들고 0이 되지는 않습니다. 1일분은 1년분 ÷ 365.
+> 年
+Year ¦ 年份 ¦ 연도
+> 年初の残高
+Pool at start ¦ 年初余额 ¦ 연초 잔액
+> その年の放出
+Released ¦ 当年释放 ¦ 그해 방출
+> 1日あたり
+Per day ¦ 每天 ¦ 1일당
+> 3. 毎日の報酬の分け方
+3. How each day is split ¦ 3. 每日奖励的分配 ¦ 3. 매일 보상의 분배
+> L1 検証（ブロック・取引の検証、ライトノード）
+L1 verification (blocks, transactions, light nodes) ¦ L1 验证（区块与交易验证、轻节点） ¦ L1 검증 (블록·거래 검증, 라이트 노드)
+> AI（推論・評価の仕事）
+AI (inference and evaluation jobs) ¦ AI（推理与评估任务） ¦ AI (추론·평가 작업)
+> VPS / コンテナ貸し出し
+VPS / container rental ¦ VPS / 容器出租 ¦ VPS / 컨테이너 대여
+> 1人が1つの枠から受け取れるのは、その枠の最大25%まで（独占防止）。余りはプールに戻ります。
+One participant can take at most 25% of a bucket per epoch (anti-monopoly); the rest returns to the pool. ¦ 每人从一个类别中最多只能领取该类别的 25%（防止垄断）。剩余部分退回池中。 ¦ 한 사람이 한 구간에서 받을 수 있는 것은 그 구간의 최대 25%까지입니다(독점 방지). 남은 몫은 풀로 돌아갑니다.
+> 支払いは「検証済みの仕事量」に比例。スマホやPCはページを開いている間の検証作業がカウントされます。
+Payouts are proportional to verified work. Phones and PCs earn for verification done while the page is open. ¦ 支付与“已验证的工作量”成正比。手机和电脑在打开页面期间的验证工作会被计入。 ¦ 지급은 '검증된 작업량'에 비례합니다. 스마트폰과 PC는 페이지를 열어 둔 동안의 검증 작업이 집계됩니다.
+> 誰も仕事をしなかった枠の分は使われず、プールに戻ります。
+A bucket nobody worked for is not spent; it returns to the pool. ¦ 无人工作的类别份额不会被使用，而是退回池中。 ¦ 아무도 작업하지 않은 구간의 몫은 쓰이지 않고 풀로 돌아갑니다.
+> 4. お金の流れ
+4. Where the money goes ¦ 4. 资金流向 ¦ 4. 돈의 흐름
+> 10日プラン（AI / VPS 利用料）: 支払いはいったんエスクロー（預かりコントラクト）に入り、10日後に動いていた提供者へ精算されます。提供者が動いていなかった分は返金されます（運営は中抜きしません）。
+10-day plans (AI / VPS usage): the payment is held in escrow and settled to providers who were online after 10 days; unused time is refunded. No platform cut. ¦ 10 天套餐（AI / VPS 使用费）：付款先进入托管合约，10 天后结算给实际在线的提供者。提供者未在线的部分会退款（运营方不抽成）。 ¦ 10일 플랜 (AI / VPS 이용료): 지불금은 먼저 에스크로(보관 컨트랙트)에 들어가고, 10일 후 실제로 가동한 제공자에게 정산됩니다. 제공자가 가동하지 않은 몫은 환불됩니다(운영자는 수수료를 떼지 않습니다).
+> 開発者: 200万は最初から利用可能、1,300万は1年間ロック後、3年かけて少しずつ解放（DevVesting コントラクト）。
+Developer: 2M usable from day one; 13M locked 1 year, then released linearly over 3 years (DevVesting contract). ¦ 开发者：200 万从一开始即可使用，1,300 万锁定 1 年后在 3 年内逐步释放（DevVesting 合约）。 ¦ 개발자: 200만은 처음부터 사용 가능, 1,300만은 1년간 잠근 뒤 3년에 걸쳐 조금씩 해제(DevVesting 컨트랙트).
+> 5. いまの状態（ライブ）
+5. Live state ¦ 5. 当前状态（实时） ¦ 5. 현재 상태 (실시간)
+> これは試験運用中のテストネットです。ZNYT に現在お金としての価値はありません。投資の勧誘ではありません。
+This is a testnet in trial operation. ZNYT currently has no monetary value. This is not an investment offer. ¦ 这是试运行中的测试网。ZNYT 目前没有金钱价值。这不是投资邀约。 ¦ 시험 운영 중인 테스트넷입니다. ZNYT에는 현재 금전적 가치가 없습니다. 투자 권유가 아닙니다.
+> ガス代（取引手数料）: 計画は 80% → 報酬プール、20% → 焼却ですが、未実装・予定です。現在のテストネットでは手数料はブロックを作ったバリデーターに入ります（ガス価格 1 gwei・baseFee 0）。
+Gas fees: planned 80% to the reward pool and 20% burned, but this is not implemented yet. On the current testnet, fees go to the proposing validator (gas price 1 gwei, baseFee 0). ¦ Gas 费（交易手续费）：计划 80% 进入奖励池、20% 销毁，但尚未实现，仍在计划中。目前测试网的手续费归出块验证者所有（Gas 价格 1 gwei，baseFee 0）。 ¦ 가스비(거래 수수료): 계획은 80% → 보상 풀, 20% → 소각이지만 미구현·예정입니다. 현재 테스트넷에서는 수수료가 블록을 만든 밸리데이터에게 갑니다(가스 가격 1 gwei·baseFee 0).
+> ≈ {0} ZNYT/日
+≈ {0} ZNYT/day ¦ ≈ {0} ZNYT/天 ¦ ≈ {0} ZNYT/일
+> 1年目: {0} ZNYT/日
+Year 1: {0} ZNYT/day ¦ 第 1 年：{0} ZNYT/天 ¦ 1년 차: {0} ZNYT/일
+> ライブ値: {0} チェーンの経済コーディネーター（{1}）から取得。
+Live values from the {0} chain economy coordinator ({1}). ¦ 实时数值：取自 {0} 链的经济协调器（{1}）。 ¦ 실시간 값: {0} 체인의 경제 코디네이터({1})에서 가져옴.
+> ライブ値: {0} チェーンの経済コーディネーター（{1}）から取得。 ※このチェーンはテスト用の高速設定です（1年 = {2} 秒、プール {3} ZNYT）。本番の数字とは異なります。
+Live values from the {0} chain economy coordinator ({1}). Note: this chain uses a fast TEST setting (1 year = {2} s, pool {3} ZNYT); numbers differ from production. ¦ 实时数值：取自 {0} 链的经济协调器（{1}）。※此链为测试用的高速设置（1 年 = {2} 秒，池 {3} ZNYT），与正式数字不同。 ¦ 실시간 값: {0} 체인의 경제 코디네이터({1})에서 가져옴. ※ 이 체인은 테스트용 고속 설정입니다(1년 = {2}초, 풀 {3} ZNYT). 실제 숫자와 다릅니다.
+> ZERONYTH | トークノミクス
+ZERONYTH | Tokenomics ¦ ZERONYTH | 代币经济 ¦ ZERONYTH | 토크노믹스
+> ZERONYTH (ZNYT) のトークン配分・報酬放出・手数料の流れ。
+ZERONYTH (ZNYT) token allocation, reward emission and fee flows. ¦ ZERONYTH (ZNYT) 的代币分配、奖励释放与手续费流向。 ¦ ZERONYTH (ZNYT)의 토큰 배분·보상 방출·수수료 흐름.
