@@ -1,3 +1,9 @@
+> **現在のチェーン（912701）に参加する場合:** この手順は停止・アーカイブ済みの旧チェーン 9127 用で、記録として残しています。
+> 今の Falcon-1024 QBFT テストネット（チェーンID 912701 / 0xded3d）には
+> [zeronyth-falcon-node](https://github.com/ak4229330245-sudo/zeronyth-falcon-node) のリリース
+> [`falcon-912701-v0.1.1`](https://github.com/ak4229330245-sudo/zeronyth-falcon-node/releases/tag/falcon-912701-v0.1.1) を使ってください。
+> 外部ノードは、まずバリデーター以外のフルノードとして参加します。
+
 # 外部フルノード / 将来のバリデーター候補の接続設定 (公開チェーン)
 
 Cloudflare Tunnel は HTTP(S) だけを通します。P2P (30303 TCP/UDP) は通らないため、外部ノードの接続先 (bootnode) は

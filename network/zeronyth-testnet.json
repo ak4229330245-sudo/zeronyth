@@ -1,0 +1,17 @@
+{
+  "name": "ZERONYTH Falcon Testnet",
+  "chainId": 912701,
+  "chainIdHex": "0xded3d",
+  "networkId": 912701,
+  "nativeCurrency": { "name": "ZNYT", "symbol": "ZNYT", "decimals": 18 },
+  "rpcUrls": ["https://zeronyth.dpdns.org/rpc"],
+  "blockExplorerUrls": ["https://scan.zeronyth.dpdns.org/"],
+  "website": "https://zeronyth.dpdns.org/",
+  "consensus": "Besu QBFT with Falcon-1024 seals",
+  "finalityProofs": "ML-DSA-65",
+  "txSigning": "ECDSA",
+  "blockPeriodSeconds": 1,
+  "testnet": true,
+  "fullNode": "https://github.com/ak4229330245-sudo/zeronyth-falcon-node/releases/tag/falcon-912701-v0.1.1",
+  "previousChains": [{ "chainId": 9127, "status": "stopped, archived" }]
+}

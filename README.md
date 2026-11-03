@@ -1,53 +1,76 @@
 # ZERONYTH
 
-ZERONYTH is a public, quantum-resistant EVM testnet built on Hyperledger Besu with QBFT consensus.
-Blocks are finalized by QBFT and additionally checkpointed with **ML-DSA-65** (NIST FIPS 204) post-quantum signatures.
+ZERONYTH is a public, quantum-resistant EVM **testnet** built on Hyperledger Besu.
+The live chain runs **QBFT with Falcon-1024 consensus signatures** and publishes **ML-DSA-65** (NIST FIPS 204) finality proofs.
+EVM transaction signing is still ECDSA (standard wallets work as usual).
 
 | | |
 |---|---|
-| Chain ID | `9127` (`0x23a7`) |
+| Network | ZERONYTH Falcon Testnet |
+| Chain ID | `912701` (`0xded3d`) |
 | Native coin | **ZNYT** (test coin, no monetary value) |
-| Consensus | Besu QBFT, 4 validators, ~1 s blocks |
-| Post-quantum | ML-DSA-65 finality checkpoints and PQ lab |
+| Consensus | Besu QBFT (custom build), Falcon-1024 seals, 4 validators, ~1 s blocks |
+| Post-quantum | Falcon-1024 consensus signatures + ML-DSA-65 finality proofs |
+| Tx signing | ECDSA (secp256k1), unchanged |
 | Website | https://zeronyth.dpdns.org/ |
 | Explorer | https://scan.zeronyth.dpdns.org/ |
 | RPC | https://zeronyth.dpdns.org/rpc |
+| Telegram | https://t.me/+5MZDdz-3_R9hYWI1 |
 | Discord | https://discord.gg/qJTYpkbYNm |
 
-> Testnet only. Do not send real funds. Never share a private key or seed phrase with anyone.
+> Testnet only. ZNYT has no value and the network may be reset. Never share a private key or seed phrase with anyone.
+
+## Add the network to a wallet
+
+```js
+await window.ethereum.request({
+  method: 'wallet_addEthereumChain',
+  params: [{
+    chainId: '0xded3d',
+    chainName: 'ZERONYTH Falcon Testnet',
+    nativeCurrency: { name: 'ZNYT', symbol: 'ZNYT', decimals: 18 },
+    rpcUrls: ['https://zeronyth.dpdns.org/rpc'],
+    blockExplorerUrls: ['https://scan.zeronyth.dpdns.org/'],
+  }],
+});
+```
+
+The same values are in [`network/zeronyth-testnet.json`](network/zeronyth-testnet.json).
+
+## Current status
+
+| Item | Status |
+|---|---|
+| Faucet | 100 test ZNYT per claim, 1 hour cooldown (live values: `/api/faucet/health`) |
+| Supply | Planned design: **100,000,000 ZNYT** (see Tokenomics on the site). The testnet genesis holds **2,000,000,000 test ZNYT** for testing only. |
+| Full nodes | Published: [zeronyth-falcon-node](https://github.com/ak4229330245-sudo/zeronyth-falcon-node), release [`falcon-912701-v0.1.1`](https://github.com/ak4229330245-sudo/zeronyth-falcon-node/releases/tag/falcon-912701-v0.1.1). Outside nodes join as **non-validator** full nodes first. |
+| Site AI | Qwen3-1.7B (Q4_K_M) on Ollama, CPU (live value: `/api/ai/status`) |
+| Rewards | Three separate things: **points** (off-chain, Merkle root recorded on-chain daily), **test ZNYT** (no value), and **simulations** (display only). |
+| VPS market | Preview only; not accepting orders. Older plans are marked as legacy. |
+| Quantum wallet | Experimental ML-DSA-65 wallet on the site (`/quantum-wallet/`); key generation and signing only, it cannot send transactions yet. |
 
 ## Repository layout
 
 ```
-services/zeronyth-l1/          Chain, site and services
-  config/                      Genesis and QBFT config (no keys)
-  scripts/                     Gateway, network init/start, PQ finality signer, tooling
-  dashboard/                   Website (static HTML/JS, 4 languages: en / ja / zh-CN / ko)
-  explorer/                    ZERONYTH Scan (block explorer)
-  faucet/                      Test ZNYT faucet
-  ai-chat/                     Site AI assistant (retrieval + safety filters)
-  points/                      Points service and test AMM contracts
-  bridge/                      Test bridge contracts and relayers (testnets only)
-  economy/                     Plans / access economy contracts and coordinator
-  pq-native/                   ML-DSA-65 native PQ lab and light-node logic
-  launch/                      Public launch, validator-join and load-test tooling
-  deploy/box-primary/          Ops: pm2 configs, watchdogs, tunnel, edge fallback (placeholders for hosts)
-  docs/                        Design notes and runbooks
-  tests/                       Node and Python tests
+network/                       Current network parameters (chain 912701)
+services/zeronyth-l1/          Archived codebase of the previous chain 9127 (history, see below)
 services/zeronyth-discord/     Discord bot (verify, language roles, GM streaks, /faucet, /status)
 artifacts/, lib/               Workspace packages (API server, UI sandbox, shared libs)
 tools/vendor-build/            Browser vendor bundle build
 ```
 
-## Getting started
+The node software for the current chain is in
+[zeronyth-falcon-node](https://github.com/ak4229330245-sudo/zeronyth-falcon-node).
 
-1. Install Node.js 20+, Java 21 and Hyperledger Besu 26.x.
-2. Copy `services/zeronyth-l1/.env.example` to `.env` and fill in your own test-only values.
-3. See `services/zeronyth-l1/README.md` for network init, start and test commands, and
-   `services/zeronyth-l1/launch/public/fullnode-join.md` to join the public testnet as a full node.
+## History: chain 9127
 
-Secrets (validator keys, ML-DSA keys, bot tokens, wallet keys) are never stored in this repository.
-Hostnames and IPs in ops scripts are placeholders (`YOUR_VPS_IP`, `YOUR_TAILSCALE_IP`); set them via env vars.
+The first ZERONYTH testnet was a Besu QBFT chain with chain ID `9127` (`0x23a7`), using classic ECDSA seals
+and ML-DSA-65 finality checkpoints. It has been **stopped and archived** and replaced by chain 912701.
+The code under `services/zeronyth-l1/` is kept as it was for reference; its chain IDs, genesis, scripts and
+pages still refer to 9127 on purpose. Do not use them to connect to the current network.
+
+Secrets (validator keys, ML-DSA / Falcon keys, bot tokens, wallet keys) are never stored in this repository.
+Hostnames and IPs in ops scripts are placeholders (`YOUR_VPS_IP`, `YOUR_TAILSCALE_IP`).
 
 ## Security
 

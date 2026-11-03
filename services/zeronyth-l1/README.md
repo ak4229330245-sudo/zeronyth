@@ -1,3 +1,8 @@
+> **Archived (chain 9127):** This directory is the codebase of the previous ZERONYTH testnet, chain `9127`,
+> which is stopped and archived. It is kept unchanged as history. The current network is the Falcon-1024 QBFT
+> testnet, chain `912701` (`0xded3d`); see the [top-level README](../../README.md) and
+> [zeronyth-falcon-node](https://github.com/ak4229330245-sudo/zeronyth-falcon-node).
+
 # ZERONYTH L1 Developer Kit v1.8.32-safetyfix-znyt
 
 > **ZERONYTH / ZNYT unified test release:** New native-coin wallet settings,

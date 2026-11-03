@@ -31,7 +31,7 @@ function statusEmbed(s, l = 'ja') {
   return new EmbedBuilder().setTitle(t(l, 'st_title')).setURL(EXPLORER + '/').setColor(ok ? 0x22c55e : 0xef4444)
     .setDescription(t(l, ok ? 'st_ok' : 'st_ng'))
     .addFields(statusFields(s), { name: '🔍 Explorer', value: `[scan.zeronyth.dpdns.org](${EXPLORER}/)` })
-    .setFooter({ text: 'ZERONYTH (chain 9127 / ZNYT) ・ Besu QBFT' }).setTimestamp(new Date(s.at));
+    .setFooter({ text: 'ZERONYTH (chain 912701 / ZNYT) ・ Falcon-1024 QBFT' }).setTimestamp(new Date(s.at));
 }
 
 // Auto-updated status message in #chain-status (one message, edited every 5 min)
