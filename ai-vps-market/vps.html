@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="color-scheme" content="dark"><meta name="theme-color" content="#0d1117">
+  <title>ZERONYTH | AI VPS マーケット</title>
+  <meta name="description" content="ZERONYTH の VPS レンタル。支払いは量子耐性トランザクション（Falcon-1024 / ML-DSA-65）だけ。注文・着金検知はチェーン 912701 で自動処理されます。"><link rel="icon" href="assets/favicon-64.png" type="image/png">
+  <link rel="stylesheet" href="assets/styles.css?v=912701f"><link rel="stylesheet" href="assets/tokenomics.css?v=912701f">
+  <link rel="stylesheet" href="assets/page-i18n.css?v=912701f">
+  <link rel="stylesheet" href="assets/zeryth-hud.css?v=912701f">
+  <link rel="stylesheet" href="assets/zeryth-command-shell.css?v=912701h">
+  <script src="assets/zeryth-command-shell.js?v=912701v" defer></script>
+  <link rel="stylesheet" href="assets/site-facts.css?v=912701v2" data-zf-css><script type="module" src="assets/site-facts.mjs?v=912701v"></script>
+  <style>
+    .m-card{border:1px solid #2b3a4a;border-radius:14px;padding:18px;margin:14px 0;background:#0f1620}
+    .m-card h2{margin:0 0 6px;font-size:20px}.m-price{font-size:26px;font-weight:700}
+    .m-muted{opacity:.75;font-size:13px;line-height:1.6}
+    .m-form{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+    .m-form input{flex:1;min-width:260px;padding:10px;border-radius:9px;border:1px solid #2b3a4a;background:#0a0f16;color:#e8f0f8;font-size:14px}
+    .m-form button{padding:10px 18px;border-radius:9px;border:0;background:#1f6feb;color:#fff;font-weight:700;cursor:pointer}
+    .m-out{white-space:pre-wrap;word-break:break-all;background:#0a0f16;border:1px solid #2b3a4a;border-radius:9px;padding:12px;margin-top:10px;font-size:13px;line-height:1.7;display:none}
+    .m-badge{display:inline-block;padding:2px 10px;border-radius:99px;background:#14324a;font-size:12px;margin-left:8px}
+    code{word-break:break-all}
+  </style>
+</head>
+<body class="zeryth-hud">
+  <header class="tk-top"><a class="tk-brand" href="index.html"><img src="assets/znyt-token-168.png" alt="" width="36" height="36"><strong>ZERONYTH</strong></a>
+    <nav class="tk-nav"><a href="join.html">参加する</a><a href="tokenomics.html">トークノミクス</a><span aria-current="page">AI VPS マーケット</span></nav></header>
+  <main class="tk-wrap">
+    <section class="c-notice">
+      <strong>AI VPS マーケット（本番受付中）</strong>
+      <p>支払いは <b>量子耐性トランザクションだけ</b>（Falcon-1024 / ML-DSA-65、チェーン 912701）。注文すると支払い専用の金額が発行され、チェーン上で着金が自動検知されます。ECDSA での支払いは受け付けません。</p>
+      <p>サーバーは運営が外部で用意し、準備ができたら注文番号の照会ページに接続情報を表示します（バリデータのホスト上で他人のプログラムは動かしません）。ZNYT は実験用トークンで、お金の価値はありません。</p>
+      <p class="m-muted" id="mStat">マーケット状態を読み込み中…</p>
+    </section>
+
+    <section class="m-card" id="offerCard">
+      <h2>AI VPS スターター <span class="m-badge">運営手配</span></h2>
+      <div class="m-price">100 ZNYT <span style="font-size:14px">/ 10日間</span></div>
+      <p class="m-muted">1 vCPU / 1 GB RAM / 20 GB SSD 相当 · ZERONYTH AI チャット プラン（期間中・上限拡大）付き<br>
+      支払い先トレジャリー: <code id="treasury">読み込み中…</code></p>
+      <form class="m-form" id="orderForm">
+        <input id="customer" placeholder="あなたの PQ アドレス（0x…、Quantum Wallet のアドレス）" autocomplete="off" spellcheck="false">
+        <button type="submit">注文して支払い案内を受け取る</button>
+      </form>
+      <div class="m-out" id="orderOut"></div>
+    </section>
+
+    <section class="m-card">
+      <h2>注文の照会</h2>
+      <p class="m-muted">注文番号（ZVPS-0001 の形式）で状態を確認できます。サーバーの用意が完了すると、ここに接続情報が表示されます。</p>
+      <form class="m-form" id="lookupForm">
+        <input id="orderId" placeholder="ZVPS-0001" autocomplete="off" spellcheck="false" style="min-width:160px;flex:0 1 220px">
+        <button type="submit">照会</button>
+      </form>
+      <div class="m-out" id="lookupOut"></div>
+    </section>
+
+    <p class="m-muted">支払い方法: <a href="quantum-wallet/">Quantum Wallet</a> で注文時と同じ PQ アドレスから、指定された <b>正確な金額</b> をトレジャリーへ送ってください（金額には注文を識別する数 wei のタグが含まれます）。着金は約1分で自動検知されます。</p>
+  </main>
+  <script>
+    const $ = (id) => document.getElementById(id);
+    fetch("/api/vps/status").then((r) => r.json()).then((s) => {
+      $("mStat").textContent = `状態: ${s.marketplace_state} · 受付中オファー ${s.offers} 件 · 支払い待ち注文 ${s.orders_open} 件 · 用意中 ${s.leases_provisioning} 件 · 稼働中 ${s.leases_active} 件`;
+    }).catch(() => { $("mStat").textContent = "状態を取得できませんでした。"; });
+    fetch("/api/vps/offers").then((r) => r.json()).then((o) => { if (o.treasury) $("treasury").textContent = o.treasury; }).catch(() => {});
+    $("orderForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const out = $("orderOut"); out.style.display = "block"; out.textContent = "注文を作成中…";
+      try {
+        const r = await fetch("/api/vps/order", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ offer_id: "ai-vps-starter", customer: $("customer").value.trim() }) });
+        const j = await r.json();
+        if (!r.ok) { out.textContent = "エラー: " + (j.error || r.status); return; }
+        out.textContent = `注文番号: ${j.id}\n支払い金額（正確に）: ${j.payable_znyt} ZNYT（${j.payable_wei} wei）\n支払い元: ${j.customer}\n支払い先: ${j.treasury}\n\nQuantum Wallet または CLI から、PQ トランザクション（Falcon 0x7E / ML-DSA 0x7F）で送ってください。着金は自動検知されます。状態は下の照会で確認できます。`;
+        $("orderId").value = j.id;
+      } catch { out.textContent = "通信エラー。もう一度どうぞ。"; }
+    });
+    $("lookupForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const out = $("lookupOut"); out.style.display = "block"; out.textContent = "照会中…";
+      try {
+        const r = await fetch("/api/vps/order?id=" + encodeURIComponent($("orderId").value.trim()));
+        const j = await r.json();
+        if (!r.ok) { out.textContent = "エラー: " + (j.error || r.status); return; }
+        let t = `注文 ${j.id}: 状態 = ${j.status}` + (j.tx ? `\n支払いTx: ${j.tx}` : "") + (j.paid_at ? `\n着金時刻: ${j.paid_at}` : "");
+        if (j.lease) { t += `\nリース: ${j.lease.status}`; if (j.lease.start) t += `\n期間: ${j.lease.start} 〜 ${j.lease.end}`; if (j.lease.access) t += `\n接続情報:\n${j.lease.access}`; }
+        out.textContent = t;
+      } catch { out.textContent = "通信エラー。もう一度どうぞ。"; }
+    });
+  </script>
+  <script type="module" src="assets/page-i18n.mjs?v=912701f"></script>
+</body>
+</html>

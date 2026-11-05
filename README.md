@@ -49,7 +49,7 @@ The same values are in [`network/zeronyth-testnet.json`](network/zeronyth-testne
 | Production binary | The PQ-enabled build running 912701 is downloadable from the site (SHA-256 in [docs/BINARY-RELEASE.md](docs/BINARY-RELEASE.md)); its source is [`besu-912701/`](besu-912701/). |
 | Site AI | Qwen3-1.7B (Q4_K_M) on Ollama, CPU (live value: `/api/ai/status`) |
 | Rewards | Three separate things: **points** (off-chain, Merkle root recorded on-chain daily), **test ZNYT** (no value), and **simulations** (display only). |
-| VPS market | Preview only; not accepting orders. Older plans are marked as legacy. |
+| VPS market | **Live — accepting orders.** AI VPS starter: 100 ZNYT / 10 days, paid with a native PQ transaction (Falcon-1024 `0x7E` / ML-DSA-65 `0x7F`); operator-fulfilled. Order at https://zeronyth.dpdns.org/vps.html — source: [`ai-vps-market/`](ai-vps-market/). Older plans are marked as legacy. |
 | Quantum wallet | ML-DSA-65 wallet on the site (`/quantum-wallet/`); creates PQ accounts and **sends native PQ transactions** via the site gateway (`zny_*` RPC methods). |
 | PQ transactions | **Live** since block `157773` (2026-11-05). First production PQ tx (ML-DSA-65): [`0x8120159e…a3f9`](https://scan.zeronyth.dpdns.org/) in block `165913`. Falcon-1024 production proof pending; both schemes fully proven on test chains. Design and evidence: [WHITEPAPER.md](WHITEPAPER.md). |
 
@@ -60,6 +60,7 @@ WHITEPAPER.md                  Design, PQ transaction formats, gas schedule, ver
 docs/                          Engineering record: port reports, provenance, upgrade plan, E2E evidence
 besu-912701/                   Production node source (Besu 26.9.0 + ZERONYTH PQ patches; see besu-912701/ZERONYTH-SOURCE.md)
 quantum-wallet/                Quantum Wallet v2 web app source — one wallet for ECDSA, Falcon-1024 (0x7E) and ML-DSA-65 (0x7F); live at zeronyth.dpdns.org/quantum-wallet/
+ai-vps-market/                 AI VPS rental service source — order market in the site gateway, PQ-tx payments, ML-DSA-signed admin + Discord notifications; live at zeronyth.dpdns.org/vps.html
 network/                       Current network parameters (chain 912701)
 services/zeronyth-discord/     Discord bot (verify, language roles, GM streaks, /faucet, /status)
 artifacts/, lib/               Workspace packages (API server, UI sandbox, shared libs)
