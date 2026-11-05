@@ -46,6 +46,7 @@ The same values are in [`network/zeronyth-testnet.json`](network/zeronyth-testne
 | Faucet | 100 test ZNYT per claim, 1 hour cooldown (live values: `/api/faucet/health`) |
 | Supply | Planned design: **100,000,000 ZNYT** (see Tokenomics on the site). The testnet genesis holds **2,000,000,000 test ZNYT** for testing only. |
 | Full nodes | Published: [zeronyth-falcon-node](https://github.com/ak4229330245-sudo/zeronyth-falcon-node), release [`falcon-912701-v0.1.1`](https://github.com/ak4229330245-sudo/zeronyth-falcon-node/releases/tag/falcon-912701-v0.1.1). Outside nodes join as **non-validator** full nodes first. |
+| Production binary | The PQ-enabled build running 912701 is downloadable from the site (SHA-256 in [docs/BINARY-RELEASE.md](docs/BINARY-RELEASE.md)); its source is [`besu-912701/`](besu-912701/). |
 | Site AI | Qwen3-1.7B (Q4_K_M) on Ollama, CPU (live value: `/api/ai/status`) |
 | Rewards | Three separate things: **points** (off-chain, Merkle root recorded on-chain daily), **test ZNYT** (no value), and **simulations** (display only). |
 | VPS market | Preview only; not accepting orders. Older plans are marked as legacy. |
