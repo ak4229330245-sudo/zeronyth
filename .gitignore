@@ -102,3 +102,7 @@ services/zeronyth-l1/economy/accounting/out/
 generated-artifacts/
 __pycache__/
 *.pyc
+
+# built download artifacts (regenerate with launch/joinkit/build-joinkit.mjs)
+services/zeronyth-l1/dashboard/downloads/*.zip
+services/zeronyth-l1/launch/joinkit/out/
