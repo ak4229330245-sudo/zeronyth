@@ -204,6 +204,13 @@ function ecdsaSign(secret, f) {
 export function signTransaction(input) {
   const { scheme, secret } = input ?? {};
   if (!isScheme(scheme)) throw Error(`Unknown scheme: ${scheme}`);
+  // This engine signs EVM transactions for chain 912701 (and other EVM
+  // chains via the ECDSA path) ONLY. The non-EVM chain families have
+  // their own engines under src/core/chains/ — refuse them here so a
+  // family account can never be pushed through the EVM wire formats.
+  if (scheme !== 'ecdsa' && !PQ_DOMAIN[scheme]) {
+    throw Error(`Not an EVM scheme: ${scheme}`);
+  }
   const f = normalizeFields(input);
   const from = addressFromSecret(scheme, secret); // also validates the secret
 

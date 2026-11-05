@@ -774,6 +774,246 @@ export const DICT = {
   "Paste the backup file contents or choose the file. You need its backup password and a new wallet password.",
   "请粘贴备份文件内容或选择文件。需要备份密码和新的钱包密码。",
   "백업 파일 내용을 붙여넣거나 파일을 선택하세요. 백업 비밀번호와 새 지갑 비밀번호가 필요합니다."
+ ],
+ "networkSelect": [
+  "ネットワーク",
+  "Network",
+  "网络",
+  "네트워크"
+ ],
+ "testnetSuffix": [
+  "（テストネット）",
+  " (Testnet)",
+  "（测试网）",
+  " (테스트넷)"
+ ],
+ "connectedGeneric": [
+  "接続中",
+  "Connected",
+  "已连接",
+  "연결됨"
+ ],
+ "zeronythOnly": [
+  "ZERONYTH 専用",
+  "ZERONYTH only",
+  "仅限 ZERONYTH",
+  "ZERONYTH 전용"
+ ],
+ "notAvailableOnNetwork": [
+  "このネットワークでは利用できません",
+  "Not available on this network",
+  "此网络不可用",
+  "이 네트워크에서는 사용할 수 없습니다"
+ ],
+ "pqOnlyOnZeronyth": [
+  "PQ アカウントは ZERONYTH ネットワークでのみ送信できます",
+  "PQ accounts can only send on the ZERONYTH network",
+  "PQ 账户只能在 ZERONYTH 网络上发送",
+  "PQ 계정은 ZERONYTH 네트워크에서만 전송할 수 있습니다"
+ ],
+ "chainIdMismatch": [
+  "チェーンIDが一致しません（RPC: {reported} / 期待値: {expected}）",
+  "Chain ID mismatch (RPC: {reported} / expected: {expected})",
+  "链 ID 不匹配（RPC:{reported} / 期望:{expected}）",
+  "체인 ID 불일치 (RPC: {reported} / 예상: {expected})"
+ ],
+ "asset": [
+  "資産",
+  "Asset",
+  "资产",
+  "자산"
+ ],
+ "addChainAccount": [
+  "他チェーンのアカウントを追加",
+  "Add an other-chain account",
+  "添加其他链账户",
+  "다른 체인 계정 추가"
+ ],
+ "noteSolana": [
+  "Solana のアカウント（Ed25519）。このウォレット専用の鍵で、Phantom 等とは互換性がありません。",
+  "A Solana account (Ed25519). Keys are specific to this wallet and are not compatible with Phantom etc.",
+  "Solana 账户（Ed25519）。密钥为此钱包专用，与 Phantom 等不兼容。",
+  "Solana 계정(Ed25519). 이 지갑 전용 키이며 Phantom 등과 호환되지 않습니다."
+ ],
+ "noteBitcoin": [
+  "Bitcoin のアカウント（P2WPKH / bech32）。EVM の鍵とは別の鍵を使います。",
+  "A Bitcoin account (P2WPKH / bech32). Uses a separate key from the EVM accounts.",
+  "Bitcoin 账户（P2WPKH / bech32）。使用与 EVM 不同的密钥。",
+  "Bitcoin 계정(P2WPKH / bech32). EVM과는 별도의 키를 사용합니다."
+ ],
+ "noteXrp": [
+  "XRP Ledger のアカウント。アカウント有効化には準備金（ベースリザーブ）以上の初回入金が必要です。",
+  "An XRP Ledger account. First funding must meet the base reserve to activate the account.",
+  "XRP Ledger 账户。首次入金需达到基础储备金才能激活账户。",
+  "XRP Ledger 계정. 계정 활성화에는 기본 준비금 이상의 첫 입금이 필요합니다."
+ ],
+ "noteSui": [
+  "Sui のアカウント（Ed25519）。このウォレット専用の鍵です。",
+  "A Sui account (Ed25519). Keys are specific to this wallet.",
+  "Sui 账户（Ed25519）。密钥为此钱包专用。",
+  "Sui 계정(Ed25519). 이 지갑 전용 키입니다."
+ ],
+ "noteAptos": [
+  "Aptos のアカウント（Ed25519）。このウォレット専用の鍵です。",
+  "An Aptos account (Ed25519). Keys are specific to this wallet.",
+  "Aptos 账户（Ed25519）。密钥为此钱包专用。",
+  "Aptos 계정(Ed25519). 이 지갑 전용 키입니다."
+ ],
+ "phraseRestoresAll": [
+  "このフレーズで、このウォレット内の全アカウント（他チェーンのアカウントを含む）を復元できます。他のウォレットアプリとの互換性はありません。",
+  "This phrase restores every account in this wallet, including other-chain accounts. It is not compatible with other wallet apps.",
+  "此短语可恢复此钱包中的所有账户，包括其他链账户。与其他钱包应用不兼容。",
+  "이 문구로 이 지갑의 모든 계정(다른 체인 계정 포함)을 복구할 수 있습니다. 다른 지갑 앱과는 호환되지 않습니다."
+ ],
+ "destTag": [
+  "宛先タグ（任意）",
+  "Destination tag (optional)",
+  "目标标签（可选）",
+  "목적지 태그 (선택 사항)"
+ ],
+ "swap": [
+  "スワップ",
+  "Swap",
+  "兑换",
+  "스왑"
+ ],
+ "swapFrom": [
+  "支払う",
+  "You pay",
+  "支付",
+  "지불"
+ ],
+ "swapTo": [
+  "受け取る（見込み）",
+  "You receive (estimated)",
+  "预计收到",
+  "수령 (예상)"
+ ],
+ "slippage": [
+  "スリッページ許容度（%）",
+  "Slippage tolerance (%)",
+  "滑点容差（%）",
+  "슬리피지 허용 (%)"
+ ],
+ "minReceived": [
+  "最小受取額",
+  "Minimum received",
+  "最低收到金额",
+  "최소 수령액"
+ ],
+ "swapUnavailable": [
+  "このネットワークではスワップできません。スワップは ZERONYTH ネットワーク専用です。",
+  "Swap is not available on this network. Swap is available on the ZERONYTH network only.",
+  "此网络不支持兑换。兑换仅在 ZERONYTH 网络提供。",
+  "이 네트워크에서는 스왑할 수 없습니다. 스왑은 ZERONYTH 네트워크 전용입니다."
+ ],
+ "swapDone": [
+  "スワップが完了しました",
+  "Swap complete",
+  "兑换完成",
+  "스왑이 완료되었습니다"
+ ],
+ "swapExecute": [
+  "スワップを実行",
+  "Execute swap",
+  "执行兑换",
+  "스왑 실행"
+ ],
+ "approving": [
+  "承認中…",
+  "Approving…",
+  "授权中…",
+  "승인 중…"
+ ],
+ "swapping": [
+  "スワップ中…",
+  "Swapping…",
+  "兑换中…",
+  "스왑 중…"
+ ],
+ "firstSendWarn": [
+  "初めて送信するアドレスです。アドレスが正しいか、もう一度よく確認してください。",
+  "First time sending to this address. Double-check that it is correct.",
+  "首次向此地址发送。请再次仔细确认地址无误。",
+  "처음 보내는 주소입니다. 올바른 주소인지 다시 한 번 확인하세요."
+ ],
+ "firstSendAck": [
+  "アドレスを確認しました",
+  "I have double-checked the address",
+  "我已确认地址",
+  "주소를 확인했습니다"
+ ],
+ "contractWarn": [
+  "送信先はコントラクトです。ネイティブ通貨をコントラクトに送ると、取り戻せない場合があります。",
+  "The recipient is a contract. Native coins sent to a contract may be unrecoverable.",
+  "收款地址是合约。向合约发送原生币可能无法找回。",
+  "받는 주소가 컨트랙트입니다. 컨트랙트로 보낸 네이티브 코인은 복구할 수 없을 수 있습니다."
+ ],
+ "tooManyAttempts": [
+  "試行回数が多すぎます。{seconds}秒待ってから再度お試しください。",
+  "Too many attempts. Wait {seconds} seconds and try again.",
+  "尝试次数过多。请等待 {seconds} 秒后再试。",
+  "시도 횟수가 너무 많습니다. {seconds}초 후 다시 시도하세요."
+ ],
+ "rpcCaution": [
+  "カスタム RPC を使用中です。悪意のある RPC は残高などを偽って表示できます（署名はこの端末内で行われるため、鍵が盗まれることはありません）。",
+  "A custom RPC is in use. A malicious RPC can display false balances and history (it cannot steal keys — signing happens on this device).",
+  "正在使用自定义 RPC。恶意 RPC 可能显示虚假的余额和记录（但无法窃取密钥——签名在本设备上完成）。",
+  "사용자 지정 RPC를 사용 중입니다. 악성 RPC는 잔액과 내역을 거짓으로 표시할 수 있습니다(서명은 이 기기에서 이루어지므로 키는 탈취할 수 없습니다)."
+ ],
+ "autoLock": [
+  "自動ロック（操作がない場合）",
+  "Auto-lock when idle",
+  "闲置时自动锁定",
+  "자동 잠금 (미사용 시)"
+ ],
+ "autoLockOff": [
+  "オフ",
+  "Off",
+  "关闭",
+  "끄기"
+ ],
+ "autoLockMin": [
+  "{n}分",
+  "{n} min",
+  "{n} 分钟",
+  "{n}분"
+ ],
+ "buildVersion": [
+  "バージョン",
+  "Version",
+  "版本",
+  "버전"
+ ],
+ "backupPwNote": [
+  "バックアップ用パスワードは12文字以上が必要です。バックアップファイルはオフラインで攻撃される可能性があるため、推測されにくいパスワードを使ってください。",
+  "The backup password must be at least 12 characters. A backup file can be attacked offline, so choose a hard-to-guess password.",
+  "备份密码至少需要 12 个字符。备份文件可能被离线攻击，请使用难以猜测的密码。",
+  "백업 비밀번호는 12자 이상이어야 합니다. 백업 파일은 오프라인 공격을 받을 수 있으므로 추측하기 어려운 비밀번호를 사용하세요."
+ ],
+ "backupPwShort": [
+  "バックアップ用パスワードは12文字以上にしてください",
+  "Backup password must be at least 12 characters",
+  "备份密码至少需要 12 个字符",
+  "백업 비밀번호는 12자 이상이어야 합니다"
+ ],
+ "feeEstimate": [
+  "手数料（見込み）",
+  "Fee (maximum)",
+  "费用（上限）",
+  "수수료 (상한)"
+ ],
+ "router": [
+  "ルーター",
+  "Router",
+  "路由器",
+  "라우터"
+ ],
+ "pair": [
+  "プール（ペア）",
+  "Pool (pair)",
+  "池（交易对）",
+  "풀 (페어)"
  ]
 };
 

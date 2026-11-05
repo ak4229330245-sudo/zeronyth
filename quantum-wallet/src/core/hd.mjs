@@ -31,6 +31,13 @@ const DOMAINS = Object.freeze({
   mldsa: 'ZERONYTH/WALLET/V2/MLDSA',
   falcon: 'ZERONYTH/WALLET/V2/FALCON',
   ecdsa: 'ZERONYTH/WALLET/V2/ECDSA',
+  // Non-EVM chain families (multi-chain v12). Same KDF construction, own
+  // domains — a chain family's secret is never the EVM ECDSA key.
+  solana: 'ZERONYTH/WALLET/V2/SOLANA',
+  sui: 'ZERONYTH/WALLET/V2/SUI',
+  aptos: 'ZERONYTH/WALLET/V2/APTOS',
+  xrp: 'ZERONYTH/WALLET/V2/XRP',
+  bitcoin: 'ZERONYTH/WALLET/V2/BTC',
 });
 
 /** Fresh random master seed (32 bytes). */

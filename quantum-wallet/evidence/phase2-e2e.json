@@ -1,0 +1,87 @@
+{
+  "chainId": 912772,
+  "activationBlock": 5,
+  "rpc": "http://127.0.0.1:19623",
+  "steps": [
+    {
+      "name": "falcon-create-contract",
+      "scheme": "falcon",
+      "kind": "create",
+      "hash": "0xdf38ae8cc54fd95ecb294863d7d3aa82392bb2b5570bfe049c44eebc11186807",
+      "from": "0x3d3f2305c97513204453b1e96721ffe8c27013a4",
+      "blockNumber": 11,
+      "status": "0x1",
+      "gasUsed": 146202,
+      "contractAddress": "0xa6ce37bb7d845e7189d786f33bbd825055a833f7"
+    },
+    {
+      "name": "falcon-transfer",
+      "scheme": "falcon",
+      "kind": "transfer",
+      "hash": "0xf6bd3a6437c11a2e2ce26bd1566e78de9b5b51c920d76a68964e7e6bce8e2a9f",
+      "from": "0x3d3f2305c97513204453b1e96721ffe8c27013a4",
+      "blockNumber": 15,
+      "status": "0x1",
+      "gasUsed": 103080
+    },
+    {
+      "name": "mldsa-transfer",
+      "scheme": "mldsa",
+      "kind": "transfer",
+      "hash": "0xab903b9732416be260c606f678e2eabb85d6b7f6c7a958e9ead89f32b0efad2b",
+      "from": "0xc04e7e8933966eac97dfbe95a89c125095cf27c9",
+      "blockNumber": 16,
+      "status": "0x1",
+      "gasUsed": 147176
+    },
+    {
+      "name": "ecdsa-transfer",
+      "scheme": "ecdsa",
+      "kind": "transfer",
+      "hash": "0x5479db73898a264abb29eb8dfd2a09e29fef587078920907f2e40d9f06df688b",
+      "from": "0x7e5f4552091a69125d5dfcb7b8c2659029395bdf",
+      "blockNumber": 17,
+      "status": "0x1",
+      "gasUsed": 21000
+    },
+    {
+      "name": "falcon-call-store-42",
+      "scheme": "falcon",
+      "kind": "call",
+      "estimateGas": 43725,
+      "gasLimit": 125805,
+      "hash": "0x2948d60d31f48dc34f6123b34a9c4c28b62588f67b92f84cb988853e136dc281",
+      "from": "0x3d3f2305c97513204453b1e96721ffe8c27013a4",
+      "blockNumber": 21,
+      "status": "0x1",
+      "gasUsed": 125428
+    },
+    {
+      "name": "mldsa-call-store-43",
+      "scheme": "mldsa",
+      "kind": "call",
+      "estimateGas": 26591,
+      "gasLimit": 152767,
+      "hash": "0x3acdf391f82e01a3161966810185676b8726212078b34b273108d17997374462",
+      "from": "0xc04e7e8933966eac97dfbe95a89c125095cf27c9",
+      "blockNumber": 22,
+      "status": "0x1",
+      "gasUsed": 152424
+    }
+  ],
+  "startedAt": "2026-11-05T20:27:10.420Z",
+  "accounts": {
+    "ecdsa": "0x7e5f4552091a69125d5dfcb7b8c2659029395bdf",
+    "falcon": "0x3d3f2305c97513204453b1e96721ffe8c27013a4",
+    "mldsa": "0xc04e7e8933966eac97dfbe95a89c125095cf27c9"
+  },
+  "validator": "0xee663c3160760db03a3c6c0251181bb3ae04e78a",
+  "headAtStart": 5,
+  "contract": "0xa6ce37bb7d845e7189d786f33bbd825055a833f7",
+  "replay": {
+    "hash": "0xab903b9732416be260c606f678e2eabb85d6b7f6c7a958e9ead89f32b0efad2b",
+    "error": "Nonce too low"
+  },
+  "result": "pass",
+  "finishedAt": "2026-11-05T20:29:15.741Z"
+}

@@ -1,5 +1,17 @@
 # ZERONYTH Quantum Wallet v2
 
+**v12 (multi-chain)** — the wallet now operates on 16 networks: ZERONYTH
+912701 (all three schemes below), five EVM testnets (Base / Ethereum /
+Arbitrum Sepolia, Robinhood, Arc — ECDSA only, wZNYT on the four bridge
+chains), and Solana / Bitcoin / XRP / Sui / Aptos mainnet+testnet engines
+(one recovery phrase restores every account in this wallet). PQ accounts
+stay gated to ZERONYTH in the UI and the session layer. Also in v12:
+in-wallet ZERONYTH AMM swap (all 3 schemes), the security-hardening set
+(idle auto-lock, escalating unlock backoff, clipboard auto-clear,
+send-safety review — see `SECURITY.md`), and build version stamping.
+The full resume record is `CHECKPOINT-multichain.md`; live evidence is
+under `evidence/multichain/`.
+
 A three-scheme web wallet for ZERONYTH chain 912701. One vault holds
 accounts of all three native signature schemes, selectable per account:
 

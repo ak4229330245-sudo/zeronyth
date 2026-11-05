@@ -56,6 +56,17 @@ const ASSETS = [
   '/src/core/bip39.mjs',
   '/src/core/bip39-wordlist.mjs',
   '/src/core/hd.mjs',
+  '/src/build-info.mjs',
+  '/src/app/idle.mjs',
+  '/src/app/clipboard.mjs',
+  '/src/core/networks.mjs',
+  '/src/core/swap.mjs',
+  '/src/core/enc.mjs',
+  '/src/core/chains/solana.mjs',
+  '/src/core/chains/bitcoin.mjs',
+  '/src/core/chains/xrp.mjs',
+  '/src/core/chains/sui.mjs',
+  '/src/core/chains/aptos.mjs',
   '/sw.js',
   '/manifest.webmanifest',
   '/icon-192.png',
@@ -82,9 +93,9 @@ if (!html.includes('./vendor/')) {
   console.log('FAIL index.html import map does not point at ./vendor/');
 }
 const sw = await (await fetch(base + '/sw.js')).text();
-if (!sw.includes("const CACHE = 'zeronyth-qwallet-912701v11'")) {
+if (!sw.includes("const CACHE = 'zeronyth-qwallet-912701v12'")) {
   failed++;
-  console.log('FAIL sw.js cache name is not zeronyth-qwallet-912701v11');
+  console.log('FAIL sw.js cache name is not zeronyth-qwallet-912701v12');
 }
 
 server.close();

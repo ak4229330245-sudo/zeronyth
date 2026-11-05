@@ -1,0 +1,120 @@
+{
+ "generatedAt": "2026-11-05T20:23:24.716Z",
+ "steps": [
+  {
+   "id": "boot",
+   "ok": true
+  },
+  {
+   "id": "phrase-shown",
+   "ok": true,
+   "count": 24
+  },
+  {
+   "id": "wallet-created",
+   "ok": true,
+   "cards": [
+    {
+     "scheme": "mldsa",
+     "addr": "0xc0a2acddbe7418104574cd0986aae5d5321b9bf1",
+     "id": "40f3f854-09d6-49c4-ad03-0ce3d0714ae7",
+     "disabled": false
+    },
+    {
+     "scheme": "falcon",
+     "addr": "0x158ec6cc548dad86ea46f43ba2d1bbaee361666b",
+     "id": "6a9bceb5-9b13-46b0-86af-5f1f9e0d7dcc",
+     "disabled": false
+    },
+    {
+     "scheme": "ecdsa",
+     "addr": "0xedba14ee798f3e832a0ac361489d0a89e4927048",
+     "id": "9f93b856-223f-4a08-848c-3bdc11bafb89",
+     "disabled": false
+    }
+   ]
+  },
+  {
+   "id": "funded",
+   "ok": true
+  },
+  {
+   "id": "review-mldsa",
+   "ok": true,
+   "gasShown": true
+  },
+  {
+   "id": "mldsa-send",
+   "ok": true,
+   "hash": "0xd6616548572e6bd4be3167600d4b609cda33a17695f09199a47e1b21d927bc0c",
+   "gasUsed": "147176"
+  },
+  {
+   "id": "swap-buy-ecdsa",
+   "ok": true,
+   "hashes": [
+    "0x29e3b3173756e94bdeb1721b7c6208ebbeccffd96a5908634114e976532cd8c5"
+   ],
+   "zusdtDelta": "1994200015462523642"
+  },
+  {
+   "id": "seed-mldsa-zusdt",
+   "ok": true,
+   "hash": "0xb28243da06ba45aaa8fde8ed07c58fed383e06b2966887bd23be19a72b779dd0"
+  },
+  {
+   "id": "swap-sell-mldsa",
+   "ok": true,
+   "hashes": [
+    "0x3183dd24bb1a7444bc06cbb1e374f81dd419cb793753ab3c105da3f585a12650",
+    "0xb6f3a57c2e4bcdff6ff5651dc10e256fda1a8358cdd4b90a3e817543cbab15f5"
+   ],
+   "nativeDelta": "4982120579177412385"
+  },
+  {
+   "id": "base-pq-greyed",
+   "ok": true
+  },
+  {
+   "id": "base-rpc-override",
+   "ok": true
+  },
+  {
+   "id": "base-funded",
+   "ok": true,
+   "balance": "50000000000000000000"
+  },
+  {
+   "id": "base-review",
+   "ok": true
+  },
+  {
+   "id": "base-send",
+   "ok": true,
+   "hash": "0xc51deb15dddeed570ea64affa5be43225235a576e2eba771158ff284fb61201f",
+   "gasUsed": "21000"
+  },
+  {
+   "id": "back-to-zeronyth",
+   "ok": true
+  },
+  {
+   "id": "csp-boot",
+   "ok": true,
+   "booted": true,
+   "violations": [
+    {
+     "directive": "connect-src",
+     "blockedURI": "http://127.0.0.1:18545/"
+    }
+   ],
+   "badViolations": []
+  }
+ ],
+ "addresses": {
+  "mldsa": "0xc0a2acddbe7418104574cd0986aae5d5321b9bf1",
+  "falcon": "0x158ec6cc548dad86ea46f43ba2d1bbaee361666b",
+  "ecdsa": "0xedba14ee798f3e832a0ac361489d0a89e4927048"
+ },
+ "ok": true
+}

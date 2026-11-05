@@ -1,0 +1,74 @@
+{
+  "generatedAt": "2026-11-05T12:57:28.936Z",
+  "networks": {
+    "altnet": "https://s.altnet.rippletest.net:51234",
+    "mainnet": "https://s1.ripple.com:51234"
+  },
+  "steps": {
+    "connection": {
+      "altnetCheckConnection": true
+    },
+    "derivedAccount": {
+      "address": "r4rQqQLYhGZskrKvS8NVPR5Uvzghw9nRfg",
+      "validateAddress": true,
+      "accountInfoStatus": "error",
+      "accountInfoError": "actNotFound",
+      "balanceDrops": "0"
+    },
+    "faucetAccount": {
+      "httpStatus": 200,
+      "address": "rNwduGf44vW2HpjtnfAquiQcHUwMedyzbo",
+      "faucetAmountXrp": 100,
+      "balanceDropsViaEngine": "100000000",
+      "balanceXrpViaEngine": 100
+    },
+    "unfundedSend": {
+      "plan": {
+        "feeDrops": "10",
+        "balanceDrops": "0",
+        "sequence": 0,
+        "baseReserveDrops": "1000000",
+        "destinationExists": true,
+        "lastLedgerSequence": 22086900
+      },
+      "engine": {
+        "hash": "430E819FA00690E81A18AC382FA04880CF702C92B213C8510AAD41F574B5F10C",
+        "engineResult": "terNO_ACCOUNT"
+      },
+      "rawResubmit": {
+        "hash": "430E819FA00690E81A18AC382FA04880CF702C92B213C8510AAD41F574B5F10C",
+        "hashMatchesEngine": true,
+        "engine_result": "terNO_ACCOUNT",
+        "engine_result_message": "The source account does not exist."
+      },
+      "txStatusAfterSubmit": "pending"
+    },
+    "reserves": {
+      "altnet": {
+        "baseReserveDrops": "1000000"
+      },
+      "mainnet": {
+        "baseReserveDrops": "1000000"
+      }
+    },
+    "explorerProbes": {
+      "testnet": {
+        "url": "https://testnet.xrpscan.com/tx/430E819FA00690E81A18AC382FA04880CF702C92B213C8510AAD41F574B5F10C",
+        "httpStatus": 200,
+        "finalUrl": "https://testnet.xrpscan.com/tx/430E819FA00690E81A18AC382FA04880CF702C92B213C8510AAD41F574B5F10C"
+      },
+      "mainnet": {
+        "url": "https://xrpscan.com/tx/430E819FA00690E81A18AC382FA04880CF702C92B213C8510AAD41F574B5F10C",
+        "httpStatus": 200,
+        "finalUrl": "https://xrpscan.com/tx/430E819FA00690E81A18AC382FA04880CF702C92B213C8510AAD41F574B5F10C"
+      },
+      "note": "The transaction was rejected pre-validation (terNO_ACCOUNT), so no explorer can have it indexed; the probe records the HTTP status for the exact URL."
+    }
+  },
+  "verdict": {
+    "derivedAccountUnfunded": true,
+    "faucetBalanceReadViaEngine": true,
+    "blobWellFormed": true,
+    "engineResult": "terNO_ACCOUNT"
+  }
+}

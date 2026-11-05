@@ -17,7 +17,7 @@
 // (the same estimate+surcharge pattern the v1 wallet shipped with for
 // ML-DSA, generalized to all three schemes — wallet-v2-plan §4.4).
 
-import { isScheme } from './crypto.mjs';
+import { isEvmScheme } from './crypto.mjs';
 
 export const BASE_INTRINSIC_GAS = 21000n;
 
@@ -34,7 +34,9 @@ export const INTRINSIC_GAS = Object.freeze({
 });
 
 function check(scheme) {
-  if (!isScheme(scheme)) throw Error(`Unknown scheme: ${scheme}`);
+  // The intrinsic table is chain-912701 EVM policy; the non-EVM chain
+  // families have their own fee models in their engines.
+  if (!isEvmScheme(scheme)) throw Error(`Unknown scheme: ${scheme}`);
 }
 
 /** Exact gas a plain transfer will consume under this scheme. */

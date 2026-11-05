@@ -8,7 +8,7 @@
 // users keep running the previous build (the exact trap that blocked
 // v1's in-browser verification), so: bump here, bump ?v= there.
 //   next: zeronyth-qwallet-912701v12
-const CACHE = 'zeronyth-qwallet-912701v11';
+const CACHE = 'zeronyth-qwallet-912701v12';
 
 const SHELL = [
   './',

@@ -10,13 +10,30 @@
 
 import { browserStorage } from '../core/storage.mjs';
 import { SCHEMES } from '../core/crypto.mjs';
-import { parseZnyt, formatZnyt, isAddress, isHexData } from '../core/amount.mjs';
+import { parseZnyt, formatZnyt, parseAmount, formatAmount, isAddress, isHexData } from '../core/amount.mjs';
+import { schemeAllowedOn, explorerTxUrlFor } from '../core/networks.mjs';
 import { createI18n } from '../i18n.mjs';
 import { createSession, explorerTxUrl } from '../app/session.mjs';
+import { scheduleClipboardClear } from '../app/clipboard.mjs';
+import {
+  createIdleLockController,
+  readAutoLockPrefs,
+  writeAutoLockPrefs,
+  AUTOLOCK_MINUTE_CHOICES,
+} from '../app/idle.mjs';
+import BUILD_INFO from '../build-info.mjs';
 
 const LANG_LABELS = { ja: '日本語', en: 'English', 'zh-CN': '简体中文', ko: '한국어' };
 const SCHEME_ORDER = ['ecdsa', 'falcon', 'mldsa'];
 const SCHEME_NOTE_KEY = { ecdsa: 'noteEcdsa', falcon: 'noteFalcon', mldsa: 'noteMldsa' };
+const FAMILY_ORDER = ['solana', 'bitcoin', 'xrp', 'sui', 'aptos'];
+const FAMILY_NOTE_KEY = {
+  solana: 'noteSolana',
+  bitcoin: 'noteBitcoin',
+  xrp: 'noteXrp',
+  sui: 'noteSui',
+  aptos: 'noteAptos',
+};
 
 export function startApp(doc = document) {
   const storage = browserStorage();
@@ -25,10 +42,17 @@ export function startApp(doc = document) {
   const t = (key, vars) => i18n.t(key, vars);
 
   const ui = {
-    screen: 'accounts', // accounts | send | receive
+    screen: 'accounts', // accounts | send | receive | swap
     accountId: null,
+    asset: 'native', // send-screen asset: 'native' | token address
     review: null,
     result: null, // { hash, state }
+    swapPools: null, // native AMM pools from the manifest (ZERONYTH)
+    swapPoolId: '',
+    swapDir: 'buy',
+    swapAccountId: '',
+    swapQuote: null,
+    swapResult: null, // { hashes }
     busy: '', // i18n key of the in-progress label
     error: '',
     notice: '',
@@ -67,6 +91,28 @@ export function startApp(doc = document) {
   // Falcon keygen blocks the main thread.
   const paint = () => new Promise((r) => setTimeout(r, 30));
 
+  // ------------------------------------------------------------ networks
+
+  const net = () => session.getNetwork();
+  /** True when the account's scheme may operate on the selected network. */
+  const operable = (a) => schemeAllowedOn(net(), a.scheme);
+  /** The account's address as seen on the selected network. */
+  const displayAddress = (a) =>
+    net().kind === 'evm' ? a.address : session.familyAddress(a);
+  const fmtAmt = (v, decimals) => formatAmount(v, decimals);
+  const netLabel = (n) => n.name + (n.testnet ? t('testnetSuffix') : '');
+  const netChainLabel = (n) =>
+    n.kind === 'evm' ? `${netLabel(n)} · Chain ${n.chainId}` : netLabel(n);
+
+  let netSelLang = null;
+  function networkOptionsHtml() {
+    const evm = session.networks.filter((n) => n.kind === 'evm');
+    const fams = session.networks.filter((n) => n.kind !== 'evm');
+    const opt = (n) => `<option value="${n.id}">${esc(netLabel(n))}</option>`;
+    return `<optgroup label="EVM">${evm.map(opt).join('')}</optgroup>` +
+      `<optgroup label="Non-EVM">${fams.map(opt).join('')}</optgroup>`;
+  }
+
   // ------------------------------------------------------------ header
 
   function renderHeader() {
@@ -76,6 +122,15 @@ export function startApp(doc = document) {
     lockBtn.textContent = t('lock');
     $('lang-sel').value = i18n.lang;
     $('lang-sel').setAttribute('aria-label', t('language'));
+    const netSel = $('net-sel');
+    if (netSel) {
+      if (netSelLang !== i18n.lang) {
+        netSel.innerHTML = networkOptionsHtml();
+        netSelLang = i18n.lang;
+      }
+      netSel.value = st.networkId;
+      netSel.setAttribute('aria-label', t('networkSelect'));
+    }
     const conn = $('conn');
     if (!ui.conn) {
       conn.textContent = '…';
@@ -104,14 +159,14 @@ export function startApp(doc = document) {
 
   // ------------------------------------------------------------ shared bits
 
-  function schemePicker(name, selected = 'mldsa') {
-    return `<div class="schemes" role="radiogroup">${SCHEME_ORDER.map(
+  function schemePicker(name, selected = 'mldsa', order = SCHEME_ORDER, notes = SCHEME_NOTE_KEY) {
+    return `<div class="schemes" role="radiogroup">${order.map(
       (s) => `
       <label class="scheme ${s === selected ? 'sel' : ''}">
         <input type="radio" name="${name}" value="${s}" ${s === selected ? 'checked' : ''}>
         <span class="badge ${s}">${esc(SCHEMES[s].name)}</span>
-        ${s !== 'ecdsa' ? `<span class="qr">${esc(t('quantumResistant'))}</span>` : ''}
-        <span class="note">${esc(t(SCHEME_NOTE_KEY[s]))}</span>
+        ${s === 'falcon' || s === 'mldsa' ? `<span class="qr">${esc(t('quantumResistant'))}</span>` : ''}
+        <span class="note">${esc(t(notes[s]))}</span>
       </label>`,
     ).join('')}</div>`;
   }
@@ -130,18 +185,46 @@ export function startApp(doc = document) {
   }
 
   function accountCard(a) {
-    const bal = session.state.balances[a.id];
+    const n = net();
+    const st = session.state;
+    const addr = displayAddress(a);
+    if (!operable(a)) {
+      // Greyed out: the account exists but cannot act on this network.
+      // PQ accounts say why (ZERONYTH only); chain accounts are simply
+      // not available here.
+      const note =
+        a.scheme === 'falcon' || a.scheme === 'mldsa' ? t('zeronythOnly') : t('notAvailableOnNetwork');
+      return `<div class="acct disabled">
+      <div class="row">
+        <span class="badge ${a.scheme}">${esc(a.schemeName)}</span>
+        <span class="muted">${esc(note)}</span>
+      </div>
+      <div class="addr mono">${esc(addr)}</div>
+      <div class="row">
+        <button data-act="copy" data-copy="${esc(addr)}">${esc(t('copy'))}</button>
+      </div>
+    </div>`;
+    }
+    const bal = st.balances[a.id];
+    const tokenLines = (n.tokens ?? [])
+      .map((tok) => {
+        const tb = st.tokenBalances[a.id]?.[tok.address.toLowerCase()];
+        return `<div class="row"><span class="muted">${esc(tok.symbol)}</span>
+        <span class="bal" data-token-balance-for="${a.id}:${tok.address.toLowerCase()}">${tb == null ? '—' : esc(fmtAmt(tb, tok.decimals))} ${esc(tok.symbol)}</span></div>`;
+      })
+      .join('');
     return `<div class="acct">
       <div class="row">
         <span class="badge ${a.scheme}">${esc(a.schemeName)}</span>
-        <span class="bal" data-balance-for="${a.id}">${bal == null ? '—' : esc(formatZnyt(bal))} ZNYT</span>
+        <span class="bal" data-balance-for="${a.id}">${bal == null ? '—' : esc(fmtAmt(bal, n.native.decimals))} ${esc(n.native.symbol)}</span>
       </div>
-      <div class="addr mono">${esc(a.address)}</div>
+      ${tokenLines}
+      <div class="addr mono">${esc(addr)}</div>
       <div class="row">
         <button data-act="send" data-id="${a.id}">${esc(t('send'))}</button>
         <button data-act="receive" data-id="${a.id}">${esc(t('receive'))}</button>
-        <button data-act="faucet" data-id="${a.id}">＋ ${esc(t('faucet'))}</button>
-        <button data-act="copy" data-copy="${esc(a.address)}">${esc(t('copy'))}</button>
+        ${n.faucet ? `<button data-act="faucet" data-id="${a.id}">＋ ${esc(t('faucet'))}</button>` : ''}
+        <button data-act="copy" data-copy="${esc(addr)}">${esc(t('copy'))}</button>
       </div>
     </div>`;
   }
@@ -177,6 +260,7 @@ export function startApp(doc = document) {
     return `<section class="panel">
       <h2>${esc(t('phraseTitle'))}</h2>
       <p class="warn-banner">${esc(t('phraseWarn'))}</p>
+      <p class="muted">${esc(t('phraseRestoresAll'))}</p>
       ${phraseGrid(ui.phraseWords ?? [])}
       <div class="row">
         <button class="primary" data-act="phrase-written">${esc(t('phraseWritten'))}</button>
@@ -222,6 +306,7 @@ export function startApp(doc = document) {
     return `<section class="panel">
       <h2>${esc(t('restorePhrase'))}</h2>
       <p>${esc(t('restorePhraseIntro'))}</p>
+      <p class="muted">${esc(t('phraseRestoresAll'))}</p>
       <label>${esc(t('phraseInputLabel'))}<br>
         <textarea id="restore-words" rows="4" spellcheck="false" autocomplete="off"></textarea></label><br>
       <label>${esc(t('password'))}<br>
@@ -280,10 +365,13 @@ export function startApp(doc = document) {
   }
 
   function accountsScreen(st) {
+    const n = net();
     const known = st.accounts
+      .filter((a) => operable(a))
       .map((a) => st.balances[a.id])
       .filter((b) => b != null);
-    const total = known.reduce((n, b) => n + b, 0n);
+    const total = known.reduce((sum, b) => sum + b, 0n);
+    const prefs = readAutoLockPrefs(storage);
     return `
     ${st.migratedFromV1 && !ui.bannerDismissed ? `<section class="panel banner">
       <h3>${esc(t('migratedTitle'))}</h3>
@@ -295,27 +383,42 @@ export function startApp(doc = document) {
         <h2>${esc(t('accounts'))}</h2>
         <button data-act="refresh">↻ ${esc(t('refresh'))}</button>
       </div>
-      <p class="muted">${esc(t('total'))}: <strong>${esc(formatZnyt(total))} ZNYT</strong></p>
+      <p class="muted">${esc(t('network'))}: <strong>${esc(netChainLabel(n))}</strong></p>
+      ${n.id === 'zeronyth' ? `<p class="muted">${esc(t('total'))}: <strong>${esc(formatZnyt(total))} ZNYT</strong></p>` : ''}
       ${st.accounts.length ? st.accounts.map(accountCard).join('') : `<p class="muted">${esc(t('noAccounts'))}</p>`}
-      <p class="muted">${esc(t('chainNote'))}</p>
+      ${n.id === 'zeronyth' ? `<p class="muted">${esc(t('chainNote'))}</p>` : ''}
+      <div class="row">
+        <button data-act="open-swap">${esc(t('swap'))}</button>
+      </div>
       ${statusLines()}
     </section>
     <section class="panel">
       <h3>${esc(t('addAccount'))}</h3>
       ${schemePicker('add-scheme', 'mldsa')}
       <button data-act="add-account" ${ui.busy ? 'disabled' : ''}>${esc(t('addAccount'))}</button>
+      <h3>${esc(t('addChainAccount'))}</h3>
+      ${schemePicker('add-chain-scheme', 'solana', FAMILY_ORDER, FAMILY_NOTE_KEY)}
+      <button data-act="add-chain-account" ${ui.busy ? 'disabled' : ''}>${esc(t('addChainAccount'))}</button>
     </section>
     <section class="panel">
       <h3>${esc(t('settings'))}</h3>
-      <label>${esc(t('rpc'))}<br>
+      <label>${esc(t('rpc'))} — ${esc(netLabel(n))}<br>
         <input id="rpc-url" type="text" value="${esc(session.getRpcUrl())}" size="42" spellcheck="false"></label><br>
       <button data-act="save-rpc">${esc(t('save'))}</button>
+      ${st.customRpc ? `<p class="warn-banner">${esc(t('rpcCaution'))}</p>` : ''}
       <p class="muted">${esc(t('note'))}</p>
+      <label>${esc(t('autoLock'))}<br>
+        <select id="autolock-sel">
+          <option value="off" ${!prefs.enabled ? 'selected' : ''}>${esc(t('autoLockOff'))}</option>
+          ${AUTOLOCK_MINUTE_CHOICES.map((m) => `<option value="${m}" ${prefs.enabled && prefs.minutes === m ? 'selected' : ''}>${esc(t('autoLockMin', { n: m }))}</option>`).join('')}
+        </select></label><br>
+      <p class="muted">${esc(t('buildVersion'))}: Quantum Wallet ${esc(BUILD_INFO.version)} · build ${esc(BUILD_INFO.commit)}</p>
     </section>
     <section class="panel">
       <h3>${esc(t('phraseTitle'))}</h3>
       ${st.hasPhrase ? `
       <p class="muted">${esc(t('revealIntro'))}</p>
+      <p class="muted">${esc(t('phraseRestoresAll'))}</p>
       ${ui.revealedWords ? `
       <p class="warn-banner">${esc(t('phraseWarn'))}</p>
       ${phraseGrid(ui.revealedWords)}
@@ -328,6 +431,7 @@ export function startApp(doc = document) {
     <section class="panel">
       <h3>${esc(t('backupTitle'))}</h3>
       <p class="muted">${esc(t('backupIntro'))}</p>
+      <p class="muted">${esc(t('backupPwNote'))}</p>
       <label>${esc(t('backupPassword'))}<br>
         <input id="backup-pw" type="password" autocomplete="new-password" size="32"></label><br>
       <label>${esc(t('confirmPassword'))}<br>
@@ -345,16 +449,36 @@ export function startApp(doc = document) {
     </section>`;
   }
 
+  /** Selected send asset descriptor on the current network. */
+  function sendAsset() {
+    const n = net();
+    if (ui.asset !== 'native') {
+      const tok = (n.tokens ?? []).find((x) => x.address === ui.asset);
+      if (tok) return { id: tok.address, symbol: tok.symbol, decimals: tok.decimals, token: tok };
+    }
+    return { id: 'native', symbol: n.native.symbol, decimals: n.native.decimals, token: null };
+  }
+
   function sendScreen(st) {
     const account = st.accounts.find((a) => a.id === ui.accountId);
     if (!account) return accountsScreen(st);
+    const n = net();
+    if (!operable(account)) {
+      return `<section class="panel">
+        <h2>${esc(t('send'))}</h2>
+        <p class="warn-banner">${esc(t('notAvailableOnNetwork'))}</p>
+        <button data-act="back-accounts">${esc(t('back'))}</button>
+        ${statusLines()}
+      </section>`;
+    }
     if (ui.result) {
       const r = ui.result;
+      const txUrl = explorerTxUrlFor(n, r.hash);
       return `<section class="panel">
         <h2>${esc(t('send'))}</h2>
         <p class="ok">${esc(t('success'))}</p>
         <p>${esc(t('txHash'))}<br><span class="mono">${esc(r.hash)}</span></p>
-        <p><a href="${esc(explorerTxUrl(r.hash))}" target="_blank" rel="noopener">${esc(t('viewExplorer'))}</a></p>
+        ${txUrl ? `<p><a href="${esc(txUrl)}" target="_blank" rel="noopener">${esc(t('viewExplorer'))}</a></p>` : ''}
         <p>${esc(t('status'))}: <span id="receipt-status" class="${r.state === 'success' ? 'ok' : r.state === 'failed' ? 'err' : 'muted'}">${
           r.state === 'success' ? esc(t('receiptOk')) : r.state === 'failed' ? esc(t('receiptNg')) : esc(t('receiptPending'))
         }</span></p>
@@ -364,19 +488,30 @@ export function startApp(doc = document) {
     }
     if (ui.review) {
       const p = ui.review;
-      const tooPoor = p.balance != null && p.value + p.fee > p.balance;
+      const nativeBal = p.nativeBalance ?? p.balance;
+      const tooPoor =
+        p.kind === 'chain'
+          ? p.balance != null && p.value + p.fee > p.balance
+          : p.asset !== 'native'
+            ? (p.balance != null && p.value > p.balance) || (nativeBal != null && p.fee > nativeBal)
+            : nativeBal != null && p.value + p.fee > nativeBal;
       return `<section class="panel">
         <h2>${esc(t('review'))}</h2>
         <table class="kv">
+          <tr><th>${esc(t('network'))}</th><td>${esc(netChainLabel(n))}</td></tr>
           <tr><th>${esc(t('from'))}</th><td class="mono">${esc(p.from)}</td></tr>
           <tr><th>${esc(t('recipient'))}</th><td class="mono">${p.to ? esc(p.to) : esc(t('contractCreation'))}</td></tr>
-          <tr><th>${esc(t('amount'))}</th><td>${esc(formatZnyt(p.value))} ZNYT</td></tr>
+          <tr><th>${esc(t('amount'))}</th><td>${esc(fmtAmt(p.value, p.decimals))} ${esc(p.symbol)}</td></tr>
+          ${p.destinationTag != null ? `<tr><th>${esc(t('destTag'))}</th><td>${p.destinationTag}</td></tr>` : ''}
           ${p.data !== '0x' ? `<tr><th>${esc(t('data'))}</th><td class="mono">${esc(p.data.length > 66 ? p.data.slice(0, 66) + '…' : p.data)}</td></tr>` : ''}
-          <tr><th>${esc(t('gasLimit'))}</th><td>${p.gasLimit.toString()}</td></tr>
-          <tr><th>${esc(t('gasPrice'))}</th><td>${p.gasPrice.toString()}</td></tr>
-          <tr><th>${esc(t('fee'))}</th><td>${esc(formatZnyt(p.fee))} ZNYT</td></tr>
-          <tr><th>${esc(t('chain'))}</th><td>912701</td></tr>
+          ${p.kind === 'evm' ? `<tr><th>${esc(t('gasLimit'))}</th><td>${p.gasLimit.toString()}</td></tr>
+          <tr><th>${esc(t('gasPrice'))}</th><td>${p.gasPrice.toString()}</td></tr>` : ''}
+          <tr><th>${esc(t('feeEstimate'))}</th><td>${esc(fmtAmt(p.fee, n.native.decimals))} ${esc(n.native.symbol)}</td></tr>
+          ${p.kind === 'evm' ? `<tr><th>${esc(t('chain'))}</th><td>${p.chainId.toString()}</td></tr>` : ''}
         </table>
+        ${p.recipientIsContract ? `<p class="warn-banner">${esc(t('contractWarn'))}</p>` : ''}
+        ${p.firstSend ? `<p class="warn-banner">${esc(t('firstSendWarn'))}</p>
+        <label class="check"><input id="first-ack" type="checkbox"> ${esc(t('firstSendAck'))}</label>` : ''}
         ${tooPoor ? `<p class="err">${esc(t('insufficient'))}</p>` : ''}
         <div class="row">
           <button class="primary" data-act="approve" ${ui.busy || tooPoor ? 'disabled' : ''}>${esc(t('approve'))}</button>
@@ -385,20 +520,29 @@ export function startApp(doc = document) {
         ${statusLines()}
       </section>`;
     }
+    const asset = sendAsset();
     return `<section class="panel">
       <h2>${esc(t('send'))}</h2>
+      <p class="muted">${esc(netChainLabel(n))}</p>
       <p><span class="badge ${account.scheme}">${esc(account.schemeName)}</span>
-         <span class="mono">${esc(account.address)}</span></p>
+         <span class="mono">${esc(displayAddress(account))}</span></p>
+      ${(n.tokens ?? []).length ? `<label>${esc(t('asset'))}<br>
+        <select id="send-asset">
+          <option value="native" ${ui.asset === 'native' ? 'selected' : ''}>${esc(n.native.symbol)}</option>
+          ${n.tokens.map((tok) => `<option value="${esc(tok.address)}" ${ui.asset === tok.address ? 'selected' : ''}>${esc(tok.symbol)}</option>`).join('')}
+        </select></label><br>` : ''}
       <label>${esc(t('recipient'))}<br>
-        <input id="send-to" type="text" size="44" spellcheck="false" placeholder="0x…"></label><br>
-      <label>${esc(t('amount'))} (ZNYT)<br>
+        <input id="send-to" type="text" size="44" spellcheck="false" placeholder="${n.kind === 'evm' ? '0x…' : ''}"></label><br>
+      <label>${esc(t('amount'))} (${esc(asset.symbol)})<br>
         <input id="send-value" type="text" inputmode="decimal" size="24" placeholder="0.0"></label><br>
-      <label class="check"><input id="send-advanced" type="checkbox"> ${esc(t('advanced'))}</label>
+      ${n.kind === 'xrp' ? `<label>${esc(t('destTag'))}<br>
+        <input id="send-tag" type="text" inputmode="numeric" size="16" spellcheck="false"></label><br>` : ''}
+      ${n.kind === 'evm' ? `<label class="check"><input id="send-advanced" type="checkbox"> ${esc(t('advanced'))}</label>
       <div id="send-data-row" hidden>
         <label>${esc(t('data'))}<br>
           <input id="send-data" type="text" size="44" spellcheck="false" placeholder="0x"></label>
         <p class="muted">${esc(t('contractCreation'))}: ${esc(t('recipient'))} —</p>
-      </div>
+      </div>` : ''}
       <div class="row">
         <button class="primary" data-act="review" ${ui.busy ? 'disabled' : ''}>${esc(t('review'))}</button>
         <button data-act="back-accounts">${esc(t('back'))}</button>
@@ -410,16 +554,71 @@ export function startApp(doc = document) {
   function receiveScreen(st) {
     const account = st.accounts.find((a) => a.id === ui.accountId);
     if (!account) return accountsScreen(st);
+    const n = net();
+    const addr = displayAddress(account);
     return `<section class="panel">
       <h2>${esc(t('receive'))}</h2>
+      <p class="muted">${esc(netChainLabel(n))}</p>
       <p><span class="badge ${account.scheme}">${esc(account.schemeName)}</span></p>
       <p>${esc(t('yourAddress'))}</p>
-      <p class="addr-big mono">${esc(account.address)}</p>
+      <p class="addr-big mono">${esc(addr)}</p>
       <div class="row">
-        <button data-act="copy" data-copy="${esc(account.address)}">${esc(t('copy'))}</button>
+        <button data-act="copy" data-copy="${esc(addr)}">${esc(t('copy'))}</button>
         <button data-act="back-accounts">${esc(t('back'))}</button>
       </div>
-      <p class="muted">${esc(t('receiveWarn'))}</p>
+      ${n.kind === 'evm' ? `<p class="muted">${esc(t('receiveWarn'))}</p>` : ''}
+      ${n.kind === 'xrp' ? `<p class="muted">${esc(t('noteXrp'))}</p>` : ''}
+      ${statusLines()}
+    </section>`;
+  }
+
+  function swapScreen(st) {
+    const n = net();
+    if (n.id !== 'zeronyth') {
+      return `<section class="panel">
+        <h2>${esc(t('swap'))}</h2>
+        <p class="warn-banner">${esc(t('swapUnavailable'))}</p>
+        <button data-act="back-accounts">${esc(t('back'))}</button>
+        ${statusLines()}
+      </section>`;
+    }
+    const pools = ui.swapPools ?? [];
+    const pool = pools.find((p) => p.id === ui.swapPoolId) ?? pools[0];
+    const q = ui.swapQuote;
+    const accounts = st.accounts.filter((a) => operable(a));
+    return `<section class="panel">
+      <h2>${esc(t('swap'))}</h2>
+      ${ui.swapResult ? `<p class="ok">${esc(t('swapDone'))}</p>
+      ${ui.swapResult.hashes.map((h) => `<p class="mono">${esc(h)}<br><a href="${esc(explorerTxUrl(h))}" target="_blank" rel="noopener">${esc(t('viewExplorer'))}</a></p>`).join('')}` : ''}
+      <label>${esc(t('pair'))}<br>
+        <select id="swap-pool">
+          ${pools.map((p) => `<option value="${esc(p.id)}" ${pool && p.id === pool.id ? 'selected' : ''}>ZNYT / ${esc(p.b)}</option>`).join('')}
+        </select></label><br>
+      <label>${esc(t('swapFrom'))}<br>
+        <select id="swap-dir">
+          <option value="buy" ${ui.swapDir === 'buy' ? 'selected' : ''}>ZNYT → ${esc(pool?.b ?? '')}</option>
+          <option value="sell" ${ui.swapDir === 'sell' ? 'selected' : ''}>${esc(pool?.b ?? '')} → ZNYT</option>
+        </select></label><br>
+      <label>${esc(t('amount'))}<br>
+        <input id="swap-amount" type="text" inputmode="decimal" size="24" placeholder="0.0"></label><br>
+      <label>${esc(t('slippage'))}<br>
+        <input id="swap-slippage" type="text" inputmode="decimal" size="8" value="1"></label><br>
+      <label>${esc(t('from'))}<br>
+        <select id="swap-account">
+          ${accounts.map((a) => `<option value="${a.id}" ${a.id === ui.swapAccountId ? 'selected' : ''}>${esc(a.schemeName)} · ${esc(a.address)}</option>`).join('')}
+        </select></label><br>
+      <div class="row">
+        <button data-act="swap-quote" ${ui.busy ? 'disabled' : ''}>${esc(t('review'))}</button>
+        <button data-act="back-accounts">${esc(t('back'))}</button>
+      </div>
+      ${q ? `<table class="kv">
+        <tr><th>${esc(t('swapFrom'))}</th><td>${esc(formatZnyt(q.amountIn))} ${esc(q.sellSymbol)}</td></tr>
+        <tr><th>${esc(t('swapTo'))}</th><td>${esc(formatZnyt(q.amountOut))} ${esc(q.buySymbol)}</td></tr>
+        <tr><th>${esc(t('minReceived'))}</th><td>${esc(formatZnyt(q.minOut))} ${esc(q.buySymbol)}</td></tr>
+      </table>
+      <div class="row">
+        <button class="primary" data-act="swap-execute" ${ui.busy ? 'disabled' : ''}>${esc(t('swapExecute'))}</button>
+      </div>` : ''}
       ${statusLines()}
     </section>`;
   }
@@ -439,28 +638,54 @@ export function startApp(doc = document) {
     else if (st.status === 'locked') view.innerHTML = unlockScreen();
     else if (ui.screen === 'send') view.innerHTML = sendScreen(st);
     else if (ui.screen === 'receive') view.innerHTML = receiveScreen(st);
+    else if (ui.screen === 'swap') view.innerHTML = swapScreen(st);
     else view.innerHTML = accountsScreen(st);
   }
 
   function patchBalances() {
     const st = session.state;
+    const n = net();
     for (const a of st.accounts) {
       const el = view.querySelector(`[data-balance-for="${a.id}"]`);
       if (el) {
         const bal = st.balances[a.id];
-        el.textContent = `${bal == null ? '—' : formatZnyt(bal)} ZNYT`;
+        el.textContent = `${bal == null ? '—' : fmtAmt(bal, n.native.decimals)} ${n.native.symbol}`;
+      }
+      for (const tok of n.tokens ?? []) {
+        const tel = view.querySelector(
+          `[data-token-balance-for="${a.id}:${tok.address.toLowerCase()}"]`,
+        );
+        if (tel) {
+          const tb = st.tokenBalances[a.id]?.[tok.address.toLowerCase()];
+          tel.textContent = `${tb == null ? '—' : fmtAmt(tb, tok.decimals)} ${tok.symbol}`;
+        }
       }
     }
   }
 
   // ------------------------------------------------------------ actions
 
+  /** Map raw session/engine errors onto localized copy where it exists. */
+  function localizeError(message) {
+    let m;
+    if (/Invalid password/.test(message)) return t('wrongPassword');
+    if ((m = message.match(/Too many attempts — wait (\d+)s/))) {
+      return t('tooManyAttempts', { seconds: m[1] });
+    }
+    if ((m = message.match(/Chain ID mismatch: RPC reports chain (\d+), expected (\d+)/))) {
+      return t('chainIdMismatch', { reported: m[1], expected: m[2] });
+    }
+    if (/PQ accounts can only send/.test(message)) return t('pqOnlyOnZeronyth');
+    if (/Swap is only available on ZERONYTH/.test(message)) return t('swapUnavailable');
+    return message;
+  }
+
   async function guard(fn) {
     ui.error = '';
     try {
       await fn();
     } catch (e) {
-      ui.error = /Invalid password/.test(e.message) ? t('wrongPassword') : e.message;
+      ui.error = localizeError(e.message);
       idle();
       render();
     }
@@ -624,6 +849,10 @@ export function startApp(doc = document) {
         ui.error = t('confirm');
         return render();
       }
+      if (pw.length < 12) {
+        ui.error = t('backupPwShort');
+        return render();
+      }
       busy('exporting');
       await paint();
       await guard(async () => {
@@ -648,6 +877,7 @@ export function startApp(doc = document) {
     async 'copy-backup'(el) {
       try {
         await navigator.clipboard.writeText(ui.backupText);
+        scheduleClipboardClear({ clipboard: navigator.clipboard, text: ui.backupText });
       } catch {
         $('backup-text')?.select();
         doc.execCommand('copy');
@@ -687,6 +917,9 @@ export function startApp(doc = document) {
       ui.screen = 'accounts';
       ui.review = null;
       ui.result = null;
+      ui.asset = 'native';
+      ui.swapQuote = null;
+      ui.swapResult = null;
       clearFlow();
       ui.backupText = '';
       render();
@@ -698,6 +931,97 @@ export function startApp(doc = document) {
       await paint();
       await guard(async () => {
         await session.addAccount(scheme);
+        idle();
+        render();
+        await session.refreshBalances();
+        patchBalances();
+      });
+    },
+
+    async 'add-chain-account'() {
+      const el = view.querySelector('input[name="add-chain-scheme"]:checked');
+      const scheme = el ? el.value : 'solana';
+      busy('deriving');
+      await paint();
+      await guard(async () => {
+        await session.addAccount(scheme);
+        idle();
+        render();
+        await session.refreshBalances();
+        patchBalances();
+      });
+    },
+
+    // ------------------------------------------------------------- swap
+
+    async 'open-swap'() {
+      ui.screen = 'swap';
+      ui.swapQuote = null;
+      ui.swapResult = null;
+      ui.error = '';
+      ui.notice = '';
+      if (!ui.swapAccountId) {
+        ui.swapAccountId = session.state.accounts.find((a) => operable(a))?.id ?? '';
+      }
+      render();
+      if (net().id === 'zeronyth' && !ui.swapPools) {
+        await guard(async () => {
+          const manifest = await session.getSwapManifest();
+          ui.swapPools = (manifest.pools ?? []).filter((p) => p.kind === 'native');
+          if (!ui.swapPoolId && ui.swapPools[0]) ui.swapPoolId = ui.swapPools[0].id;
+          render();
+        });
+      }
+    },
+
+    async 'swap-quote'() {
+      const poolId = $('swap-pool')?.value;
+      const direction = $('swap-dir')?.value ?? 'buy';
+      let amountIn;
+      try {
+        amountIn = parseZnyt($('swap-amount').value);
+      } catch {
+        ui.error = t('invalidAmount');
+        return render();
+      }
+      const slipPct = Number(($('swap-slippage')?.value ?? '1').trim());
+      if (!Number.isFinite(slipPct) || slipPct < 0 || slipPct > 50) {
+        ui.error = t('invalidAmount');
+        return render();
+      }
+      ui.swapPoolId = poolId;
+      ui.swapDir = direction;
+      busy('deriving');
+      await paint();
+      await guard(async () => {
+        ui.swapQuote = await session.quoteSwap({
+          poolId,
+          direction,
+          amountIn,
+          slippageBps: Math.round(slipPct * 100),
+        });
+        idle();
+        render();
+      });
+    },
+
+    async 'swap-execute'() {
+      const accountId = $('swap-account')?.value;
+      if (!accountId || !ui.swapQuote) return;
+      busy('swapping');
+      render();
+      await paint();
+      await guard(async () => {
+        const plan = await session.prepareSwap({
+          accountId,
+          poolId: ui.swapQuote.pool.id,
+          direction: ui.swapQuote.direction,
+          amountIn: ui.swapQuote.amountIn,
+          slippageBps: ui.swapQuote.slippageBps,
+        });
+        const { hashes } = await session.executeSwap(plan);
+        ui.swapResult = { hashes };
+        ui.swapQuote = null;
         idle();
         render();
         await session.refreshBalances();
@@ -728,6 +1052,9 @@ export function startApp(doc = document) {
       const text = el.dataset.copy;
       try {
         await navigator.clipboard.writeText(text);
+        // Hygiene: clear the address from the clipboard in 30 s, but
+        // only if it still holds exactly what we copied.
+        scheduleClipboardClear({ clipboard: navigator.clipboard, text });
       } catch {
         const ta = doc.createElement('textarea');
         ta.value = text;
@@ -746,6 +1073,7 @@ export function startApp(doc = document) {
     send(el) {
       ui.accountId = el.dataset.id;
       ui.screen = 'send';
+      ui.asset = 'native';
       ui.review = null;
       ui.result = null;
       ui.error = '';
@@ -782,34 +1110,63 @@ export function startApp(doc = document) {
     },
 
     async review() {
+      const n = net();
+      const asset = sendAsset();
       const toRaw = $('send-to').value.trim();
       const dataEl = $('send-data');
-      const advanced = $('send-advanced').checked;
+      const advanced = $('send-advanced')?.checked;
       const data = advanced && dataEl ? dataEl.value.trim() || '0x' : '0x';
       let value;
       try {
-        value = parseZnyt($('send-value').value);
+        value = parseAmount($('send-value').value, asset.decimals);
       } catch {
         ui.error = t('invalidAmount');
         return render();
       }
       const to = toRaw === '' ? null : toRaw;
-      if (to !== null && !isAddress(to)) {
+      if (n.kind === 'evm') {
+        if (to !== null && !isAddress(to)) {
+          ui.error = t('invalidAddress');
+          return render();
+        }
+        if (!isHexData(data)) {
+          ui.error = t('invalidData');
+          return render();
+        }
+        if (to === null && data === '0x') {
+          ui.error = t('invalidAddress');
+          return render();
+        }
+      } else if (to === null) {
         ui.error = t('invalidAddress');
         return render();
       }
-      if (!isHexData(data)) {
-        ui.error = t('invalidData');
-        return render();
-      }
-      if (to === null && data === '0x') {
-        ui.error = t('invalidAddress');
-        return render();
+      let destinationTag;
+      if (n.kind === 'xrp') {
+        const tagRaw = ($('send-tag')?.value ?? '').trim();
+        if (tagRaw !== '') {
+          if (!/^\d+$/.test(tagRaw) || Number(tagRaw) > 4294967295) {
+            ui.error = t('invalidData');
+            return render();
+          }
+          destinationTag = Number(tagRaw);
+        }
       }
       busy('deriving');
       await paint();
       await guard(async () => {
-        ui.review = await session.prepareSend(ui.accountId, { to, value, data });
+        const prepared = await session.prepareSend(ui.accountId, {
+          to,
+          value,
+          data,
+          asset: asset.id,
+          destinationTag,
+        });
+        ui.review = {
+          ...prepared,
+          firstSend: prepared.to ? session.isFirstSendTo(prepared.to) : false,
+          destinationTag: destinationTag ?? prepared.destinationTag ?? null,
+        };
         idle();
         render();
       });
@@ -818,6 +1175,10 @@ export function startApp(doc = document) {
     async approve() {
       const prepared = ui.review;
       if (!prepared) return;
+      if (prepared.firstSend && !$('first-ack')?.checked) {
+        ui.error = t('firstSendWarn');
+        return render();
+      }
       busy('signing');
       render();
       await paint();
@@ -866,6 +1227,22 @@ export function startApp(doc = document) {
     i18n.setLang(ev.target.value);
     render();
   });
+  doc.getElementById('net-sel')?.addEventListener('change', async (ev) => {
+    await guard(async () => {
+      session.setNetwork(ev.target.value);
+      ui.screen = 'accounts';
+      ui.review = null;
+      ui.result = null;
+      ui.asset = 'native';
+      ui.swapQuote = null;
+      ui.swapResult = null;
+      ui.error = '';
+      ui.notice = '';
+      render();
+      await Promise.all([session.refreshBalances(), refreshConnection()]);
+      patchBalances();
+    });
+  });
   view.addEventListener('change', (ev) => {
     if (ev.target.id === 'import-file') {
       const file = ev.target.files?.[0];
@@ -879,7 +1256,33 @@ export function startApp(doc = document) {
     if (ev.target.id === 'send-advanced') {
       $('send-data-row').hidden = !ev.target.checked;
     }
-    if (ev.target.name === 'create-scheme' || ev.target.name === 'add-scheme') {
+    if (ev.target.id === 'send-asset') {
+      ui.asset = ev.target.value;
+      render();
+    }
+    if (ev.target.id === 'swap-pool') {
+      ui.swapPoolId = ev.target.value;
+      ui.swapQuote = null;
+      render();
+    }
+    if (ev.target.id === 'swap-dir') {
+      ui.swapDir = ev.target.value;
+      ui.swapQuote = null;
+    }
+    if (ev.target.id === 'swap-account') {
+      ui.swapAccountId = ev.target.value;
+    }
+    if (ev.target.id === 'autolock-sel') {
+      const v = ev.target.value;
+      if (v === 'off') writeAutoLockPrefs(storage, { enabled: false, minutes: readAutoLockPrefs(storage).minutes });
+      else writeAutoLockPrefs(storage, { enabled: true, minutes: Number(v) });
+      restartIdle();
+    }
+    if (
+      ev.target.name === 'create-scheme' ||
+      ev.target.name === 'add-scheme' ||
+      ev.target.name === 'add-chain-scheme'
+    ) {
       // refresh the .sel highlight on scheme cards
       view.querySelectorAll(`input[name="${ev.target.name}"]`).forEach((input) => {
         input.closest('.scheme').classList.toggle('sel', input.checked);
@@ -903,6 +1306,27 @@ export function startApp(doc = document) {
       render();
     }
   });
+
+  // ------------------------------------------------------------ idle lock
+
+  // Auto-lock wiring (hardening): the controller polls the pure
+  // IdleTracker decision machine; locking is the ordinary lock action,
+  // which drops the decrypted vault from memory. Preferences are read
+  // fresh on every poll for the enabled flag; a minutes change (or an
+  // off→on toggle) restarts the controller so the new timeout applies.
+  let idleController = null;
+  function restartIdle() {
+    idleController?.stop();
+    idleController = createIdleLockController({
+      doc,
+      storage,
+      isUnlocked: () => session.state.status === 'unlocked',
+      onLock: () => {
+        if (session.state.status === 'unlocked') actions.lock();
+      },
+    });
+  }
+  restartIdle();
 
   // ------------------------------------------------------------ boot
   render();
