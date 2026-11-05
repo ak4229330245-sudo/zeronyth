@@ -29,7 +29,7 @@
     <section class="c-notice">
       <strong>AI VPS マーケット（本番受付中）</strong>
       <p>支払いは <b>量子耐性トランザクションだけ</b>（Falcon-1024 / ML-DSA-65、チェーン 912701）。注文すると支払い専用の金額が発行され、チェーン上で着金が自動検知されます。ECDSA での支払いは受け付けません。</p>
-      <p>サーバーは運営が外部で用意し、準備ができたら注文番号の照会ページに接続情報を表示します（バリデータのホスト上で他人のプログラムは動かしません）。ZNYT は実験用トークンで、お金の価値はありません。</p>
+      <p>サーバーは運営が外部で用意します。接続情報は、注文した PQ アドレスの署名による本人確認ができた場合にのみ開示されます（注文番号だけでは表示されません。バリデータのホスト上で他人のプログラムは動かしません）。ZNYT は実験用トークンで、お金の価値はありません。</p>
       <p class="m-muted" id="mStat">マーケット状態を読み込み中…</p>
     </section>
 
@@ -47,7 +47,7 @@
 
     <section class="m-card">
       <h2>注文の照会</h2>
-      <p class="m-muted">注文番号（ZVPS-0001 の形式）で状態を確認できます。サーバーの用意が完了すると、ここに接続情報が表示されます。</p>
+      <p class="m-muted">注文番号（ZVPS-0001 の形式）で状態を確認できます。接続情報はここには表示されません。注文した PQ アドレスの署名による本人確認後にのみ提供されます。</p>
       <form class="m-form" id="lookupForm">
         <input id="orderId" placeholder="ZVPS-0001" autocomplete="off" spellcheck="false" style="min-width:160px;flex:0 1 220px">
         <button type="submit">照会</button>
@@ -82,7 +82,7 @@
         const j = await r.json();
         if (!r.ok) { out.textContent = "エラー: " + (j.error || r.status); return; }
         let t = `注文 ${j.id}: 状態 = ${j.status}` + (j.tx ? `\n支払いTx: ${j.tx}` : "") + (j.paid_at ? `\n着金時刻: ${j.paid_at}` : "");
-        if (j.lease) { t += `\nリース: ${j.lease.status}`; if (j.lease.start) t += `\n期間: ${j.lease.start} 〜 ${j.lease.end}`; if (j.lease.access) t += `\n接続情報:\n${j.lease.access}`; }
+        if (j.lease) { t += `\nリース: ${j.lease.status}`; if (j.lease.start) t += `\n期間: ${j.lease.start} 〜 ${j.lease.end}`; if (j.lease.access_registered) t += `\n接続情報: 登録済み（開示には本人確認＝注文した PQ アドレスの署名が必要です）`; }
         out.textContent = t;
       } catch { out.textContent = "通信エラー。もう一度どうぞ。"; }
     });

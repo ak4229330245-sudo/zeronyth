@@ -236,7 +236,26 @@ function vpsAdminPqVerify(body, action) {
     return vpsAdminPq.ml_dsa65.verify(sig, payload, vpsAdminPq.publicKey) === true;
   } catch { return false; }
 }
-const VPS_STORE_PATH = "/home/solbot/zeronyth-falcon-912701/site/vps-market.json";
+// VPS access disclosure (security fix, 2026-11-05): lease access details are NEVER returned by
+// public endpoints — an order id is sequential and public, so it cannot be a credential. The
+// customer retrieves access only by proving control of the ordering PQ address:
+// POST /api/vps/order/access {id, ts, publicKey, signature}, payload
+// UTF8("ZERONYTH/VPS-ACCESS/V1" + "\n" + JSON.stringify({id, ts})), ts in unix seconds within
+// ±300 s. The signer address is derived chain-style (keccak256(publicKey)[12:]) and must equal
+// the order's customer. ML-DSA-65 (1952-byte key) verifies via the shared pq-lib bundle;
+// Falcon-1024 (1793-byte key) via the vendored @noble/post-quantum 0.7.1 in jsdeps (the build
+// the chain accepts). Fail-closed: if the crypto libs fail to load, every request is refused,
+// and every refusal is the same generic 403 (no oracle detail).
+const VPS_ACCESS_DOMAIN = "ZERONYTH/VPS-ACCESS/V1";
+let vpsAccessPq = null;
+try {
+  const m = await import("file:///home/solbot/zeronyth-falcon-912701/pq-lib/pq-noble.mjs");
+  const f = await import("file:///home/solbot/zeronyth-falcon-912701/jsdeps/node_modules/@noble/post-quantum/falcon.js");
+  vpsAccessPq = { ml_dsa65: m.ml_dsa65, keccak_256: m.keccak_256, falcon1024: f.falcon1024 };
+} catch { vpsAccessPq = null; }
+// Store path is overridable only so the module can be fixture-tested against a throwaway store;
+// production leaves ZERONYTH_VPS_STORE unset and uses the live path.
+const VPS_STORE_PATH = process.env.ZERONYTH_VPS_STORE || "/home/solbot/zeronyth-falcon-912701/site/vps-market.json";
 const VPS_OFFERS = [{ id: "ai-vps-starter", name: "AI VPS スターター", price_znyt: 100, period_days: 10,
   specs: "1 vCPU / 1 GB RAM / 20 GB SSD 相当", includes: "ZERONYTH AI チャット プラン（期間中・上限拡大）", fulfillment: "operator" }];
 let vpsStore = (() => { try { return JSON.parse(readFileSync(VPS_STORE_PATH, "utf8")); } catch { return { seq: 0, cursor: 0, orders: [], leases: [] }; } })();
@@ -307,7 +326,34 @@ async function vpsGetOrder(req, res) {
   const o = vpsStore.orders.find((x) => x.id === id);
   if (!o) return json(res, 404, { error: "order not found" });
   const lease = vpsStore.leases.find((l) => l.id === id) || null;
-  return json(res, 200, { ...vpsPublicOrder(o), lease: lease ? { status: lease.status, start: lease.start, end: lease.end, access: lease.status === "active" ? lease.access : null } : null });
+  // The public lookup NEVER serializes lease access (security fix, 2026-11-05) — only whether
+  // access has been registered. Retrieval is the signed POST /api/vps/order/access below.
+  return json(res, 200, { ...vpsPublicOrder(o), lease: lease ? { status: lease.status, start: lease.start, end: lease.end, access_registered: !!lease.access } : null });
+}
+async function vpsOrderAccess(req, res) {
+  const deny = () => json(res, 403, { error: "forbidden" }); // one generic refusal for every failure
+  if (limited("vpsaccess:" + clientIp(req), 10, 60_000)) return json(res, 429, { error: "rate limited" });
+  if (!vpsAccessPq) return deny();
+  let body; try { body = JSON.parse(await readBody(req, 16_384) || "{}"); } catch { return deny(); }
+  try {
+    const id = String(body.id || "");
+    const ts = Number(body.ts);
+    if (!id || !Number.isFinite(ts) || Math.abs(Date.now() / 1000 - ts) > 300) return deny();
+    const hexBytes = (v) => { const s = String(v || "").replace(/^0x/, ""); return s.length % 2 === 0 && /^[0-9a-fA-F]*$/.test(s) ? Buffer.from(s, "hex") : null; };
+    const pub = hexBytes(body.publicKey), sig = hexBytes(body.signature);
+    if (!pub || !sig) return deny();
+    const order = vpsStore.orders.find((x) => x.id === id);
+    const lease = order ? vpsStore.leases.find((l) => l.id === id) : null;
+    if (!order || !lease || !lease.access) return deny();
+    const signer = "0x" + Buffer.from(vpsAccessPq.keccak_256(pub).slice(12)).toString("hex");
+    if (signer !== order.customer) return deny();
+    const payload = new TextEncoder().encode(VPS_ACCESS_DOMAIN + "\n" + JSON.stringify({ id, ts }));
+    let ok = false;
+    if (pub.length === 1952) ok = sig.length === 3309 && vpsAccessPq.ml_dsa65.verify(sig, payload, pub) === true;
+    else if (pub.length === 1793) ok = vpsAccessPq.falcon1024.verify(sig, payload, pub) === true;
+    if (!ok) return deny();
+    return json(res, 200, { id, access: lease.access });
+  } catch { return deny(); }
 }
 async function vpsAdmin(req, res, action) {
   let body; try { body = JSON.parse(await readBody(req, 16384) || "{}"); } catch { return json(res, 400, { error: "bad json" }); }
@@ -567,7 +613,7 @@ server.on("request", async (req, res) => {
     // Quantum Wallet (static PWA under dashboard/quantum-wallet/): the inner gateway 404s directories, so send the bare path to index.html.
     if ((p === "/quantum-wallet" || p === "/quantum-wallet/") && (req.method === "GET" || req.method === "HEAD")) {
       const q = String(req.url).includes("?") ? "&" + String(req.url).slice(String(req.url).indexOf("?") + 1) : "";
-      res.writeHead(302, { Location: "/quantum-wallet/index.html?v=7" + q, "Cache-Control": "no-store" }); return res.end();
+      res.writeHead(302, { Location: "/quantum-wallet/index.html?v=9" + q, "Cache-Control": "no-store" }); return res.end();
     }
     if (p.startsWith("/assets/audio/") && (req.method === "GET" || req.method === "HEAD")) return await serveAudio(req, res, p);
     if (p === "/api/pq/finality/latest" && req.method === "GET" && new URL(req.url, "http://localhost").searchParams.get("summary") === "1") {
@@ -584,6 +630,7 @@ server.on("request", async (req, res) => {
     if (p === "/api/vps/pricing") return json(res, 200, { schema: "zeronyth.vps.pricing.v1", chain_id: 912701, mode: "fixed_znyt", payment_token: "ZNYT", offers: VPS_OFFERS.map((o) => ({ id: o.id, price_znyt: o.price_znyt, period_days: o.period_days })), note: "Prices are fixed in ZNYT (experimental token, no monetary value, no USD rate). Payment is by native PQ transaction only." });
     if (p === "/api/vps/order" && req.method === "POST") return await vpsCreateOrder(req, res);
     if (p === "/api/vps/order" && req.method === "GET") return await vpsGetOrder(req, res);
+    if (p === "/api/vps/order/access" && req.method === "POST") return await vpsOrderAccess(req, res);
     if (p === "/api/vps/admin/fulfill" && req.method === "POST") return await vpsAdmin(req, res, "fulfill");
     if (p === "/api/vps/admin/cancel" && req.method === "POST") return await vpsAdmin(req, res, "cancel");
     if (p.startsWith("/api/access/") && !ACCESS_912701.has(p)) {

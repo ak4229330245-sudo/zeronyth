@@ -42,7 +42,8 @@ off-band and activates the lease. Tenant workloads never run on the validator ho
 | Method & path | Purpose |
 |---|---|
 | `POST /api/vps/order` | Create an order; returns the order id and the exact payable amount. |
-| `GET /api/vps/order?id=` | Look up one order/lease. |
+| `GET /api/vps/order?id=` | Look up one order/lease. Never returns access details — only `access_registered` (whether any are on file). |
+| `POST /api/vps/order/access` | Retrieve a lease's access details with a PQ signature from the ordering address (see below). |
 | `GET /api/vps/status` | Market status (live state). |
 | `GET /api/vps/offers` | Current offers. |
 | `GET /api/vps/rentals` | Current leases (used by the paid-order watch). |
@@ -61,6 +62,27 @@ Admin calls accept an ML-DSA-65 signature over
 with a ±300 s timestamp window, verified against the pinned operator public key.
 The legacy shared admin key is kept only as a break-glass fallback; responses
 report which path authenticated (`auth: "pq"` or `"legacy"`).
+
+### Access retrieval (customer authentication)
+
+Lease access details are stored in the market store but are **never**
+serialized by the public endpoints (order ids are sequential, so an id
+cannot act as a credential). The customer retrieves them by proving
+control of the ordering PQ address: `POST /api/vps/order/access` with
+`{id, ts, publicKey, signature}`, where the signature covers
+
+```
+"ZERONYTH/VPS-ACCESS/V1" + "\n" + JSON.stringify({id, ts})
+```
+
+with a ±300 s timestamp window. The signer address is derived
+chain-style (`keccak256(publicKey)[12:]`) and must equal the order's
+customer; both ML-DSA-65 (1952-byte key) and Falcon-1024 (1793-byte
+key) signatures are accepted. Every failure — unknown order, no access
+registered, stale timestamp, wrong signer, bad signature — returns the
+same generic `403 {"error":"forbidden"}`. (Security fix, 2026-11-05:
+previously `GET /api/vps/order?id=` returned the access details of an
+active lease to anyone who knew the order id.)
 
 ### Discord notification signing
 
