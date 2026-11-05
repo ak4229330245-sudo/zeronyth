@@ -1,6 +1,7 @@
 // Phase 3 tests: i18n runtime, amount helpers, and the session
-// controller (vault lifecycle, v3 reset/stay-unlocked semantics, send
-// pipeline) — all headless, with an injected fake RPC. Run with npm test.
+// controller (vault lifecycle, v3 reset semantics, memory-only unlock
+// with no password persistence, send pipeline) — all headless, with an
+// injected fake RPC. Run with npm test.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 
@@ -199,7 +200,15 @@ test('amount: address / data shape checks', () => {
 
 // ------------------------------------------------------------------ session
 
-test('session: create makes the first account and remembers the password', async () => {
+/** Assert no storage value holds the password (or any given secret). */
+function assertPasswordNowhere(storage, secret = PASSWORD) {
+  assert.equal(storage.getItem(AUTOUNLOCK_KEY), null, 'legacy autounlock key must never be written');
+  for (const [k, v] of storage._map) {
+    assert.ok(typeof v !== 'string' || !v.includes(secret), `password material leaked into ${k}`);
+  }
+}
+
+test('session: create makes the first account and never persists the password', async () => {
   const storage = memoryStorage();
   const session = makeSession(storage, fakeRpc());
   assert.equal(session.state.status, 'no-vault');
@@ -208,66 +217,73 @@ test('session: create makes the first account and remembers the password', async
   assert.equal(state.status, 'unlocked');
   assert.equal(state.accounts.length, 1);
   assert.equal(state.accounts[0].scheme, 'mldsa');
-  assert.equal(storage.getItem(AUTOUNLOCK_KEY), PASSWORD, 'v3: saved after successful create');
+  assertPasswordNowhere(storage);
 });
 
-test('session: a new session auto-unlocks from the remembered password', async () => {
+test('session: unlock writes no persistence — a reload requires the password', async () => {
   const storage = memoryStorage();
   const first = makeSession(storage, fakeRpc());
   const created = await first.create(PASSWORD, 'ecdsa');
   const address = created.accounts[0].address;
+  first.lock();
 
+  const unlocked = await first.unlock(PASSWORD);
+  assert.equal(unlocked.status, 'unlocked');
+  assertPasswordNowhere(storage);
+
+  // A fresh session over the same storage models a page reload: it must
+  // come up locked even though the previous session unlocked fine.
   const second = makeSession(storage, fakeRpc());
   assert.equal(second.state.status, 'locked');
   const state = await second.start();
-  assert.equal(state.status, 'unlocked');
-  assert.equal(state.accounts[0].address, address);
-  // Second start() must not re-attempt (one auto attempt per load).
-  const again = await second.start();
+  assert.equal(state.status, 'locked', 'start() must never auto-unlock');
+  assert.equal(state.accounts.length, 0);
+  const again = await second.unlock(PASSWORD);
   assert.equal(again.status, 'unlocked');
+  assert.equal(again.accounts[0].address, address);
+  assertPasswordNowhere(storage);
 });
 
-test('session: lock forgets the remembered password and blocks vault ops', async () => {
-  const storage = memoryStorage();
-  const session = makeSession(storage, fakeRpc());
-  await session.create(PASSWORD, 'ecdsa');
-  assert.equal(storage.getItem(AUTOUNLOCK_KEY), PASSWORD);
-
-  session.lock();
-  assert.equal(session.state.status, 'locked');
-  assert.equal(storage.getItem(AUTOUNLOCK_KEY), null, 'v3: Lock erases the saved password');
-  await assert.rejects(() => session.addAccount('ecdsa'), /locked/);
-});
-
-test('session: failed MANUAL unlock keeps the remembered password', async () => {
-  const storage = memoryStorage();
-  const session = makeSession(storage, fakeRpc());
-  await session.create(PASSWORD, 'ecdsa');
-  session.lock();
-  storage.setItem(AUTOUNLOCK_KEY, PASSWORD); // remembered from an earlier success
-
-  await assert.rejects(() => session.unlock(WRONG_PASSWORD), /Invalid password/);
-  assert.equal(session.state.status, 'locked');
-  assert.equal(
-    storage.getItem(AUTOUNLOCK_KEY),
-    PASSWORD,
-    'v3: only failed AUTO attempts erase the saved password',
-  );
-});
-
-test('session: failed AUTO unlock erases the remembered password', async () => {
+test('session: legacy autounlock key is scrubbed on load and never used', async () => {
   const storage = memoryStorage();
   const first = makeSession(storage, fakeRpc());
   await first.create(PASSWORD, 'ecdsa');
-  storage.setItem(AUTOUNLOCK_KEY, WRONG_PASSWORD); // stale / wrong remembered pw
+  first.lock();
+  // Simulate a pre-fix build's leftover: the correct password, stored.
+  storage.setItem(AUTOUNLOCK_KEY, PASSWORD);
+  assert.equal(storage.getItem(AUTOUNLOCK_KEY), PASSWORD);
 
   const second = makeSession(storage, fakeRpc());
+  assert.equal(storage.getItem(AUTOUNLOCK_KEY), null, 'scrubbed at session startup');
   const state = await second.start();
-  assert.equal(state.status, 'locked');
-  assert.equal(storage.getItem(AUTOUNLOCK_KEY), null, 'v3: failed auto attempt clears it');
+  assert.equal(state.status, 'locked', 'the scrubbed password must not unlock anything');
+  assert.equal(state.accounts.length, 0);
 });
 
-test('session: wipe deletes the v3 key set and keeps the migration backup', async () => {
+test('session: lock blocks vault ops and stores nothing', async () => {
+  const storage = memoryStorage();
+  const session = makeSession(storage, fakeRpc());
+  await session.create(PASSWORD, 'ecdsa');
+
+  session.lock();
+  assert.equal(session.state.status, 'locked');
+  assertPasswordNowhere(storage);
+  await assert.rejects(() => session.addAccount('ecdsa'), /locked/);
+});
+
+test('session: failed manual unlock stores nothing either', async () => {
+  const storage = memoryStorage();
+  const session = makeSession(storage, fakeRpc());
+  await session.create(PASSWORD, 'ecdsa');
+  session.lock();
+
+  await assert.rejects(() => session.unlock(WRONG_PASSWORD), /Invalid password/);
+  assert.equal(session.state.status, 'locked');
+  assertPasswordNowhere(storage);
+  assertPasswordNowhere(storage, WRONG_PASSWORD);
+});
+
+test('session: wipe deletes the deletion key set and keeps the migration backup', async () => {
   const storage = memoryStorage();
   const session = makeSession(storage, fakeRpc());
   await session.create(PASSWORD, 'ecdsa');

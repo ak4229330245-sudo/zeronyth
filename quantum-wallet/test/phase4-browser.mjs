@@ -241,21 +241,37 @@ await step('l', 'Faucet button surfaces node error without breaking UI', async (
 }, { dependsOn: ['c'] });
 
 // --------------------------------------------------------------- step h
-await step('h', 'Stay-unlocked across reload; Lock clears it', async () => {
+await step('h', 'Memory-only unlock: reload locks; password never persisted', async () => {
   await page.reload({ waitUntil: 'load' });
+  await page.locator('#unlock-pw').waitFor({ state: 'visible', timeout: T });
+  assert((await page.locator('.acct').count()) === 0, 'accounts visible after reload — session was not memory-only');
+  const stored = await page.evaluate(() => {
+    const out = {};
+    for (let i = 0; i < localStorage.length; i++) {
+      const k = localStorage.key(i);
+      out[k] = localStorage.getItem(k);
+    }
+    return out;
+  });
+  assert(!('zeronyth.qwallet.autounlock' in stored), 'legacy autounlock key present in localStorage');
+  assert(
+    !Object.values(stored).some((v) => typeof v === 'string' && v.includes(PASSWORD)),
+    'password value found in localStorage',
+  );
+  await page.screenshot({ path: path.join(SHOTS, 'h-memory-only.png') });
+  await page.fill('#unlock-pw', PASSWORD);
+  await page.click('button[data-act="unlock"]');
   await page.locator('.acct .addr').first().waitFor({ state: 'visible', timeout: T });
-  assert((await page.locator('#unlock-pw').count()) === 0, 'unlock screen shown after reload — autounlock failed');
-  await page.screenshot({ path: path.join(SHOTS, 'h-stay-unlocked.png') });
   await page.click('#lock-btn');
   await page.locator('#unlock-pw').waitFor({ state: 'visible' });
   await page.reload({ waitUntil: 'load' });
   await page.locator('#unlock-pw').waitFor({ state: 'visible', timeout: 30000 });
-  assert((await page.locator('.acct').count()) === 0, 'accounts visible after Lock+reload — autounlock not cleared');
-  return 'auto-unlock on reload OK; after Lock, reload stays on unlock screen';
+  assert((await page.locator('.acct').count()) === 0, 'accounts visible after Lock+reload');
+  return 'reload locks the wallet; no password material in localStorage; manual unlock still works';
 }, { dependsOn: ['a'] });
 
 // --------------------------------------------------------------- step j
-await step('j', 'Service worker registered with v7 cache', async () => {
+await step('j', 'Service worker registered with v9 cache', async () => {
   const info = await page.evaluate(async () => {
     const reg = await navigator.serviceWorker.getRegistration();
     const keys = await caches.keys();
@@ -268,7 +284,7 @@ await step('j', 'Service worker registered with v7 cache', async () => {
   });
   assert(info.hasReg, 'no service worker registration');
   assert(
-    info.keys.some((k) => k.includes('zeronyth-qwallet-912701v8')),
+    info.keys.some((k) => k.includes('zeronyth-qwallet-912701v9')),
     `cache keys: ${JSON.stringify(info.keys)}`,
   );
   return `scriptURL ${info.scriptURL}, caches ${JSON.stringify(info.keys)}, active=${info.active}`;

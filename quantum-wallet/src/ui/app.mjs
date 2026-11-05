@@ -12,7 +12,7 @@ import { browserStorage } from '../core/storage.mjs';
 import { SCHEMES } from '../core/crypto.mjs';
 import { parseZnyt, formatZnyt, isAddress, isHexData } from '../core/amount.mjs';
 import { createI18n } from '../i18n.mjs';
-import { createSession, explorerTxUrl, AUTOUNLOCK_KEY } from '../app/session.mjs';
+import { createSession, explorerTxUrl } from '../app/session.mjs';
 
 const LANG_LABELS = { ja: '日本語', en: 'English', 'zh-CN': '简体中文', ko: '한국어' };
 const SCHEME_ORDER = ['ecdsa', 'falcon', 'mldsa'];
@@ -34,7 +34,6 @@ export function startApp(doc = document) {
     notice: '',
     showReset: false,
     conn: null, // { ok, chainId, wrongChain } | null
-    autoHint: !!storage.getItem(AUTOUNLOCK_KEY),
     bannerDismissed: false,
   };
 
@@ -165,7 +164,7 @@ export function startApp(doc = document) {
       <label>${esc(t('password'))}<br>
         <input id="unlock-pw" type="password" autocomplete="current-password" size="32"></label><br>
       <button class="primary" data-act="unlock" ${ui.busy ? 'disabled' : ''}>${esc(t('unlock'))}</button>
-      ${ui.autoHint && !ui.busy ? `<p class="muted">${esc(t('autoUnlockNote'))}</p>` : ''}
+      <p class="muted">${esc(t('passwordNotStored'))}</p>
       <div class="reset-zone">
         <button class="reset-btn" data-act="reset-open">${esc(t('forgot'))}</button>
         ${ui.showReset ? `<div class="reset-panel">
@@ -360,7 +359,6 @@ export function startApp(doc = document) {
       await paint();
       await guard(async () => {
         await session.unlock(pw);
-        ui.autoHint = false;
         await enterWallet();
       });
     },
@@ -383,7 +381,6 @@ export function startApp(doc = document) {
       ui.screen = 'accounts';
       ui.review = null;
       ui.result = null;
-      ui.autoHint = false;
       render();
     },
 
@@ -592,14 +589,10 @@ export function startApp(doc = document) {
   // ------------------------------------------------------------ boot
   render();
   (async () => {
-    if (storage.getItem(AUTOUNLOCK_KEY) && session.hasVault()) {
-      busy('unlocking');
-      const ok = await session.tryAutoUnlock();
-      idle();
-      ui.autoHint = false;
-      if (ok) await enterWallet();
-      else render();
-    }
+    // Memory-only sessions: startup never unlocks. start() scrubs any
+    // legacy remembered-password key left by a pre-fix build.
+    await session.start();
+    render();
     refreshConnection();
   })();
 

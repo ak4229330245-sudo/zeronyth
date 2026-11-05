@@ -3,21 +3,26 @@
 // Owns everything the UI needs so the UI itself is a thin renderer:
 //   - vault lifecycle (create / unlock / lock / add account) over an
 //     injected Storage-like object and the Phase 1 vault core,
-//   - the reset + stay-unlocked behaviors ported from reset-wallet v3,
+//   - the reset behavior ported from reset-wallet v3,
 //   - the send pipeline (prepare -> review -> sign -> broadcast -> poll)
 //     over the Phase 2 engines and gas policy,
 //   - balances, the zny_faucet call, and connection checks.
 //
-// reset-wallet v3 semantics, translated from DOM-watching to direct
-// knowledge (the behaviors are identical, the mechanism is not):
-//   * Stay unlocked: the password is written to
-//     "zeronyth.qwallet.autounlock" ONLY after a successful create or
-//     manual unlock; on later loads it is tried at most once
-//     (tryAutoUnlock); a failed AUTO attempt erases it; Lock erases it.
-//     A failed MANUAL unlock leaves any saved password untouched.
+// Password handling (security fix, 2026-11-05): the unlock password is
+// NEVER persisted — not to localStorage, sessionStorage or IndexedDB.
+// An unlocked session lives in memory only; a page reload or tab close
+// locks the wallet and the password must be entered again. (Earlier
+// builds ported reset-wallet v3's "stay unlocked" behavior and stored
+// the password under "zeronyth.qwallet.autounlock", next to the vault
+// it unlocks; that key is now only ever DELETED: session construction
+// and start() scrub it so users who enabled it under an old build are
+// cleaned up on their first load of the fixed build.)
+//
+// reset-wallet v3 semantics for reset, translated from DOM-watching to
+// direct knowledge (the behavior is identical, the mechanism is not):
 //   * Reset: wiping removes the vault key ("zeronyth-vault-v1"), the
-//     autounlock key, and every "zeronyth-tokens:*" key — exactly the
-//     v3 deletion set. The v1 migration backup
+//     legacy autounlock key, and every "zeronyth-tokens:*" key — exactly
+//     the v3 deletion set. The v1 migration backup
 //     ("zeronyth-vault-v1-backup") is NOT removed, matching v3.
 //   * No idle auto-lock: the vault locks on Lock or page reload only.
 //
@@ -41,6 +46,11 @@ import { signWithVault } from '../core/tx.mjs';
 import { transferGasLimit, callGasLimit } from '../core/gas.mjs';
 import { isAddress, isHexData } from '../core/amount.mjs';
 
+/**
+ * Legacy key under which pre-fix builds stored the unlock password for
+ * the (removed) stay-unlocked feature. Never written anymore; scrubbed
+ * at startup so stale copies cannot linger next to the vault.
+ */
 export const AUTOUNLOCK_KEY = 'zeronyth.qwallet.autounlock';
 export const RPC_URL_KEY = 'zeronyth.qwallet.rpc';
 export const TOKEN_PREFIX = 'zeronyth-tokens:';
@@ -71,12 +81,15 @@ export function createSession({
 } = {}) {
   if (!storage) throw Error('storage required');
 
+  // Scrub the legacy remembered-password key immediately at startup:
+  // pre-fix builds may have left the vault password in storage.
+  storage.removeItem(AUTOUNLOCK_KEY);
+
   let vault = null;
   let status = vaultExists(storage) ? 'locked' : 'no-vault'; // no-vault|locked|unlocked
   let accounts = []; // cached summaries (secret-free)
   let balances = new Map(); // accountId -> bigint | null (null = unknown)
   let migratedFromV1 = false;
-  let autoAttempted = false;
   const listeners = new Set();
 
   const snapshot = () => ({
@@ -117,66 +130,52 @@ export function createSession({
     return vaultExists(storage);
   }
 
-  /** Create a fresh vault plus its first account. Remembers the password. */
+  /**
+   * Create a fresh vault plus its first account. The password is used
+   * to encrypt the vault and then forgotten — it is never persisted.
+   */
   async function create(password, firstScheme) {
     const created = await createVault(storage, password);
     await adoptVault(created);
-    storage.setItem(AUTOUNLOCK_KEY, password); // v3: saved on success
     if (firstScheme) await addAccount(firstScheme);
     return snapshot();
   }
 
-  /** Manual unlock. On success the password is remembered (v3). */
+  /** Manual unlock. The password stays in memory only, never stored. */
   async function unlock(password) {
     const opened = await unlockVault(storage, password); // throws on bad pw
     await adoptVault(opened);
-    storage.setItem(AUTOUNLOCK_KEY, password);
     return snapshot();
   }
 
   /**
-   * One automatic unlock attempt per load, using the remembered
-   * password. A failed attempt erases the remembered password (v3).
-   * Returns true when the session ended up unlocked.
+   * Startup hook. Sessions are memory-only, so there is nothing to
+   * restore: this just re-scrubs the legacy remembered-password key
+   * (in case anything re-created it) and returns the current state.
+   * A wallet that exists starts 'locked' and needs its password.
    */
-  async function tryAutoUnlock() {
-    if (autoAttempted) return status === 'unlocked';
-    autoAttempted = true;
-    if (status === 'unlocked') return true;
-    const saved = storage.getItem(AUTOUNLOCK_KEY);
-    if (!saved || !hasVault()) return false;
-    try {
-      const opened = await unlockVault(storage, saved);
-      await adoptVault(opened);
-      return true;
-    } catch {
-      storage.removeItem(AUTOUNLOCK_KEY);
-      return false;
-    }
-  }
-
-  /** Startup: perform the single allowed auto-unlock attempt, if any. */
   async function start() {
-    await tryAutoUnlock();
+    storage.removeItem(AUTOUNLOCK_KEY);
     return snapshot();
   }
 
-  /** Lock now: zeroize via the vault, drop caches, forget the password. */
+  /** Lock now: zeroize via the vault and drop all in-memory state. */
   function lock() {
     if (vault) vault.lock();
     vault = null;
     accounts = [];
     balances = new Map();
     migratedFromV1 = false;
-    storage.removeItem(AUTOUNLOCK_KEY); // v3: Lock forgets
+    storage.removeItem(AUTOUNLOCK_KEY); // defensive: no legacy key lingers
     status = hasVault() ? 'locked' : 'no-vault';
     emit();
   }
 
   /**
-   * Reset flow (v3): delete this device's wallet — vault key, autounlock
-   * key, and all zeronyth-tokens:* keys. The migration backup key is
-   * intentionally kept, exactly as v3 kept it. Caller reloads the UI.
+   * Reset flow (v3): delete this device's wallet — vault key, legacy
+   * autounlock key, and all zeronyth-tokens:* keys. The migration
+   * backup key is intentionally kept, exactly as v3 kept it. Caller
+   * reloads the UI.
    */
   function wipe() {
     if (vault) vault.lock();
@@ -368,7 +367,6 @@ export function createSession({
     start,
     create,
     unlock,
-    tryAutoUnlock,
     lock,
     wipe,
     addAccount,

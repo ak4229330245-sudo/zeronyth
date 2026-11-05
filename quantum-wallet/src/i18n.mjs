@@ -589,11 +589,11 @@ export const DICT = {
   "语言",
   "언어"
  ],
- "autoUnlockNote": [
-  "この端末では、ロックするまで解除状態を保持します。「ロック」を押すと保存されたパスワードを消去します。",
-  "This device stays unlocked until you press Lock. Pressing Lock erases the saved password.",
-  "此设备将保持解锁状态，直到您点击“锁定”。点击“锁定”将清除保存的密码。",
-  "이 기기는 잠금을 누를 때까지 해제 상태를 유지합니다. 잠금을 누르면 저장된 비밀번호가 지워집니다."
+ "passwordNotStored": [
+  "パスワードはこの端末に保存されません。ページを再読み込みしたり閉じたりすると、ウォレットはロックされます。",
+  "Your password is never stored on this device. The wallet locks when the page is reloaded or closed.",
+  "密码不会保存在此设备上。重新加载或关闭页面后，钱包将被锁定。",
+  "비밀번호는 이 기기에 저장되지 않습니다. 페이지를 새로고침하거나 닫으면 지갑이 잠깁니다."
  ],
  "dismiss": [
   "閉じる",
