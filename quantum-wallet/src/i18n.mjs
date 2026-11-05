@@ -26,10 +26,10 @@ export const DICT = {
   "양자 시대의 나만의 금고."
  ],
  "warning": [
-  "未監査・テストネット専用。本番資産の利用禁止。",
-  "Unaudited • Testnet only • Never use real assets.",
-  "未经审计 · 仅限测试网 · 禁止使用真实资产。",
-  "감사 미완료 · 테스트넷 전용 · 실제 자산 사용 금지."
+  "未監査のソフトウェアです。ZNYT に金銭的価値はありません。",
+  "Unaudited software. ZNYT has no monetary value.",
+  "未经审计的软件。ZNYT 不具有货币价值。",
+  "감사 미완료 소프트웨어입니다. ZNYT는 금전적 가치가 없습니다."
  ],
  "overview": [
   "ダッシュボード",

@@ -92,5 +92,34 @@
 </header>
 <main id="view"></main>
 <script type="module" src="./main.mjs"></script>
+<script>
+// Boot guard: if the app has not rendered within 12 s, assume a poisoned
+// service-worker cache (mixed files from an older build), heal it —
+// unregister all service workers and clear Cache Storage — and reload
+// once. localStorage is NEVER touched: the wallet vault lives there.
+// If the app still does not boot, show a message instead of a blank page.
+setTimeout(async () => {
+  if (window.__qwBooted) return;
+  try {
+    if (!sessionStorage.getItem('qw-heal-tried')) {
+      sessionStorage.setItem('qw-heal-tried', '1');
+      if ('serviceWorker' in navigator) {
+        const regs = await navigator.serviceWorker.getRegistrations();
+        await Promise.all(regs.map((r) => r.unregister()));
+      }
+      if ('caches' in window) {
+        const keys = await caches.keys();
+        await Promise.all(keys.map((k) => caches.delete(k)));
+      }
+      location.reload();
+      return;
+    }
+  } catch (e) { /* fall through to the message */ }
+  if (!window.__qwBooted) {
+    const v = document.getElementById('view');
+    if (v) v.innerHTML = '<section class="panel"><h2>読み込みに失敗しました</h2><p class="muted">アプリを読み込めませんでした。通信環境を確認して、もう一度開き直してください。何度も失敗する場合は、このページではなく zeronyth.dpdns.org のトップから開き直してください。</p></section>';
+  }
+}, 12000);
+</script>
 </body>
 </html>

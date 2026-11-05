@@ -294,6 +294,7 @@ export function startApp(doc = document) {
   }
 
   function render() {
+    globalThis.__qwBooted = true; // boot guard in index.html watches this
     renderHeader();
     const st = session.state;
     if (st.status === 'no-vault') view.innerHTML = createScreen();
