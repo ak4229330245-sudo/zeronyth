@@ -56,6 +56,8 @@ The same values are in [`network/zeronyth-testnet.json`](network/zeronyth-testne
 
 ```
 WHITEPAPER.md                  Design, PQ transaction formats, gas schedule, verification evidence
+docs/                          Engineering record: port reports, provenance, upgrade plan, E2E evidence
+besu-912701/                   Production node source (Besu 26.9.0 + ZERONYTH PQ patches; see besu-912701/ZERONYTH-SOURCE.md)
 network/                       Current network parameters (chain 912701)
 services/zeronyth-discord/     Discord bot (verify, language roles, GM streaks, /faucet, /status)
 artifacts/, lib/               Workspace packages (API server, UI sandbox, shared libs)

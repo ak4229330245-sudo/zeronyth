@@ -1,0 +1,27 @@
+{
+ "chainId": 912772,
+ "pqTxActivationBlock": null,
+ "assertions": {
+  "node_start": {
+   "ok": true,
+   "detail": ""
+  },
+  "chain_progressed": {
+   "ok": true,
+   "detail": "head=10"
+  },
+  "nogate_mldsa_rejected_at_head_10": {
+   "ok": true,
+   "detail": "exit=1"
+  },
+  "nogate_falcon_rejected_at_head_10": {
+   "ok": true,
+   "detail": "exit=1"
+  },
+  "nogate_ecdsa_transfer_ok": {
+   "ok": true,
+   "detail": "block=0xf gasUsed=0x5208"
+  }
+ },
+ "finalHead": 15
+}
