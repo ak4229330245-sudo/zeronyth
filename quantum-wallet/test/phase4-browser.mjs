@@ -268,7 +268,7 @@ await step('j', 'Service worker registered with v7 cache', async () => {
   });
   assert(info.hasReg, 'no service worker registration');
   assert(
-    info.keys.some((k) => k.includes('zeronyth-qwallet-912701v7')),
+    info.keys.some((k) => k.includes('zeronyth-qwallet-912701v8')),
     `cache keys: ${JSON.stringify(info.keys)}`,
   );
   return `scriptURL ${info.scriptURL}, caches ${JSON.stringify(info.keys)}, active=${info.active}`;

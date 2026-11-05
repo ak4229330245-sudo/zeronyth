@@ -78,9 +78,9 @@ if (!html.includes('./vendor/')) {
   console.log('FAIL index.html import map does not point at ./vendor/');
 }
 const sw = await (await fetch(base + '/sw.js')).text();
-if (!sw.includes('zeronyth-qwallet-912701v7')) {
+if (!sw.includes('zeronyth-qwallet-912701v8')) {
   failed++;
-  console.log('FAIL sw.js cache name is not zeronyth-qwallet-912701v7');
+  console.log('FAIL sw.js cache name is not zeronyth-qwallet-912701v8');
 }
 
 server.close();
