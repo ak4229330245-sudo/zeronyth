@@ -35,6 +35,15 @@ export function startApp(doc = document) {
     showReset: false,
     conn: null, // { ok, chainId, wrongChain } | null
     bannerDismissed: false,
+    // Recovery flows (see session phrase/backup APIs). phraseWords is
+    // held ONLY in this in-memory UI state while a create or reveal is
+    // on screen — never persisted, never logged.
+    flow: null, // null | 'phrase-show' | 'phrase-confirm' | 'phrase-password'
+    //           | 'restore-phrase' | 'import-backup' | 'reveal' | 'backup'
+    phraseWords: null, // string[24] during phrase create
+    confirmPositions: [], // 3 word indices to re-enter during create
+    revealedWords: null, // string[24] while the reveal panel is open
+    backupText: '', // exported encrypted backup JSON awaiting save
   };
 
   const view = doc.getElementById('view');
@@ -144,15 +153,106 @@ export function startApp(doc = document) {
       <h2>${esc(t('create'))}</h2>
       <p class="tagline">${esc(t('tagline'))}</p>
       <p class="warn-banner">${esc(t('warning'))}</p>
+      <p>${esc(t('phraseIntro'))}</p>
+      <button class="primary" data-act="phrase-begin" ${ui.busy ? 'disabled' : ''}>${esc(t('create'))}</button>
+      <p class="muted">${esc(t('local'))}</p>
+      ${statusLines()}
+    </section>
+    <section class="panel">
+      <h3>${esc(t('restorePhrase'))}</h3>
+      <div class="row">
+        <button data-act="open-restore-phrase">${esc(t('restorePhrase'))}</button>
+        <button data-act="open-import-backup">${esc(t('restore'))}</button>
+      </div>
+    </section>`;
+  }
+
+  function phraseGrid(words) {
+    return `<div class="words">${words
+      .map((w, i) => `<span class="word"><i>${i + 1}</i>${esc(w)}</span>`)
+      .join('')}</div>`;
+  }
+
+  function phraseShowScreen() {
+    return `<section class="panel">
+      <h2>${esc(t('phraseTitle'))}</h2>
+      <p class="warn-banner">${esc(t('phraseWarn'))}</p>
+      ${phraseGrid(ui.phraseWords ?? [])}
+      <div class="row">
+        <button class="primary" data-act="phrase-written">${esc(t('phraseWritten'))}</button>
+        <button data-act="flow-cancel">${esc(t('cancel'))}</button>
+      </div>
+      ${statusLines()}
+    </section>`;
+  }
+
+  function phraseConfirmScreen() {
+    return `<section class="panel">
+      <h2>${esc(t('phraseConfirmTitle'))}</h2>
+      ${ui.confirmPositions
+        .map(
+          (pos) => `<label>${esc(t('phraseWordN', { n: pos + 1 }))}<br>
+        <input id="confirm-word-${pos}" type="text" size="20" spellcheck="false" autocomplete="off"></label><br>`,
+        )
+        .join('')}
+      <div class="row">
+        <button class="primary" data-act="phrase-confirm-check">${esc(t('next'))}</button>
+        <button data-act="flow-cancel">${esc(t('cancel'))}</button>
+      </div>
+      ${statusLines()}
+    </section>`;
+  }
+
+  function phrasePasswordScreen() {
+    return `<section class="panel">
+      <h2>${esc(t('create'))}</h2>
       <label>${esc(t('password'))}<br>
         <input id="create-pw" type="password" autocomplete="new-password" size="32"></label><br>
       <label>${esc(t('confirmPassword'))}<br>
         <input id="create-pw2" type="password" autocomplete="new-password" size="32"></label>
-      <h3>${esc(t('firstAccount'))} — ${esc(t('selectScheme'))}</h3>
-      ${schemePicker('create-scheme')}
-      <button class="primary" data-act="create" ${ui.busy ? 'disabled' : ''}>${esc(t('create'))}</button>
-      <p class="muted">${esc(t('local'))}</p>
-      <p class="muted">${esc(t('backupNotice'))}</p>
+      <div class="row">
+        <button class="primary" data-act="phrase-create" ${ui.busy ? 'disabled' : ''}>${esc(t('create'))}</button>
+        <button data-act="flow-cancel">${esc(t('cancel'))}</button>
+      </div>
+      ${statusLines()}
+    </section>`;
+  }
+
+  function restorePhraseScreen() {
+    return `<section class="panel">
+      <h2>${esc(t('restorePhrase'))}</h2>
+      <p>${esc(t('restorePhraseIntro'))}</p>
+      <label>${esc(t('phraseInputLabel'))}<br>
+        <textarea id="restore-words" rows="4" spellcheck="false" autocomplete="off"></textarea></label><br>
+      <label>${esc(t('password'))}<br>
+        <input id="restore-pw" type="password" autocomplete="new-password" size="32"></label><br>
+      <label>${esc(t('confirmPassword'))}<br>
+        <input id="restore-pw2" type="password" autocomplete="new-password" size="32"></label>
+      <div class="row">
+        <button class="primary" data-act="restore-phrase-submit" ${ui.busy ? 'disabled' : ''}>${esc(t('restorePhrase'))}</button>
+        <button data-act="flow-cancel">${esc(t('cancel'))}</button>
+      </div>
+      ${statusLines()}
+    </section>`;
+  }
+
+  function importBackupScreen() {
+    return `<section class="panel">
+      <h2>${esc(t('restore'))}</h2>
+      <p>${esc(t('importIntro'))}</p>
+      <label>${esc(t('backupTitle'))}<br>
+        <textarea id="import-text" rows="5" spellcheck="false" autocomplete="off"></textarea></label><br>
+      <input id="import-file" type="file" accept=".json,application/json"><br>
+      <label>${esc(t('backupPassword'))}<br>
+        <input id="import-backup-pw" type="password" autocomplete="off" size="32"></label><br>
+      <label>${esc(t('password'))}<br>
+        <input id="import-pw" type="password" autocomplete="new-password" size="32"></label><br>
+      <label>${esc(t('confirmPassword'))}<br>
+        <input id="import-pw2" type="password" autocomplete="new-password" size="32"></label>
+      <div class="row">
+        <button class="primary" data-act="import-backup-submit" ${ui.busy ? 'disabled' : ''}>${esc(t('restore'))}</button>
+        <button data-act="flow-cancel">${esc(t('cancel'))}</button>
+      </div>
       ${statusLines()}
     </section>`;
   }
@@ -211,6 +311,37 @@ export function startApp(doc = document) {
         <input id="rpc-url" type="text" value="${esc(session.getRpcUrl())}" size="42" spellcheck="false"></label><br>
       <button data-act="save-rpc">${esc(t('save'))}</button>
       <p class="muted">${esc(t('note'))}</p>
+    </section>
+    <section class="panel">
+      <h3>${esc(t('phraseTitle'))}</h3>
+      ${st.hasPhrase ? `
+      <p class="muted">${esc(t('revealIntro'))}</p>
+      ${ui.revealedWords ? `
+      <p class="warn-banner">${esc(t('phraseWarn'))}</p>
+      ${phraseGrid(ui.revealedWords)}
+      <button data-act="reveal-hide">${esc(t('hidePhrase'))}</button>` : `
+      <label>${esc(t('password'))}<br>
+        <input id="reveal-pw" type="password" autocomplete="current-password" size="32"></label><br>
+      <button data-act="reveal-submit" ${ui.busy ? 'disabled' : ''}>${esc(t('showPhrase'))}</button>`}` : `
+      <p class="muted">${esc(t('noPhrase'))}</p>`}
+    </section>
+    <section class="panel">
+      <h3>${esc(t('backupTitle'))}</h3>
+      <p class="muted">${esc(t('backupIntro'))}</p>
+      <label>${esc(t('backupPassword'))}<br>
+        <input id="backup-pw" type="password" autocomplete="new-password" size="32"></label><br>
+      <label>${esc(t('confirmPassword'))}<br>
+        <input id="backup-pw2" type="password" autocomplete="new-password" size="32"></label>
+      <div class="row">
+        <button data-act="export-backup" ${ui.busy ? 'disabled' : ''}>${esc(t('backup'))}</button>
+      </div>
+      ${ui.backupText ? `
+      <p class="ok">${esc(t('backupReady'))}</p>
+      <textarea id="backup-text" rows="5" readonly spellcheck="false">${esc(ui.backupText)}</textarea>
+      <div class="row">
+        <button data-act="download-backup">${esc(t('downloadBackup'))}</button>
+        <button data-act="copy-backup">${esc(t('copy'))}</button>
+      </div>` : ''}
     </section>`;
   }
 
@@ -297,7 +428,14 @@ export function startApp(doc = document) {
     globalThis.__qwBooted = true; // boot guard in index.html watches this
     renderHeader();
     const st = session.state;
-    if (st.status === 'no-vault') view.innerHTML = createScreen();
+    if (st.status === 'no-vault') {
+      if (ui.flow === 'phrase-show') view.innerHTML = phraseShowScreen();
+      else if (ui.flow === 'phrase-confirm') view.innerHTML = phraseConfirmScreen();
+      else if (ui.flow === 'phrase-password') view.innerHTML = phrasePasswordScreen();
+      else if (ui.flow === 'restore-phrase') view.innerHTML = restorePhraseScreen();
+      else if (ui.flow === 'import-backup') view.innerHTML = importBackupScreen();
+      else view.innerHTML = createScreen();
+    }
     else if (st.status === 'locked') view.innerHTML = unlockScreen();
     else if (ui.screen === 'send') view.innerHTML = sendScreen(st);
     else if (ui.screen === 'receive') view.innerHTML = receiveScreen(st);
@@ -338,20 +476,187 @@ export function startApp(doc = document) {
     patchBalances();
   }
 
+  function pickConfirmPositions() {
+    const set = new Set();
+    while (set.size < 3) set.add(crypto.getRandomValues(new Uint8Array(1))[0] % 24);
+    return [...set].sort((a, b) => a - b);
+  }
+
+  function clearFlow() {
+    ui.flow = null;
+    ui.phraseWords = null;
+    ui.confirmPositions = [];
+    ui.revealedWords = null;
+  }
+
   const actions = {
-    async create() {
+    // ---------------------------------------------------- phrase create
+    async 'phrase-begin'() {
+      await guard(async () => {
+        ui.phraseWords = session.beginPhraseCreate();
+        ui.flow = 'phrase-show';
+        render();
+      });
+    },
+
+    'phrase-written'() {
+      ui.confirmPositions = pickConfirmPositions();
+      ui.flow = 'phrase-confirm';
+      render();
+    },
+
+    'phrase-confirm-check'() {
+      const ok = ui.confirmPositions.every(
+        (pos) => ($(`confirm-word-${pos}`)?.value ?? '').trim().toLowerCase() === ui.phraseWords?.[pos],
+      );
+      if (!ok) {
+        ui.error = t('phraseMismatch');
+        return render();
+      }
+      ui.error = '';
+      ui.flow = 'phrase-password';
+      render();
+    },
+
+    async 'phrase-create'() {
       const pw = $('create-pw').value;
       if (pw !== $('create-pw2').value) {
         ui.error = t('confirm');
         return render();
       }
-      const scheme = pickedScheme('create-scheme');
       busy('creating');
       await paint();
       await guard(async () => {
-        await session.create(pw, scheme);
+        await session.createFromPhrase(pw);
+        clearFlow();
         await enterWallet();
       });
+    },
+
+    // ---------------------------------------------------- restore/import
+    'open-restore-phrase'() {
+      ui.flow = 'restore-phrase';
+      ui.error = '';
+      render();
+    },
+
+    async 'restore-phrase-submit'() {
+      const pw = $('restore-pw').value;
+      if (pw !== $('restore-pw2').value) {
+        ui.error = t('confirm');
+        return render();
+      }
+      const words = $('restore-words').value;
+      busy('restoring');
+      await paint();
+      try {
+        const { probed } = await session.restoreFromPhrase(words, pw);
+        clearFlow();
+        await enterWallet();
+        ui.notice = probed ? t('restoreDoneProbed') : t('restoreDoneOffline');
+        render();
+      } catch (e) {
+        idle();
+        ui.error = /Recovery phrase|Unknown word/.test(e.message) ? t('phraseInvalid') : e.message;
+        render();
+      }
+    },
+
+    'open-import-backup'() {
+      ui.flow = 'import-backup';
+      ui.error = '';
+      render();
+    },
+
+    async 'import-backup-submit'() {
+      const pw = $('import-pw').value;
+      if (pw !== $('import-pw2').value) {
+        ui.error = t('confirm');
+        return render();
+      }
+      const text = $('import-text').value;
+      const backupPw = $('import-backup-pw').value;
+      busy('restoring');
+      await paint();
+      try {
+        await session.importBackup(text, backupPw, pw);
+        clearFlow();
+        await enterWallet();
+      } catch (e) {
+        idle();
+        ui.error = /Invalid password/.test(e.message)
+          ? t('wrongPassword')
+          : /Invalid backup/.test(e.message)
+            ? t('backupInvalid')
+            : e.message;
+        render();
+      }
+    },
+
+    'flow-cancel'() {
+      session.cancelPhraseCreate();
+      clearFlow();
+      ui.error = '';
+      render();
+    },
+
+    // ---------------------------------------------------- settings: phrase
+    async 'reveal-submit'() {
+      const pw = $('reveal-pw').value;
+      busy('unlocking');
+      await paint();
+      await guard(async () => {
+        ui.revealedWords = await session.revealPhrase(pw);
+        idle();
+        render();
+      });
+    },
+
+    'reveal-hide'() {
+      ui.revealedWords = null;
+      render();
+    },
+
+    // ---------------------------------------------------- settings: backup
+    async 'export-backup'() {
+      const pw = $('backup-pw').value;
+      if (pw !== $('backup-pw2').value) {
+        ui.error = t('confirm');
+        return render();
+      }
+      busy('exporting');
+      await paint();
+      await guard(async () => {
+        ui.backupText = await session.exportBackup(pw);
+        idle();
+        render();
+      });
+    },
+
+    'download-backup'() {
+      const blob = new Blob([ui.backupText], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = doc.createElement('a');
+      a.href = url;
+      a.download = 'zeronyth-wallet-backup.json';
+      doc.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 5000);
+    },
+
+    async 'copy-backup'(el) {
+      try {
+        await navigator.clipboard.writeText(ui.backupText);
+      } catch {
+        $('backup-text')?.select();
+        doc.execCommand('copy');
+      }
+      const old = el.textContent;
+      el.textContent = t('copied');
+      setTimeout(() => {
+        el.textContent = old;
+      }, 1500);
     },
 
     async unlock() {
@@ -382,6 +687,8 @@ export function startApp(doc = document) {
       ui.screen = 'accounts';
       ui.review = null;
       ui.result = null;
+      clearFlow();
+      ui.backupText = '';
       render();
     },
 
@@ -560,6 +867,15 @@ export function startApp(doc = document) {
     render();
   });
   view.addEventListener('change', (ev) => {
+    if (ev.target.id === 'import-file') {
+      const file = ev.target.files?.[0];
+      if (file) {
+        file.text().then((text) => {
+          const ta = $('import-text');
+          if (ta) ta.value = text;
+        });
+      }
+    }
     if (ev.target.id === 'send-advanced') {
       $('send-data-row').hidden = !ev.target.checked;
     }
@@ -574,7 +890,8 @@ export function startApp(doc = document) {
   view.addEventListener('keydown', (ev) => {
     if (ev.key !== 'Enter') return;
     if (ev.target.id === 'unlock-pw') actions.unlock();
-    if (ev.target.id === 'create-pw2') actions.create();
+    if (ev.target.id === 'create-pw2') actions['phrase-create']();
+    if (ev.target.id === 'reveal-pw') actions['reveal-submit']();
   });
 
   let lastStatus = session.state.status;

@@ -135,6 +135,58 @@ The plan suggested React + Vite + TypeScript to mirror v1. Phase 1 uses
 - No dApp provider shim (`window.ethereum`-style injection); the wallet
   is standalone, as v1's Quantum Wallet was.
 
+## Secret recovery (master seed, phrase, encrypted backup)
+
+New wallets are **master-seed wallets**: one random 32-byte master seed
+is the single root of every account.
+
+- **Derivation** (`src/core/hd.mjs`): per-account secrets are derived
+  deterministically with domain separation —
+  `block(i) = keccak256(utf8(domain) ‖ 0x00 ‖ master ‖ uint32BE(index) ‖ uint8(i))`,
+  concatenated and truncated to the scheme's secret size (Falcon's
+  48-byte seed spans two blocks). Domains:
+  `ZERONYTH/WALLET/V2/MLDSA`, `ZERONYTH/WALLET/V2/FALCON`,
+  `ZERONYTH/WALLET/V2/ECDSA`. Once the per-scheme secret exists, the
+  usual keygen/address rules apply unchanged.
+- **Recovery phrase** (`src/core/bip39.mjs` + `bip39-wordlist.mjs`):
+  the master seed encoded as a 24-word mnemonic with the standard
+  BIP39 entropy→mnemonic construction (SHA-256 checksum, official
+  English 2048-word list vendored with a provenance note). The list is
+  used **purely as an encoding** — no BIP39 seed derivation (PBKDF2 /
+  "BIP39 seed") is involved anywhere. Decoding validates wordlist
+  membership and the checksum.
+- **Vault shape**: master wallets keep the v2 envelope (version 2,
+  `MULTI`, AAD `ZERONYTH/VAULT/V2`) but the plaintext payload is
+  `{ kind: "master", master: "<hex>", accounts: [{ id, scheme, index,
+  label, createdAt }] }` — descriptors only; per-account secrets are
+  re-derived in memory on unlock and never stored. Legacy v2 payloads
+  (`{ accounts: [{ …, secret }] }`) and v1 vaults unlock exactly as
+  before; nothing is force-migrated.
+- **Create flow**: show the 24 words → confirm 3 randomly chosen word
+  positions → set password → index-0 accounts for all three schemes.
+- **Restore flow** (no-vault screen): enter the phrase → validate →
+  set a NEW password → materialize index-0 for all schemes, then probe
+  indices 1..4 per scheme via the configured RPC (balance or nonce > 0)
+  and materialize those too. If the RPC is unreachable, restore is
+  index-0 only and the UI says so.
+- **Reveal**: settings → password re-entry → phrase shown (master
+  wallets only; legacy wallets are told no phrase exists for them).
+- **Encrypted backup (any wallet)**: export encrypts the wallet's
+  secrets under a user-chosen **backup password** (independent of the
+  wallet password) as `{ format: "zeronyth-wallet-backup", version: 1,
+  … }` with AAD `ZERONYTH/VAULT/BACKUP/V1`; import on the no-vault
+  screen takes the backup password plus a new wallet password. This is
+  the recovery path for pre-phrase (legacy) wallets.
+- **Security**: the phrase and master seed never leave the device, are
+  never logged, and are never stored unencrypted; the create-flow
+  phrase lives only in page memory until the wallet exists.
+
+Tests: `test/recovery.test.mjs` (BIP39 official vectors, derivation
+known-answer addresses, vault/backup round trips, session-level
+create/restore/reveal) and `test/recovery-browser.mjs` (full UI E2E on
+the local Phase 4 chain: phrase create → wipe → restore → send →
+backup import).
+
 ## Layout
 
 ```

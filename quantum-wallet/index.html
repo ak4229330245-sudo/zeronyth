@@ -68,6 +68,14 @@
                  padding: 12px; background: rgba(240,195,106,.08); font-size: 13.5px; }
   label.check { display: block; margin: 6px 0; }
   a { color: var(--mint); }
+  textarea { background: var(--sunk); color: var(--text); border: 1px solid var(--line);
+    border-radius: 8px; padding: 8px 10px; margin: 6px 0 12px; width: 100%;
+    max-width: 100%; box-sizing: border-box; font-family: var(--mono); font-size: 13px; }
+  input[type="file"] { margin: 6px 0 12px; color: var(--muted); }
+  .words { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin: 12px 0; }
+  .word { background: var(--sunk); border: 1px solid var(--line); border-radius: 8px;
+    padding: 6px 8px; font-family: var(--mono); font-size: 13px; }
+  .word i { color: var(--dim); font-style: normal; margin-right: 6px; font-size: 11px; }
 </style>
 <script type="importmap">
 {

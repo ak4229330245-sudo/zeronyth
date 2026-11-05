@@ -53,6 +53,9 @@ const ASSETS = [
   '/src/core/vault.mjs',
   '/src/core/crypto.mjs',
   '/src/core/tx.mjs',
+  '/src/core/bip39.mjs',
+  '/src/core/bip39-wordlist.mjs',
+  '/src/core/hd.mjs',
   '/sw.js',
   '/manifest.webmanifest',
   '/icon-192.png',
@@ -61,6 +64,7 @@ const ASSETS = [
   '/vendor/@noble/post-quantum/ml-dsa.js',
   '/vendor/@noble/curves/secp256k1.js',
   '/vendor/@noble/hashes/sha3.js',
+  '/vendor/@noble/hashes/sha2.js',
 ];
 
 let failed = 0;
@@ -78,9 +82,9 @@ if (!html.includes('./vendor/')) {
   console.log('FAIL index.html import map does not point at ./vendor/');
 }
 const sw = await (await fetch(base + '/sw.js')).text();
-if (!sw.includes('zeronyth-qwallet-912701v9')) {
+if (!sw.includes("const CACHE = 'zeronyth-qwallet-912701v11'")) {
   failed++;
-  console.log('FAIL sw.js cache name is not zeronyth-qwallet-912701v9');
+  console.log('FAIL sw.js cache name is not zeronyth-qwallet-912701v11');
 }
 
 server.close();

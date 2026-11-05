@@ -38,13 +38,21 @@ import { createRpcClient, quantityHex } from '../core/rpc.mjs';
 import {
   vaultExists,
   createVault,
+  createMasterVault,
+  importVaultBackup,
   unlockVault,
   VAULT_KEY,
   VAULT_BACKUP_KEY,
 } from '../core/vault.mjs';
+import { entropyToMnemonic, mnemonicToEntropy } from '../core/bip39.mjs';
+import { generateMasterSeed, deriveAccountAddress } from '../core/hd.mjs';
 import { signWithVault } from '../core/tx.mjs';
 import { transferGasLimit, callGasLimit } from '../core/gas.mjs';
 import { isAddress, isHexData } from '../core/amount.mjs';
+
+const SCHEME_LIST = ['mldsa', 'falcon', 'ecdsa'];
+/** Highest extra index probed per scheme during phrase restore. */
+const RESTORE_PROBE_MAX_INDEX = 4;
 
 /**
  * Legacy key under which pre-fix builds stored the unlock password for
@@ -90,12 +98,15 @@ export function createSession({
   let accounts = []; // cached summaries (secret-free)
   let balances = new Map(); // accountId -> bigint | null (null = unknown)
   let migratedFromV1 = false;
+  let walletIsMaster = false; // phrase-backed wallet (recovery phrase exists)
+  let pendingMaster = null; // master seed awaiting phrase-create confirmation
   const listeners = new Set();
 
   const snapshot = () => ({
     status,
     accounts: accounts.map((a) => ({ ...a })),
     migratedFromV1,
+    hasPhrase: walletIsMaster,
     balances: Object.fromEntries(balances),
     hasBackup: storage.getItem(VAULT_BACKUP_KEY) != null,
     rpcUrl: getRpcUrl(),
@@ -117,10 +128,16 @@ export function createSession({
   async function adoptVault(unlocked) {
     vault = unlocked;
     migratedFromV1 = unlocked.migratedFromV1 === true;
+    walletIsMaster = unlocked.isMaster === true;
     cacheAccounts();
     balances = new Map();
     status = 'unlocked';
     emit();
+  }
+
+  function dropPendingMaster() {
+    if (pendingMaster) pendingMaster.fill(0);
+    pendingMaster = null;
   }
 
   // ------------------------------------------------------------ lifecycle
@@ -148,6 +165,141 @@ export function createSession({
     return snapshot();
   }
 
+  // ------------------------------------------------------- recovery phrase
+
+  /**
+   * Begin a phrase-backed create: generate a fresh master seed, keep
+   * it in memory ONLY (never persisted), and return its 24-word
+   * recovery phrase for the write-it-down step. Complete the create
+   * with createFromPhrase(password), or abandon it with
+   * cancelPhraseCreate() (which zeroizes the pending seed).
+   */
+  function beginPhraseCreate() {
+    if (hasVault()) throw Error('Vault already exists');
+    dropPendingMaster();
+    pendingMaster = generateMasterSeed();
+    return entropyToMnemonic(pendingMaster);
+  }
+
+  /** Abandon a pending phrase create, zeroizing the pending seed. */
+  function cancelPhraseCreate() {
+    dropPendingMaster();
+  }
+
+  /**
+   * Complete a phrase-backed create: build the master vault from the
+   * pending seed and materialize the index-0 account of every scheme.
+   */
+  async function createFromPhrase(password) {
+    if (!pendingMaster) throw Error('No pending recovery phrase — start the create again');
+    const created = await createMasterVault(storage, password, pendingMaster);
+    dropPendingMaster();
+    await adoptVault(created);
+    for (const scheme of SCHEME_LIST) await addAccount(scheme);
+    return snapshot();
+  }
+
+  /**
+   * Restore a wallet from its 24-word recovery phrase under a NEW
+   * wallet password. The phrase decodes to the master seed (checksum
+   * validated — a bad phrase throws before anything is written).
+   * Index-0 accounts are materialized for all three schemes; indices
+   * 1..RESTORE_PROBE_MAX_INDEX are then probed via the configured RPC
+   * (balance or nonce > 0 counts as used) and materialized too.
+   * Returns { snapshot, probed } — probed is false when the RPC was
+   * unreachable, in which case only the index-0 accounts exist and the
+   * UI must say so.
+   */
+  async function restoreFromPhrase(phrase, newPassword) {
+    if (hasVault()) throw Error('Vault already exists');
+    const master = mnemonicToEntropy(phrase); // throws on a bad phrase
+    try {
+      const created = await createMasterVault(storage, newPassword, master);
+      await adoptVault(created);
+    } finally {
+      master.fill(0); // the vault holds its own copy; scrub ours
+    }
+    for (const scheme of SCHEME_LIST) await addAccount(scheme);
+
+    let probed = false;
+    try {
+      const client = rpc();
+      const seedCopy = vault.exportMasterSeed();
+      try {
+        const highestUsed = new Map();
+        for (const scheme of SCHEME_LIST) {
+          for (let index = 1; index <= RESTORE_PROBE_MAX_INDEX; index++) {
+            const address = deriveAccountAddress(seedCopy, scheme, index);
+            const [balance, nonce] = await Promise.all([
+              client.getBalance(address),
+              client.getTransactionCount(address),
+            ]);
+            if (balance > 0n || nonce > 0) highestUsed.set(scheme, index);
+          }
+        }
+        for (const scheme of SCHEME_LIST) {
+          const want = highestUsed.get(scheme) ?? 0;
+          const have = new Set(
+            vault
+              .listAccounts()
+              .filter((a) => a.scheme === scheme)
+              .map((a) => a.index),
+          );
+          for (let index = 1; index <= want; index++) {
+            if (!have.has(index)) await vault.addAccount(scheme, { index });
+          }
+        }
+        probed = true;
+      } finally {
+        seedCopy.fill(0);
+      }
+    } catch {
+      probed = false; // RPC unreachable: index-0 accounts only
+    }
+    cacheAccounts();
+    emit();
+    return { snapshot: snapshot(), probed };
+  }
+
+  /**
+   * Reveal the recovery phrase of a master wallet. The wallet password
+   * is re-verified against the stored vault first (a wrong password
+   * throws); legacy wallets throw 'No recovery phrase for this wallet'.
+   * Returns the 24 words. The phrase exists only in this return value
+   * and the caller's UI state — it is never persisted or logged.
+   */
+  async function revealPhrase(password) {
+    if (!vault) throw Error('Vault is locked');
+    if (!vault.isMaster) throw Error('No recovery phrase for this wallet');
+    const check = await unlockVault(storage, password); // throws on bad pw
+    check.lock();
+    const master = vault.exportMasterSeed();
+    try {
+      return entropyToMnemonic(master);
+    } finally {
+      master.fill(0);
+    }
+  }
+
+  // ------------------------------------------------------------ backup file
+
+  /** Export this wallet as an encrypted backup string (see vault.mjs). */
+  async function exportBackup(backupPassword) {
+    if (!vault) throw Error('Vault is locked');
+    return vault.exportBackup(backupPassword);
+  }
+
+  /**
+   * Import an encrypted backup as this device's vault under a new
+   * wallet password. Only valid when no vault exists yet.
+   */
+  async function importBackup(backupText, backupPassword, walletPassword) {
+    if (hasVault()) throw Error('Vault already exists');
+    const imported = await importVaultBackup(storage, backupText, backupPassword, walletPassword);
+    await adoptVault(imported);
+    return snapshot();
+  }
+
   /**
    * Startup hook. Sessions are memory-only, so there is nothing to
    * restore: this just re-scrubs the legacy remembered-password key
@@ -166,6 +318,8 @@ export function createSession({
     accounts = [];
     balances = new Map();
     migratedFromV1 = false;
+    walletIsMaster = false;
+    dropPendingMaster();
     storage.removeItem(AUTOUNLOCK_KEY); // defensive: no legacy key lingers
     status = hasVault() ? 'locked' : 'no-vault';
     emit();
@@ -183,6 +337,8 @@ export function createSession({
     accounts = [];
     balances = new Map();
     migratedFromV1 = false;
+    walletIsMaster = false;
+    dropPendingMaster();
     const doomed = storageKeys(storage).filter((k) => k.startsWith(TOKEN_PREFIX));
     for (const k of doomed) storage.removeItem(k);
     storage.removeItem(VAULT_KEY);
@@ -367,6 +523,13 @@ export function createSession({
     start,
     create,
     unlock,
+    beginPhraseCreate,
+    cancelPhraseCreate,
+    createFromPhrase,
+    restoreFromPhrase,
+    revealPhrase,
+    exportBackup,
+    importBackup,
     lock,
     wipe,
     addAccount,

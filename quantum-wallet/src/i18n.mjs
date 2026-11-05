@@ -612,6 +612,168 @@ export const DICT = {
   "Back",
   "返回",
   "뒤로"
+ ],
+ "next": [
+  "次へ",
+  "Next",
+  "下一步",
+  "다음"
+ ],
+ "phraseIntro": [
+  "新しいウォレットは、24単語のリカバリーフレーズで保護されます。まずフレーズを作成します。",
+  "Your new wallet is protected by a 24-word recovery phrase. First, let's create it.",
+  "新钱包由 24 个单词的恢复短语保护。首先创建短语。",
+  "새 지갑은 24단어 복구 문구로 보호됩니다. 먼저 문구를 만듭니다."
+ ],
+ "phraseTitle": [
+  "リカバリーフレーズ",
+  "Recovery phrase",
+  "恢复短语",
+  "복구 문구"
+ ],
+ "phraseWarn": [
+  "この24単語がウォレットそのものです。紙に書き留めて安全な場所に保管してください。写真・スクリーンショット・クラウドには保存しないでください。このフレーズを知る人は誰でも、あなたのウォレットを復元して資産を送金できます。",
+  "These 24 words ARE your wallet. Write them on paper and store them somewhere safe. Never take a photo, screenshot, or save them to cloud storage. Anyone who knows this phrase can restore your wallet and move its assets.",
+  "这 24 个单词就是您的钱包。请写在纸上并妥善保管。切勿拍照、截图或保存到云存储。任何知道此短语的人都可以恢复您的钱包并转走资产。",
+  "이 24단어가 곧 지갑 자체입니다. 종이에 적어 안전한 곳에 보관하세요. 사진·스크린샷·클라우드 저장은 절대 금지입니다. 이 문구를 아는 사람은 누구나 지갑을 복구해 자산을 옮길 수 있습니다."
+ ],
+ "phraseWritten": [
+  "書き留めました",
+  "I've written it down",
+  "我已记下",
+  "적어 두었습니다"
+ ],
+ "phraseConfirmTitle": [
+  "確認のため、指定の単語を入力してください",
+  "To confirm, enter the requested words",
+  "请按要求输入指定的单词以确认",
+  "확인을 위해 지정된 단어를 입력하세요"
+ ],
+ "phraseWordN": [
+  "{n}番目の単語",
+  "Word #{n}",
+  "第 {n} 个单词",
+  "{n}번째 단어"
+ ],
+ "phraseMismatch": [
+  "単語が一致しません。書き留めたフレーズを確認してください。",
+  "The words do not match. Check your written phrase.",
+  "单词不匹配。请检查您记下的短语。",
+  "단어가 일치하지 않습니다. 적어 둔 문구를 확인하세요."
+ ],
+ "restorePhrase": [
+  "フレーズで復元",
+  "Restore with phrase",
+  "用短语恢复",
+  "문구로 복구"
+ ],
+ "restorePhraseIntro": [
+  "24単語のリカバリーフレーズと、新しいウォレット用パスワードを入力してください。過去に使ったアカウントも自動で検出します。",
+  "Enter your 24-word recovery phrase and a new wallet password. Previously used accounts are detected automatically.",
+  "请输入 24 个单词的恢复短语和新的钱包密码。系统会自动检测以前使用过的账户。",
+  "24단어 복구 문구와 새 지갑 비밀번호를 입력하세요. 이전에 사용한 계정도 자동으로 감지합니다."
+ ],
+ "phraseInputLabel": [
+  "リカバリーフレーズ（24単語）",
+  "Recovery phrase (24 words)",
+  "恢复短语（24 个单词）",
+  "복구 문구 (24단어)"
+ ],
+ "phraseInvalid": [
+  "フレーズが正しくありません。単語と順序を確認してください。",
+  "That phrase is not valid. Check the words and their order.",
+  "短语无效。请检查单词及其顺序。",
+  "문구가 올바르지 않습니다. 단어와 순서를 확인하세요."
+ ],
+ "restoring": [
+  "復元中…",
+  "Restoring…",
+  "恢复中…",
+  "복구 중…"
+ ],
+ "restoreDoneProbed": [
+  "ウォレットを復元しました。過去に使用したアカウントも検出しました。",
+  "Wallet restored. Previously used accounts were detected too.",
+  "钱包已恢复。也检测到了以前使用过的账户。",
+  "지갑이 복구되었습니다. 이전에 사용한 계정도 감지되었습니다."
+ ],
+ "restoreDoneOffline": [
+  "ウォレットを復元しました（RPCに接続できなかったため、各方式の最初のアカウントのみ復元しています）。",
+  "Wallet restored (the RPC was unreachable, so only the first account of each scheme was restored).",
+  "钱包已恢复（无法连接 RPC，因此仅恢复了每种方案的第一个账户）。",
+  "지갑이 복구되었습니다(RPC에 연결할 수 없어 각 방식의 첫 번째 계정만 복구했습니다)."
+ ],
+ "showPhrase": [
+  "リカバリーフレーズを表示",
+  "Show recovery phrase",
+  "显示恢复短语",
+  "복구 문구 표시"
+ ],
+ "revealIntro": [
+  "表示するには、ウォレットのパスワードを再入力してください。周りに人がいないことを確認してください。",
+  "Re-enter your wallet password to reveal it. Make sure nobody is watching.",
+  "重新输入钱包密码以显示。请确保周围没有人。",
+  "표시하려면 지갑 비밀번호를 다시 입력하세요. 주변에 아무도 없는지 확인하세요."
+ ],
+ "hidePhrase": [
+  "フレーズを隠す",
+  "Hide phrase",
+  "隐藏短语",
+  "문구 숨기기"
+ ],
+ "noPhrase": [
+  "このウォレットはリカバリーフレーズ対応前に作成されたため、フレーズはありません。復元の手段は下の暗号化バックアップのみです。大切に保管してください。",
+  "This wallet was created before recovery-phrase support, so it has no phrase. The encrypted backup below is its only recovery path — keep it safe.",
+  "此钱包在恢复短语支持之前创建，因此没有短语。下面的加密备份是其唯一的恢复方式，请妥善保管。",
+  "이 지갑은 복구 문구 지원 전에 만들어져 문구가 없습니다. 아래 암호화 백업이 유일한 복구 수단이니 안전하게 보관하세요."
+ ],
+ "backupTitle": [
+  "暗号化バックアップ",
+  "Encrypted backup",
+  "加密备份",
+  "암호화 백업"
+ ],
+ "backupIntro": [
+  "ウォレット全体を、バックアップ専用のパスワードで暗号化したファイルとして保存します。端末を失っても、このファイルとバックアップ用パスワードがあれば復元できます。",
+  "Save the whole wallet as a file encrypted with a separate backup password. If you lose this device, the file plus its backup password restores everything.",
+  "将整个钱包保存为使用专用备份密码加密的文件。即使丢失设备，只要有此文件和备份密码即可恢复。",
+  "지갑 전체를 백업 전용 비밀번호로 암호화한 파일로 저장합니다. 기기를 잃어도 이 파일과 백업 비밀번호가 있으면 복구할 수 있습니다."
+ ],
+ "backupPassword": [
+  "バックアップ用パスワード（12文字以上）",
+  "Backup password (12+ characters)",
+  "备份密码（至少12个字符）",
+  "백업 비밀번호 (12자 이상)"
+ ],
+ "exporting": [
+  "バックアップを作成中…",
+  "Creating backup…",
+  "创建备份中…",
+  "백업 생성 중…"
+ ],
+ "backupReady": [
+  "バックアップを作成しました。下のテキストを安全な場所に保存してください。",
+  "Backup created. Save the text below somewhere safe.",
+  "备份已创建。请将下面的文本保存到安全的地方。",
+  "백업이 생성되었습니다. 아래 텍스트를 안전한 곳에 저장하세요."
+ ],
+ "downloadBackup": [
+  "ファイルをダウンロード",
+  "Download file",
+  "下载文件",
+  "파일 다운로드"
+ ],
+ "backupInvalid": [
+  "バックアップファイルが正しくありません",
+  "The backup file is not valid",
+  "备份文件无效",
+  "백업 파일이 올바르지 않습니다"
+ ],
+ "importIntro": [
+  "バックアップファイルの内容を貼り付けるか、ファイルを選択してください。バックアップ用パスワードと、新しいウォレット用パスワードが必要です。",
+  "Paste the backup file contents or choose the file. You need its backup password and a new wallet password.",
+  "请粘贴备份文件内容或选择文件。需要备份密码和新的钱包密码。",
+  "백업 파일 내용을 붙여넣거나 파일을 선택하세요. 백업 비밀번호와 새 지갑 비밀번호가 필요합니다."
  ]
 };
 
