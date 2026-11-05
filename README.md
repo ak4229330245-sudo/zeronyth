@@ -1,8 +1,10 @@
 # ZERONYTH
 
-ZERONYTH is a public, quantum-resistant EVM **testnet** built on Hyperledger Besu.
+ZERONYTH is a public, quantum-resistant EVM network built on Hyperledger Besu.
 The live chain runs **QBFT with Falcon-1024 consensus signatures** and publishes **ML-DSA-65** (NIST FIPS 204) finality proofs.
-EVM transaction signing is still ECDSA (standard wallets work as usual).
+Since 5 November 2026 it also supports **native post-quantum transactions**: Falcon-1024 (type `0x7E`) and ML-DSA-65 (type `0x7F`)
+accounts spend directly in the EVM, alongside ordinary ECDSA transactions (standard wallets work as usual).
+See the **[Whitepaper](WHITEPAPER.md)** for the full design, formats, and verification evidence.
 
 | | |
 |---|---|
@@ -10,8 +12,8 @@ EVM transaction signing is still ECDSA (standard wallets work as usual).
 | Chain ID | `912701` (`0xded3d`) |
 | Native coin | **ZNYT** (test coin, no monetary value) |
 | Consensus | Besu QBFT (custom build), Falcon-1024 seals, 4 validators, ~1 s blocks |
-| Post-quantum | Falcon-1024 consensus signatures + ML-DSA-65 finality proofs |
-| Tx signing | ECDSA (secp256k1), unchanged |
+| Post-quantum | Falcon-1024 consensus signatures + ML-DSA-65 finality proofs + native PQ transactions |
+| Tx signing | ECDSA (secp256k1) + **Falcon-1024 (`0x7E`)** + **ML-DSA-65 (`0x7F`)**, live since activation block `157773` (2026-11-05) |
 | Website | https://zeronyth.dpdns.org/ |
 | Explorer | https://scan.zeronyth.dpdns.org/ |
 | RPC | https://zeronyth.dpdns.org/rpc |
@@ -47,11 +49,13 @@ The same values are in [`network/zeronyth-testnet.json`](network/zeronyth-testne
 | Site AI | Qwen3-1.7B (Q4_K_M) on Ollama, CPU (live value: `/api/ai/status`) |
 | Rewards | Three separate things: **points** (off-chain, Merkle root recorded on-chain daily), **test ZNYT** (no value), and **simulations** (display only). |
 | VPS market | Preview only; not accepting orders. Older plans are marked as legacy. |
-| Quantum wallet | Experimental ML-DSA-65 wallet on the site (`/quantum-wallet/`); key generation and signing only, it cannot send transactions yet. |
+| Quantum wallet | ML-DSA-65 wallet on the site (`/quantum-wallet/`); creates PQ accounts and **sends native PQ transactions** via the site gateway (`zny_*` RPC methods). |
+| PQ transactions | **Live** since block `157773` (2026-11-05). First production PQ tx (ML-DSA-65): [`0x8120159e…a3f9`](https://scan.zeronyth.dpdns.org/) in block `165913`. Falcon-1024 production proof pending; both schemes fully proven on test chains. Design and evidence: [WHITEPAPER.md](WHITEPAPER.md). |
 
 ## Repository layout
 
 ```
+WHITEPAPER.md                  Design, PQ transaction formats, gas schedule, verification evidence
 network/                       Current network parameters (chain 912701)
 services/zeronyth-l1/          Archived codebase of the previous chain 9127 (history, see below)
 services/zeronyth-discord/     Discord bot (verify, language roles, GM streaks, /faucet, /status)
