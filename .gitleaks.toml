@@ -6,7 +6,4 @@ useDefault = true
 [allowlist]
 description = "public deployment manifests and known test fixtures"
 paths = [
-  '''services/zeronyth-l1/bridge/deployments/.*\.json''',
-  '''services/zeronyth-l1/deployments/.*\.json''',
-  '''services/zeronyth-l1/economy/deployments/.*\.json''',
 ]

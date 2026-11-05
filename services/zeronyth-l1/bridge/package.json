@@ -1,4 +1,0 @@
-{ "name": "zeronyth-bridge", "private": true, "type": "module",
-  "description": "ZERONYTH testnet bridge: ZNYT (chain 9127) <-> wZNYT on EVM testnets, 2-of-3 relayer attestation + ML-DSA-65 audit log",
-  "dependencies": { "ethers": "6.17.0" },
-  "devDependencies": { "@openzeppelin/contracts": "5.4.0", "forge-std": "github:foundry-rs/forge-std#v1.9.7" } }

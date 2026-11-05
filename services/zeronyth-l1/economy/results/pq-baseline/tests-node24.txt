@@ -1,6 +1,0 @@
-test.mjs: ℹ pass 21 ℹ fail 0 
-verification-pool.test.mjs: ℹ pass 3 ℹ fail 0  (after fix: error message 1..8 vs actual bound 1..16 mismatch; failed assertion leaked 9 workers -> 150s hang)
-staged-block.test.mjs: ℹ pass 2 ℹ fail 0 
-block-pipeline.test.mjs: ℹ pass 8 ℹ fail 0 
-parallel-execution.test.mjs: ℹ pass 3 ℹ fail 0 
-node v24.22.1, 2026-10-27 14:28:19 JST

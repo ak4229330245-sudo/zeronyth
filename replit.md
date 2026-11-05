@@ -1,12 +1,10 @@
-# ZERONYTH Local Testnet
+# ZERONYTH — chain 912701 public repository
 
-Runs the uploaded ZERONYTH L1 kit as a private, four-validator Besu development chain with its original explorer and faucet.
-
-## Run & Operate
-
-- Start `artifacts/zeronyth: web` for the live explorer at `/`.
-- Read `services/zeronyth-l1/REPLIT.md` for native runtime setup, liveness checks and data-safety boundaries.
-- Public deployment is not configured. Do not publish the example faucet key or expose raw validator RPC.
+This repository publishes the network parameters, documentation, and whitepaper for the live
+ZERONYTH network (chain ID 912701). The node software is in
+[zeronyth-falcon-node](https://github.com/ak4229330245-sudo/zeronyth-falcon-node);
+network services (site, gateway, faucet) run from the operator's deployment, not from this repo.
+The retired chain-9127 codebase was removed from this repository in November 2026.
 
 - `pnpm --filter @workspace/api-server run dev` — run the API server (port 5000)
 - `pnpm run typecheck` — full typecheck across all packages
@@ -26,9 +24,9 @@ Runs the uploaded ZERONYTH L1 kit as a private, four-validator Besu development 
 
 ## Where things live
 
-- `services/zeronyth-l1/` — imported starter-kit source; its `dashboard/` is the live UI.
-- `services/zeronyth-l1/scripts/start-replit.mjs` — native process lifecycle and fail-closed startup.
-- `artifacts/zeronyth/` — managed preview registration and launch scripts, not the UI source.
+- `WHITEPAPER.md` — design and verification evidence for chain 912701.
+- `network/` — current network parameters (chain 912701).
+- `services/zeronyth-discord/` — Discord bot.
 - `generated-artifacts/` — ignored downloads and runtime logs; never commit or deploy.
 
 ## Architecture decisions

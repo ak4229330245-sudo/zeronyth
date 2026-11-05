@@ -60,9 +60,6 @@ generated-artifacts/
 *.log
 .env
 .env.*
-services/zeronyth-l1/config/pq-validators.json
-services/zeronyth-l1/economy/state/
-services/zeronyth-l1/economy/build/
 
 # ---- ZERONYTH public repo: never commit secrets or runtime data ----
 .env
@@ -97,12 +94,8 @@ backup-orig-*/
 **/config/static-nodes.json
 **/config/validators.json
 **/config/pq-validators.json
-services/zeronyth-l1/economy/build/
-services/zeronyth-l1/economy/accounting/out/
 generated-artifacts/
 __pycache__/
 *.pyc
 
 # built download artifacts (regenerate with launch/joinkit/build-joinkit.mjs)
-services/zeronyth-l1/dashboard/downloads/*.zip
-services/zeronyth-l1/launch/joinkit/out/

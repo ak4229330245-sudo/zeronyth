@@ -4,10 +4,3 @@
 # No need to store the pnpm store twice.
 .local
 /generated-artifacts/
-/services/zeronyth-l1/.env
-/services/zeronyth-l1/node-data
-/services/zeronyth-l1/networkFiles
-/services/zeronyth-l1/network-hosts
-/services/zeronyth-l1/config/genesis.json
-/services/zeronyth-l1/config/static-nodes.json
-/services/zeronyth-l1/config/validators.json

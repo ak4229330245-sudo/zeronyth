@@ -57,7 +57,6 @@ The same values are in [`network/zeronyth-testnet.json`](network/zeronyth-testne
 ```
 WHITEPAPER.md                  Design, PQ transaction formats, gas schedule, verification evidence
 network/                       Current network parameters (chain 912701)
-services/zeronyth-l1/          Archived codebase of the previous chain 9127 (history, see below)
 services/zeronyth-discord/     Discord bot (verify, language roles, GM streaks, /faucet, /status)
 artifacts/, lib/               Workspace packages (API server, UI sandbox, shared libs)
 tools/vendor-build/            Browser vendor bundle build
@@ -69,16 +68,15 @@ The node software for the current chain is in
 ## History: chain 9127
 
 The first ZERONYTH testnet was a Besu QBFT chain with chain ID `9127` (`0x23a7`), using classic ECDSA seals
-and ML-DSA-65 finality checkpoints. It has been **stopped and archived** and replaced by chain 912701.
-The code under `services/zeronyth-l1/` is kept as it was for reference; its chain IDs, genesis, scripts and
-pages still refer to 9127 on purpose. Do not use them to connect to the current network.
+and ML-DSA-65 finality checkpoints. It has been **stopped and retired** and replaced by chain 912701.
+Its codebase was removed from this repository in November 2026 so that this repository covers chain 912701
+only; the 9127 code remains available in this repository's git history and in the operator's archives.
 
 Secrets (validator keys, ML-DSA / Falcon keys, bot tokens, wallet keys) are never stored in this repository.
-Hostnames and IPs in ops scripts are placeholders (`YOUR_VPS_IP`, `YOUR_TAILSCALE_IP`).
 
 ## Security
 
-See `services/zeronyth-l1/SECURITY.md`. Please report vulnerabilities privately via Discord rather than in public issues.
+Please report vulnerabilities privately via Discord rather than in public issues.
 
 ## License
 

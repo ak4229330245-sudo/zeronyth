@@ -1,7 +1,0 @@
-{
-  "chainId": "0x23a7",
-  "chainName": "ZERONYTH Local",
-  "nativeCurrency": {"name": "ZERONYTH", "symbol": "ZNYT", "decimals": 18},
-  "rpcUrls": ["http://127.0.0.1:8545"],
-  "blockExplorerUrls": ["https://scan.zeronyth.dpdns.org"]
-}
