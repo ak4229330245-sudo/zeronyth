@@ -192,10 +192,16 @@ Poseidon permutation plus Keccak-256 — with no curve assumption anywhere
 in the stack.
 
 **Production status.** The verifier stack and pool were deployed to chain
-912701 on 6 November 2026; production deposits (3 + 5 ZNYT) and
-STARK-verified Merkle root synchronizations are on-chain, and the native
-ZK transaction type activates at block 242,414, with the first production
-shielded transfer and withdrawal executing as the rollout's Stage 4 proof.
+912701 on 6 November 2026, and the rollout's Stage 4 production proof has
+completed end to end on the live chain: deposits of 3 + 5 ZNYT,
+STARK-verified Merkle root synchronizations, and — after the native ZK
+type activated at block 242,414 — the first production shielded transfer
+as a native `0x7D` transaction
+(tx `0xe0dda0a1cebf8c0401a557682728f0084e41dff76fca2198ac1f574c9cfa0476`,
+gas 17,969,723) and a withdrawal of 5 ZNYT back to a plain address
+(tx `0x8416dbc1f54f5a732924643363cae4db57d1b444d9758ea147d632811409266e`),
+with the pool's final state exact (3 ZNYT remaining shielded) and a
+verbatim replay of the transfer rejected.
 
 **v1 limits (stated plainly).** Amounts are **not** hidden in v1 — what is
 hidden is which note was spent; amount hiding is pool-v2 work. Proof
@@ -316,9 +322,10 @@ Evidence gathered before and during activation:
   four-instance identical-import determinism, and a 9-case fault suite —
   was proven end to end on independent test chains before the production
   rollout. On production, the verifier stack and PrivatePoolG1 were
-  deployed at the pre-announced address, deposits and STARK-verified root
-  syncs are on-chain, and the native ZK type activates at block 242,414
-  (Stage 4 production proof).
+  deployed at the pre-announced address, and the Stage 4 production proof
+  completed the full cycle on the live chain (§5A): deposits, STARK-verified
+  root syncs, a native `0x7D` shielded transfer and a withdrawal, with the
+  final pool state exact and a verbatim replay rejected.
 
 ## 10. Wallets and interfaces
 
