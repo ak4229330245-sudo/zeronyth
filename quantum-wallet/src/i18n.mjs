@@ -224,10 +224,10 @@ export const DICT = {
   "연결됨 (잔액 조회만)"
  ],
  "chainNote": [
-  "Chain 912701 は ECDSA・Falcon-1024・ML-DSA-65 の3方式に対応しています。アカウントごとに方式は固定され、PQアカウントを ECDSA で操作することはできません。",
-  "Chain 912701 supports three schemes: ECDSA, Falcon-1024 and ML-DSA-65. Each account is bound to its scheme, and a PQ account can never be operated via ECDSA.",
-  "Chain 912701 支持 ECDSA、Falcon-1024 和 ML-DSA-65 三种方案。每个账户绑定其方案，PQ 账户永远无法通过 ECDSA 操作。",
-  "Chain 912701은 ECDSA, Falcon-1024, ML-DSA-65 세 가지 방식을 지원합니다. 각 계정은 방식에 고정되며 PQ 계정은 ECDSA로 조작할 수 없습니다."
+  "Chain 912701 は ECDSA・Falcon-1024・ML-DSA-65 の3方式に対応しています。アカウントごとに方式は固定され、PQアカウントを ECDSA で操作することはできません。さらに証明・プライバシー層として zk-STARK プライバシープールが本番チェーンにデプロイされています（ネイティブZK取引 0x7D）。ZERONYTH のスタックは ECDSA・Falcon・ML-DSA・zk-STARK の4本柱です。",
+  "Chain 912701 supports three schemes: ECDSA, Falcon-1024 and ML-DSA-65. Each account is bound to its scheme, and a PQ account can never be operated via ECDSA. A zk-STARK privacy pool is also deployed on the production chain as the proof and privacy layer (native ZK transactions, 0x7D). The ZERONYTH stack is four pillars: ECDSA, Falcon, ML-DSA and zk-STARK.",
+  "Chain 912701 支持 ECDSA、Falcon-1024 和 ML-DSA-65 三种方案。每个账户绑定其方案，PQ 账户永远无法通过 ECDSA 操作。zk-STARK 隐私池也已作为证明与隐私层部署在生产链上（原生 ZK 交易 0x7D）。ZERONYTH 的技术栈为四大支柱：ECDSA、Falcon、ML-DSA 与 zk-STARK。",
+  "Chain 912701은 ECDSA, Falcon-1024, ML-DSA-65 세 가지 방식을 지원합니다. 각 계정은 방식에 고정되며 PQ 계정은 ECDSA로 조작할 수 없습니다. 증명 및 프라이버시 계층으로 zk-STARK 프라이버시 풀도 프로덕션 체인에 배포되어 있습니다(네이티브 ZK 트랜잭션 0x7D). ZERONYTH의 스택은 ECDSA, Falcon, ML-DSA, zk-STARK 네 가지 기둥입니다."
  ],
  "receiveWarn": [
   "このアドレスで ZNYT を受け取れます。届いた資金は、このアカウントの方式でそのまま送金できます。",

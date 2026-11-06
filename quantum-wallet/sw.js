@@ -7,8 +7,8 @@
 // (index.html?v=N) in lockstep, as v1 did. A stale cache name means
 // users keep running the previous build (the exact trap that blocked
 // v1's in-browser verification), so: bump here, bump ?v= there.
-//   next: zeronyth-qwallet-912701v12
-const CACHE = 'zeronyth-qwallet-912701v12';
+//   next: zeronyth-qwallet-912701v13
+const CACHE = 'zeronyth-qwallet-912701v13';
 
 const SHELL = [
   './',

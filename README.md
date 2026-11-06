@@ -4,6 +4,9 @@ ZERONYTH is a public, quantum-resistant EVM network built on Hyperledger Besu.
 The live chain runs **QBFT with Falcon-1024 consensus signatures** and publishes **ML-DSA-65** (NIST FIPS 204) finality proofs.
 Since 5 November 2026 it also supports **native post-quantum transactions**: Falcon-1024 (type `0x7E`) and ML-DSA-65 (type `0x7F`)
 accounts spend directly in the EVM, alongside ordinary ECDSA transactions (standard wallets work as usual).
+Since 6 November 2026 a **zk-STARK privacy pool** (PrivatePoolG1) is deployed on the chain as the proof and privacy layer —
+shielded transfers run as native ZK transactions (type `0x7D`) verified by STARK proofs.
+The stack is four pillars: **ECDSA · Falcon · ML-DSA · zk-STARK**.
 See the **[Whitepaper](WHITEPAPER.md)** for the full design, formats, and verification evidence.
 
 | | |
@@ -12,8 +15,9 @@ See the **[Whitepaper](WHITEPAPER.md)** for the full design, formats, and verifi
 | Chain ID | `912701` (`0xded3d`) |
 | Native coin | **ZNYT** (test coin, no monetary value) |
 | Consensus | Besu QBFT (custom build), Falcon-1024 seals, 4 validators, ~1 s blocks |
-| Post-quantum | Falcon-1024 consensus signatures + ML-DSA-65 finality proofs + native PQ transactions |
+| Post-quantum | Falcon-1024 consensus signatures + ML-DSA-65 finality proofs + native PQ transactions + zk-STARK proofs |
 | Tx signing | ECDSA (secp256k1) + **Falcon-1024 (`0x7E`)** + **ML-DSA-65 (`0x7F`)**, live since activation block `157773` (2026-11-05) |
+| Proof / privacy | **zk-STARK** privacy pool (PrivatePoolG1, [`0xb69ba292…7862`](https://scan.zeronyth.dpdns.org/address/0xb69ba292fb84d3ab86aed617ba2a8fb4b38e7862)) — native ZK transactions (`0x7D`), STARKVERIFY precompile (`0x7d1`), deployed 2026-11-06 |
 | Website | https://zeronyth.dpdns.org/ |
 | Explorer | https://scan.zeronyth.dpdns.org/ |
 | RPC | https://zeronyth.dpdns.org/rpc |
@@ -51,7 +55,8 @@ The same values are in [`network/zeronyth-testnet.json`](network/zeronyth-testne
 | Rewards | Three separate things: **points** (off-chain, Merkle root recorded on-chain daily), **test ZNYT** (no value), and **simulations** (display only). |
 | VPS market | **Live — accepting orders.** AI VPS starter: 100 ZNYT / 10 days, paid with a native PQ transaction (Falcon-1024 `0x7E` / ML-DSA-65 `0x7F`); operator-fulfilled. Order at https://zeronyth.dpdns.org/vps.html — source: [`ai-vps-market/`](ai-vps-market/). Older plans are marked as legacy. |
 | Quantum wallet | ML-DSA-65 wallet on the site (`/quantum-wallet/`); creates PQ accounts and **sends native PQ transactions** via the site gateway (`zny_*` RPC methods). |
-| PQ transactions | **Live** since block `157773` (2026-11-05). First production PQ tx (ML-DSA-65): [`0x8120159e…a3f9`](https://scan.zeronyth.dpdns.org/) in block `165913`. Falcon-1024 production proof pending; both schemes fully proven on test chains. Design and evidence: [WHITEPAPER.md](WHITEPAPER.md). |
+| PQ transactions | **Live** since block `157773` (2026-11-05). First production PQ tx (ML-DSA-65): [`0x8120159e…a3f9`](https://scan.zeronyth.dpdns.org/) in block `165913`. Falcon-1024 production proof completed 2026-11-05 (tx `0x5cbfde62…6676`, block `184874`). Design and evidence: [WHITEPAPER.md](WHITEPAPER.md). |
+| zk-STARK pool | **Deployed** 2026-11-06: PrivatePoolG1 at [`0xb69ba292fb84d3ab86aed617ba2a8fb4b38e7862`](https://scan.zeronyth.dpdns.org/address/0xb69ba292fb84d3ab86aed617ba2a8fb4b38e7862). Deposits become notes (commitments) in a depth-10 Merkle tree; shielded transfers spend notes with nullifiers + STARK proofs and run as native ZK transactions (`0x7D`); withdrawals verify a proof and return ZNYT. Cairo + Stone prover + StarkEx verifier contracts; in-statement Poseidon (in-program) and a Keccak-256 channel — hash-family assumptions only, no trusted setup. **v1 limits:** amounts are not hidden (note linkage is), proving takes ~5 min per action (off-chain, by the operator), practical capacity ≈1 ZK tx per block, unaudited (external audit deferred). |
 
 ## Repository layout
 

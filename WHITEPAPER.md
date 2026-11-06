@@ -2,7 +2,7 @@
 
 **A Quantum-Resistant EVM Network with Native Post-Quantum Transactions**
 
-Version 1.0 — 5 November 2026
+Version 1.1 — 6 November 2026 (v1.0: 5 November 2026; v1.1 adds §5A, the zk-STARK privacy pool)
 Network: ZERONYTH, Chain ID 912701 (`0xDED3D`)
 Website: https://zeronyth.dpdns.org/ · Explorer: https://scan.zeronyth.dpdns.org/
 
@@ -22,7 +22,12 @@ Falcon-1024 (type `0x7E`) or ML-DSA-65 (type `0x7F`) execute in the same EVM
 alongside ordinary ECDSA transactions. Account control is *scheme-bound*: a
 post-quantum account can never be operated by an ECDSA signature, so migrating
 funds to a PQ account permanently removes them from the quantum-vulnerable
-signature scheme. This paper describes the threat model, the design, the exact
+signature scheme. On 6 November 2026 a fourth pillar joined the stack: a
+**zk-STARK privacy pool** (PrivatePoolG1) deployed on the production chain,
+whose deposits, shielded transfers and withdrawals are verified by STARK
+proofs — hash-based, with no trusted setup and no elliptic-curve assumption.
+The stack is now four pillars: **ECDSA · Falcon · ML-DSA · zk-STARK**
+(§5A). This paper describes the threat model, the design, the exact
 transaction formats and gas schedule, the activation governance, and the
 verification evidence behind the production deployment, together with an
 honest account of the current limitations.
@@ -80,6 +85,7 @@ modifications:
 | Consensus signatures | **Falcon-1024** commit seals (domain `ZERONYTH/QBFT/FALCON-1024/V1`) |
 | Finality proofs | **ML-DSA-65** certificates over finalized checkpoints, produced by an attestation service (see §4.2) |
 | User transactions | ECDSA (legacy / EIP-2930 / EIP-1559), **Falcon-1024 (`0x7E`)**, **ML-DSA-65 (`0x7F`)** |
+| Proof / privacy | **zk-STARK** privacy pool (PrivatePoolG1): STARK-verified shielded transfers as native ZK transactions (**`0x7D`**); STARKVERIFY precompile at `0x7d1` |
 | Native coin | ZNYT, 18 decimals |
 
 ## 4. Consensus and finality
@@ -149,6 +155,56 @@ deploy contracts, and call contracts. Sender authentication happens once at
 validation; execution thereafter is the ordinary EVM path. Contract creation
 plus a state-changing call plus a read-back were verified end to end for both
 schemes before activation.
+
+## 5A. The fourth pillar: zk-STARK privacy pool
+
+Signatures answer "who may spend"; they do not answer "who spent what".
+ZERONYTH's proof and privacy layer is a **zk-STARK** system, chosen because
+STARKs are hash-based — transparent (no trusted setup) and free of the
+elliptic-curve assumptions that a quantum attacker would break in
+SNARK-style systems.
+
+**Pool design.** The contract **PrivatePoolG1**
+(`0xb69ba292fb84d3ab86aed617ba2a8fb4b38e7862`) holds shielded ZNYT:
+
+- **Deposit** registers a *note* (commitment) for the deposited amount in a
+  depth-10 Merkle tree.
+- **Shielded transfer** proves, in zero knowledge, ownership of an unspent
+  note and correct creation of the recipient's new note, and publishes a
+  *nullifier* that prevents the note from being spent twice — without
+  revealing which note was spent.
+- **Withdrawal** verifies a proof and returns ZNYT to a chosen address.
+
+Transfers and withdrawals execute as **native ZK transactions (type
+`0x7D`)**: the transaction carries the STARK proof, and every validator
+verifies the same proof deterministically during block import. The client
+also embeds a general **STARKVERIFY precompile at `0x7d1`**. A relayer's
+ECDSA signature on a `0x7D` transaction authorizes fees only; it cannot
+substitute for the proof.
+
+**Verification stack.** Statements are Cairo programs, proven with the
+Stone prover and verified on-chain by the StarkEx verifier contracts
+(CpuVerifier et al., Apache-2.0). In-statement hashing is **Poseidon
+implemented in-program** (an earlier Pedersen-based design was eliminated
+in the G1 hardening pass); the proof system's channel is **Keccak-256**.
+The remaining cryptographic assumptions are therefore hash-family only —
+Poseidon permutation plus Keccak-256 — with no curve assumption anywhere
+in the stack.
+
+**Production status.** The verifier stack and pool were deployed to chain
+912701 on 6 November 2026; production deposits (3 + 5 ZNYT) and
+STARK-verified Merkle root synchronizations are on-chain, and the native
+ZK transaction type activates at block 242,414, with the first production
+shielded transfer and withdrawal executing as the rollout's Stage 4 proof.
+
+**v1 limits (stated plainly).** Amounts are **not** hidden in v1 — what is
+hidden is which note was spent; amount hiding is pool-v2 work. Proof
+generation takes ~5 minutes per action and is currently performed
+off-chain by the operator (the prover does not run on the validator host).
+Verification is gas-heavy (~18M gas per native ZK transaction), so
+practical capacity is ≈1 ZK transaction per block. The pool is
+**unaudited**: an external audit has been deferred by the operator's
+decision, and the rollout is prototype-grade (see §12).
 
 ## 6. Gas schedule and denial-of-service hygiene
 
@@ -251,7 +307,18 @@ Evidence gathered before and during activation:
 - **First production PQ transaction**: an ML-DSA-65 transfer of 0.001 ZNYT,
   tx `0x8120159eb72a8a5462878636e858225661c304a3e87f4cb9687937b2d4a8a3f9`,
   block 165,913, status success, with balance and nonce deltas verified
-  on-chain.
+  on-chain. The Falcon-1024 production proof followed the same day
+  (tx `0x5cbfde62eec5a78199a78c40ff4529815e44db97fc0f4d93bd048665a0096676`,
+  block 184,874).
+- **zk-STARK pool** (6 Nov 2026): the full program — on-chain STARK
+  verification of a real proof, pool deposit → shielded transfer →
+  withdrawal, the STARKVERIFY precompile, native `0x7D` transactions,
+  four-instance identical-import determinism, and a 9-case fault suite —
+  was proven end to end on independent test chains before the production
+  rollout. On production, the verifier stack and PrivatePoolG1 were
+  deployed at the pre-announced address, deposits and STARK-verified root
+  syncs are on-chain, and the native ZK type activates at block 242,414
+  (Stage 4 production proof).
 
 ## 10. Wallets and interfaces
 
@@ -303,6 +370,12 @@ Honesty about the current state matters more than polish:
 - **Size overhead.** PQ transactions carry ~3.3 KB (Falcon) to ~5.3 KB
   (ML-DSA) of key/signature data. Throughput in transactions per second is
   correspondingly lower than an ECDSA-only chain at equal bandwidth.
+- **The STARK pool is v1.** Amounts are public (only note linkage is
+  hidden), proving takes ~5 minutes per action and runs off-chain under
+  the operator, verification costs ~18M gas (≈1 ZK transaction per block
+  in practice), and the pool contracts and statements have not been
+  externally audited — the audit was explicitly deferred by the operator
+  in favour of shipping the production rollout first (§5A).
 
 ## 13. Roadmap
 
@@ -310,9 +383,10 @@ Honesty about the current state matters more than polish:
 2. External security audit of the Falcon consensus patch and the PQ
    transaction implementation.
 3. Complete endurance/load testing and publish throughput benchmarks.
-4. Complete the production proof set for Falcon-1024 transfers (test-chain
-   proofs are complete; the first funded production Falcon transfer is
-   pending at the time of writing).
+4. ~~Complete the production proof set for Falcon-1024 transfers~~ — done
+   2026-11-05 (first funded production Falcon transfer, block 184,874).
+   Next for the pool: v2 with hidden amounts and incremental Merkle roots,
+   then the external audit package for the STARK components.
 5. Developer documentation, a public PQ transaction specification, and
    reference wallet releases.
 6. Research: hash-based signature diversification, and non-EVM execution
@@ -322,12 +396,13 @@ Honesty about the current state matters more than polish:
 
 ZERONYTH demonstrates that a chain does not have to choose between the
 Ethereum ecosystem and post-quantum security. With Falcon-1024 sealing its
-consensus, ML-DSA-65 certifying its finality, and both schemes available as
-native, scheme-bound user accounts — activated on a live network through a
-gated, rehearsed, reversible-until-activation upgrade — the migration path
-that every ECDSA chain will eventually need has been walked end to end, in
-production, at small scale. The remaining work is scale, distribution, and
-independent verification — not invention.
+consensus, ML-DSA-65 certifying its finality, both schemes available as
+native, scheme-bound user accounts, and zk-STARK proofs giving the chain a
+privacy layer whose assumptions are hash-family only — four pillars:
+ECDSA, Falcon, ML-DSA, zk-STARK — the migration path that every ECDSA chain
+will eventually need has been walked end to end, in production, at small
+scale. The remaining work is scale, distribution, and independent
+verification — not invention.
 
 ## References
 
