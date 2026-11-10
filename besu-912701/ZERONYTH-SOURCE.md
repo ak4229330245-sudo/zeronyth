@@ -7,6 +7,12 @@ production, including the ZERONYTH post-quantum extensions:
 - **Native post-quantum transactions**: Falcon-1024 (type `0x7E`) and
   ML-DSA-65 (type `0x7F`), gated by the genesis option
   `pqTxActivationBlock` (activated on 912701 at block 157,773)
+- **Native ZK-STARK transactions** (type `0x7D`, from block 242,414) and the
+  **STARKVERIFY precompile** (`0x7d1`, from block 241,814), genesis options
+  `zkTxActivationBlock` / `zkPrecompileActivationBlock` / `zkPoolAddress`.
+  This part was reconstructed from the production `besu-zk` bytecode on
+  2026-11-10 (0 differing classes, full-sync stateRoots equal production):
+  [`../docs/ZK-SOURCE-RECONSTRUCTION.md`](../docs/ZK-SOURCE-RECONSTRUCTION.md)
 
 ## Provenance
 
@@ -23,7 +29,9 @@ the PQ transaction port is documented in
 
 ## Build
 
-Requires JDK 25 and Gradle 9.3.1:
+Requires JDK 25 and Gradle 9.3.1. This tree builds the production `besu-zk`
+binary that runs 912701 since 2026-11-06 (pass `-Pversion=26.11-develop-c9aa666`
+to reproduce the version string):
 
 ```sh
 ./gradlew installDist   # or the project's Gradle wrapper equivalent

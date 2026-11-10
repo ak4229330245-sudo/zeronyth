@@ -2,6 +2,15 @@
 
 # Provenance of the production Besu binary "26.11-develop-c9aa666" (chain 912701)
 
+> **Update 2026-11-10.** Three different builds carry the same version string `26.11-develop-c9aa666`:
+> (1) the original Falcon-QBFT build (2026-11-03, = node kit v0.1.x), (2) the PQ build `besu-912701-pq.tar.gz`
+> (SHA-256 `2f11c1a6…5fcf`, production 2026-11-05 → 2026-11-06) and (3) the **besu-zk** build
+> (`besu-912701-zk-candidate.tar.gz`, SHA-256 `c275a90b516a3aa5ada692b4c20b87bdf3873224db06ddd7e62b374739e091c9`),
+> which **runs production since 2026-11-06 08:55 JST**. The besu-zk source was reconstructed from its bytecode and is
+> published in `besu-912701/` — see [ZK-SOURCE-RECONSTRUCTION.md](ZK-SOURCE-RECONSTRUCTION.md)
+> (0 differing classes; full sync from genesis matches production stateRoots). The text below is the original
+> 2026-11-04 investigation of build (1)/(2).
+
 Investigation date: 2026-11-04. All VPS access was read-only (`tar` stream of the install
 directory over SSH; nothing on the VPS was modified). Production install copied to
 `besu-912701/prod-install/` (bin + lib only — no chain data, no keys).

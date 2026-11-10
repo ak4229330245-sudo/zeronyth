@@ -50,7 +50,7 @@ The same values are in [`network/zeronyth-testnet.json`](network/zeronyth-testne
 | Faucet | 100 test ZNYT per claim, 1 hour cooldown (live values: `/api/faucet/health`) |
 | Supply | Planned design: **100,000,000 ZNYT** (see Tokenomics on the site). The testnet genesis holds **2,000,000,000 test ZNYT** for testing only. |
 | Full nodes | Published: [zeronyth-falcon-node](https://github.com/ak4229330245-sudo/zeronyth-falcon-node), release [`falcon-912701-v0.1.1`](https://github.com/ak4229330245-sudo/zeronyth-falcon-node/releases/tag/falcon-912701-v0.1.1). Outside nodes join as **non-validator** full nodes first. |
-| Production binary | The PQ-enabled build running 912701 is downloadable from the site (SHA-256 in [docs/BINARY-RELEASE.md](docs/BINARY-RELEASE.md)); its source is [`besu-912701/`](besu-912701/). |
+| Production binary | 912701 runs the **besu-zk** build since 2026-11-06 (SHA-256 `c275a90b…` in [docs/BINARY-RELEASE.md](docs/BINARY-RELEASE.md)); outside nodes use node kit [falcon-912701-v0.2.0](https://github.com/ak4229330245-sudo/zeronyth-falcon-node/releases/tag/falcon-912701-v0.2.0). Source: [`besu-912701/`](besu-912701/), incl. the ZK part reconstructed from the production bytecode ([docs/ZK-SOURCE-RECONSTRUCTION.md](docs/ZK-SOURCE-RECONSTRUCTION.md)). |
 | Site AI | Qwen3-1.7B (Q4_K_M) on Ollama, CPU (live value: `/api/ai/status`) |
 | Rewards | Three separate things: **points** (off-chain, Merkle root recorded on-chain daily), **test ZNYT** (no value), and **simulations** (display only). |
 | VPS market | **Live — accepting orders.** AI VPS starter: 100 ZNYT / 10 days, paid with a native PQ transaction (Falcon-1024 `0x7E` / ML-DSA-65 `0x7F`); operator-fulfilled. Order at https://zeronyth.dpdns.org/vps.html — source: [`ai-vps-market/`](ai-vps-market/). Older plans are marked as legacy. |
@@ -63,7 +63,7 @@ The same values are in [`network/zeronyth-testnet.json`](network/zeronyth-testne
 ```
 WHITEPAPER.md                  Design, PQ transaction formats, gas schedule, verification evidence
 docs/                          Engineering record: port reports, provenance, upgrade plan, E2E evidence
-besu-912701/                   Production node source (Besu 26.9.0 + ZERONYTH PQ patches; see besu-912701/ZERONYTH-SOURCE.md)
+besu-912701/                   Production node source (Besu 26.9.0 + ZERONYTH PQ + ZK patches; see besu-912701/ZERONYTH-SOURCE.md)
 quantum-wallet/                Quantum Wallet v2 web app source — one wallet for ECDSA, Falcon-1024 (0x7E) and ML-DSA-65 (0x7F); live at zeronyth.dpdns.org/quantum-wallet/
 ai-vps-market/                 AI VPS rental service source — order market in the site gateway, PQ-tx payments, ML-DSA-signed admin + Discord notifications; live at zeronyth.dpdns.org/vps.html
 network/                       Current network parameters (chain 912701)
