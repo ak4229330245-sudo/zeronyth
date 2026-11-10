@@ -99,3 +99,9 @@ __pycache__/
 *.pyc
 
 # built download artifacts (regenerate with launch/joinkit/build-joinkit.mjs)
+
+# besu-912701 is a Java source tree: upstream Besu has packages named data/, logs/, state/
+# that the runtime-data rules above would drop (39 files were missing before 2026-11-10).
+!besu-912701/**/src/**/data/
+!besu-912701/**/src/**/logs/
+!besu-912701/**/src/**/state/
