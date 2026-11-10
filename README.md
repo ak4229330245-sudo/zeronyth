@@ -11,9 +11,9 @@ See the **[Whitepaper](WHITEPAPER.md)** for the full design, formats, and verifi
 
 | | |
 |---|---|
-| Network | ZERONYTH Falcon Testnet |
+| Network | ZERONYTH Falcon (production) |
 | Chain ID | `912701` (`0xded3d`) |
-| Native coin | **ZNYT** (test coin, no monetary value) |
+| Native coin | **ZNYT** (no monetary value) |
 | Consensus | Besu QBFT (custom build), Falcon-1024 seals, 4 validators, ~1 s blocks |
 | Post-quantum | Falcon-1024 consensus signatures + ML-DSA-65 finality proofs + native PQ transactions + zk-STARK proofs |
 | Tx signing | ECDSA (secp256k1) + **Falcon-1024 (`0x7E`)** + **ML-DSA-65 (`0x7F`)**, live since activation block `157773` (2026-11-05) |
@@ -24,7 +24,7 @@ See the **[Whitepaper](WHITEPAPER.md)** for the full design, formats, and verifi
 | Telegram | https://t.me/+5MZDdz-3_R9hYWI1 |
 | Discord | https://discord.gg/qJTYpkbYNm |
 
-> Testnet only. ZNYT has no value and the network may be reset. Never share a private key or seed phrase with anyone.
+> ZNYT has no monetary value. Never share a private key or seed phrase with anyone.
 
 ## Add the network to a wallet
 
@@ -33,7 +33,7 @@ await window.ethereum.request({
   method: 'wallet_addEthereumChain',
   params: [{
     chainId: '0xded3d',
-    chainName: 'ZERONYTH Falcon Testnet',
+    chainName: 'ZERONYTH Falcon',
     nativeCurrency: { name: 'ZNYT', symbol: 'ZNYT', decimals: 18 },
     rpcUrls: ['https://zeronyth.dpdns.org/rpc'],
     blockExplorerUrls: ['https://scan.zeronyth.dpdns.org/'],
@@ -41,22 +41,24 @@ await window.ethereum.request({
 });
 ```
 
-The same values are in [`network/zeronyth-testnet.json`](network/zeronyth-testnet.json).
+The same values are in [`network/zeronyth-912701.json`](network/zeronyth-912701.json).
 
 ## Current status
 
 | Item | Status |
 |---|---|
-| Faucet | 100 test ZNYT per claim, 1 hour cooldown (live values: `/api/faucet/health`) |
-| Supply | Planned design: **100,000,000 ZNYT** (see Tokenomics on the site). The testnet genesis holds **2,000,000,000 test ZNYT** for testing only. |
-| Full nodes | Published: [zeronyth-falcon-node](https://github.com/ak4229330245-sudo/zeronyth-falcon-node), release [`falcon-912701-v0.1.1`](https://github.com/ak4229330245-sudo/zeronyth-falcon-node/releases/tag/falcon-912701-v0.1.1). Outside nodes join as **non-validator** full nodes first. |
+| Faucet | 100 ZNYT per claim, 1 hour cooldown; claims are paid in the requested scheme — ECDSA, Falcon-1024 (`0x7E`) or ML-DSA-65 (`0x7F`) (live values: `/api/faucet/health`) |
+| Supply | Planned design: **100,000,000 ZNYT** (see Tokenomics on the site). The production genesis holds **2,000,000,000 ZNYT**. |
+| Full nodes | Published: [zeronyth-falcon-node](https://github.com/ak4229330245-sudo/zeronyth-falcon-node), release [`falcon-912701-v0.2.0`](https://github.com/ak4229330245-sudo/zeronyth-falcon-node/releases/tag/falcon-912701-v0.2.0). Outside nodes join as **non-validator** full nodes first. (The older v0.1.1 PQ-era build predates the ZK activation and stalls around blocks 241,814–242,419 — use v0.2.0.) |
 | Production binary | 912701 runs the **besu-zk** build since 2026-11-06 (SHA-256 `c275a90b…` in [docs/BINARY-RELEASE.md](docs/BINARY-RELEASE.md)); outside nodes use node kit [falcon-912701-v0.2.0](https://github.com/ak4229330245-sudo/zeronyth-falcon-node/releases/tag/falcon-912701-v0.2.0). Source: [`besu-912701/`](besu-912701/), incl. the ZK part reconstructed from the production bytecode ([docs/ZK-SOURCE-RECONSTRUCTION.md](docs/ZK-SOURCE-RECONSTRUCTION.md)). |
-| Site AI | Qwen3-1.7B (Q4_K_M) on Ollama, CPU (live value: `/api/ai/status`) |
+| Site AI | Qwen3-1.7B (Q4_K_M) on Ollama, CPU (live value: `/api/ai/status`); every completed worker response is ML-DSA-65-signed and verified by the gateway before it is relayed (`/api/ai/worker-identity`) |
 | Rewards | Three separate things: **points** (off-chain, Merkle root recorded on-chain daily), **test ZNYT** (no value), and **simulations** (display only). |
 | VPS market | **Live — accepting orders.** AI VPS starter: 100 ZNYT / 10 days, paid with a native PQ transaction (Falcon-1024 `0x7E` / ML-DSA-65 `0x7F`); operator-fulfilled. Order at https://zeronyth.dpdns.org/vps.html — source: [`ai-vps-market/`](ai-vps-market/). Older plans are marked as legacy. |
-| Quantum wallet | ML-DSA-65 wallet on the site (`/quantum-wallet/`); creates PQ accounts and **sends native PQ transactions** via the site gateway (`zny_*` RPC methods). |
-| PQ transactions | **Live** since block `157773` (2026-11-05). First production PQ tx (ML-DSA-65): [`0x8120159e…a3f9`](https://scan.zeronyth.dpdns.org/) in block `165913`. Falcon-1024 production proof completed 2026-11-05 (tx `0x5cbfde62…6676`, block `184874`). Design and evidence: [WHITEPAPER.md](WHITEPAPER.md). |
+| Quantum wallet | **v13** — the multi-scheme web wallet at [`/quantum-wallet/`](https://zeronyth.dpdns.org/quantum-wallet/): one vault for ECDSA, Falcon-1024 (`0x7E`) and ML-DSA-65 (`0x7F`) accounts across 16 networks. Keys never leave the device: it signs locally and submits native raw PQ transactions directly — no gateway transcoding. |
+| PQ transactions | **Live** since block `157773` (2026-11-05). First production PQ tx (ML-DSA-65): [`0x8120159e…a3f9`](https://scan.zeronyth.dpdns.org/tx/0x8120159eb72a8a5462878636e858225661c304a3e87f4cb9687937b2d4a8a3f9) in block `165913`. Falcon-1024 production proof completed 2026-11-05 (tx `0x5cbfde62…6676`, block `184874`). Design and evidence: [WHITEPAPER.md](WHITEPAPER.md). |
 | zk-STARK pool | **Deployed** 2026-11-06: PrivatePoolG1 at [`0xb69ba292fb84d3ab86aed617ba2a8fb4b38e7862`](https://scan.zeronyth.dpdns.org/address/0xb69ba292fb84d3ab86aed617ba2a8fb4b38e7862). Deposits become notes (commitments) in a depth-10 Merkle tree; shielded transfers spend notes with nullifiers + STARK proofs and run as native ZK transactions (`0x7D`); withdrawals verify a proof and return ZNYT. Cairo + Stone prover + StarkEx verifier contracts; in-statement Poseidon (in-program) and a Keccak-256 channel — hash-family assumptions only, no trusted setup. **v1 limits:** amounts are not hidden (note linkage is), proving takes ~5 min per action (off-chain, by the operator), practical capacity ≈1 ZK tx per block, unaudited (external audit deferred). |
+| AMM | **Live** on 912701: on-chain swaps (WZNYT + 11 SwapLabPair pools, ZnytAmmRouters), usable from all three signing schemes; price keeper running. |
+| Bridge | **Live (Gen2)**: wZNYT bridging between 912701 and Base / Ethereum / Arbitrum Sepolia + Robinhood; dual attestation (ECDSA on-chain + ML-DSA-65 by relayers); fully timelock-governed (24 h delay) on all five chains. |
 
 ## Repository layout
 
@@ -64,7 +66,6 @@ The same values are in [`network/zeronyth-testnet.json`](network/zeronyth-testne
 WHITEPAPER.md                  Design, PQ transaction formats, gas schedule, verification evidence
 docs/                          Engineering record: port reports, provenance, upgrade plan, E2E evidence
 besu-912701/                   Production node source (Besu 26.9.0 + ZERONYTH PQ + ZK patches; see besu-912701/ZERONYTH-SOURCE.md)
-quantum-wallet/                Quantum Wallet v2 web app source — one wallet for ECDSA, Falcon-1024 (0x7E) and ML-DSA-65 (0x7F); live at zeronyth.dpdns.org/quantum-wallet/
 ai-vps-market/                 AI VPS rental service source — order market in the site gateway, PQ-tx payments, ML-DSA-signed admin + Discord notifications; live at zeronyth.dpdns.org/vps.html
 network/                       Current network parameters (chain 912701)
 services/zeronyth-discord/     Discord bot (verify, language roles, GM streaks, /faucet, /status)

@@ -31,19 +31,24 @@ The retired chain-9127 codebase was removed from this repository in November 202
 
 ## Architecture decisions
 
-_Populate as you build — non-obvious choices a reader couldn't infer from the code (3-5 bullets)._
+- Chain 912701 is the **production** network (Falcon-1024 QBFT, ML-DSA-65 finality); chain 9127 is retired and its codebase was removed — do not reintroduce it.
+- This repository is the public record (whitepaper, network parameters, engineering docs, published service source). Live services run from the operator's deployment, not from this tree.
+- PQ transaction types are Besu-level extensions (`0x7E` Falcon-1024, `0x7F` ML-DSA-65, `0x7D` ZK); the reconstructed production source lives in `besu-912701/`.
 
 ## Product
 
-_Describe the high-level user-facing capabilities of this app once they exist._
+The public documentation and verification surface for ZERONYTH: the whitepaper, wallet-ready network parameters (`network/`), the engineering record (`docs/`), the AI VPS market source (`ai-vps-market/`), and the Discord bot (`services/zeronyth-discord/`). The chain, explorer, and wallet are served at zeronyth.dpdns.org.
 
 ## User preferences
 
-_Populate as you build — explicit user instructions worth remembering across sessions._
+- Never commit secrets (keys, tokens, seed phrases) — see `.gitleaks.toml`.
+- ZNYT has no monetary value; keep that wording intact wherever it appears.
+- Chain 912701 must never be described as a testnet.
 
 ## Gotchas
 
-_Populate as you build — sharp edges, "always run X before Y" rules._
+- The GitHub repo description/topics still say "testnet" (owner-only setting; cannot be changed from this workspace).
+- Engineering docs written before 2026-11-05 may describe pre-deployment plans — check for dated completion banners before treating a plan as still pending.
 
 ## Pointers
 

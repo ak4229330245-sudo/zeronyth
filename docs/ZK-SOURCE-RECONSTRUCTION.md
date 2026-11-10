@@ -50,4 +50,4 @@ Method: decompile (Vineflower 1.11.1) → apply to the public tree → compare n
   from decompilation; original unit tests and commit history were not recovered. No new unit tests for the
   `precompile/stark` package yet.
 - The commit `c9aa666…` named in the production manifests is still not available anywhere.
-- Unaudited, experimental test-net software.
+- Unaudited, experimental software running on the production chain 912701.

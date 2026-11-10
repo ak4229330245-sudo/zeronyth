@@ -124,7 +124,7 @@ tx = typeByte || rlp([ nonce, gasPrice, gasLimit, to, value, data,
 |---|---|---|
 | Type byte | `0x7E` | `0x7F` |
 | Public key | 1,793 B (canonical padded form) | 1,952 B |
-| Signature | ≤ 2,048 B (≈1.26–1.28 KB in practice) | 3,309 B |
+| Signature | 1,462 B on the wire (format bound ≤ 2,048 B) | 3,309 B |
 | Signing domain | `ZERONYTH/FALCON-1024/TX/V1` | `ZERONYTH/ML-DSA-65/TX/V1` |
 
 The signature is computed over `keccak256(domain || rlp([nonce, gasPrice,
@@ -332,13 +332,17 @@ Evidence gathered before and during activation:
 - **Standard interfaces.** ECDSA accounts work with unmodified Ethereum
   wallets and tooling over the standard JSON-RPC at
   `https://zeronyth.dpdns.org/rpc`.
-- **Quantum Wallet** (web, at `/quantum-wallet/`): an ML-DSA-65 wallet that
-  creates PQ accounts, and — through three JSON-RPC extension methods
-  (`zny_getCapabilities`, `zny_sendTransaction`, `zny_faucet`) served by the
-  site gateway — submits transactions that the gateway transcodes into the
-  chain's native `0x7F` format. The wallet's address derivation and signing
-  payload are exactly the chain standards of §5, so web-wallet accounts are
-  ordinary on-chain PQ accounts.
+- **Quantum Wallet** (web, at `/quantum-wallet/`): the v13 multi-scheme
+  wallet. One vault holds ECDSA, Falcon-1024 (`0x7E`) and ML-DSA-65 (`0x7F`)
+  accounts across 16 networks, with PQ accounts supported on chain 912701.
+  Keys never leave the device: the wallet signs locally and submits native
+  raw PQ transactions over the standard RPC — no gateway transcoding. The
+  wallet's address derivation and signing payload are exactly the chain
+  standards of §5, so web-wallet accounts are ordinary on-chain PQ accounts.
+- **DeFi interfaces.** The site hosts an AMM (WZNYT + SwapLabPair pools,
+  scheme-agnostic across all three signing schemes) and the Gen2 bridge to
+  Base / Ethereum / Arbitrum Sepolia and Robinhood (dual ECDSA + ML-DSA-65
+  attestation, timelock-governed on all five chains).
 - **Developer wallets.** A dual-scheme reference wallet (CLI) demonstrates
   Falcon-1024 and ML-DSA-65 account creation and signing; PQ accounts cannot
   be operated by ECDSA-only wallets such as MetaMask, by design (§7).
@@ -353,7 +357,7 @@ allocation (2,000,000,000 ZNYT) for development and faucet distribution
 monetary value**, and nothing in this paper is an offer of securities or
 investment advice.
 
-## 12. Limitations and risks (as of v1.0)
+## 12. Limitations and risks (as of v1.1)
 
 Honesty about the current state matters more than polish:
 
@@ -392,8 +396,11 @@ Honesty about the current state matters more than polish:
 3. Complete endurance/load testing and publish throughput benchmarks.
 4. ~~Complete the production proof set for Falcon-1024 transfers~~ — done
    2026-11-05 (first funded production Falcon transfer, block 184,874).
-   Next for the pool: v2 with hidden amounts and incremental Merkle roots,
-   then the external audit package for the STARK components.
+   Pool status: v2 (hidden amounts, incremental Merkle roots) is designed
+   and E2E-proven in the independent environment (2026-11-06); production
+   deployment is pending the owner's approval. The audit package for the
+   STARK components is prepared; the external audit itself was deferred by
+   owner decision (audit after rollout).
 5. Developer documentation, a public PQ transaction specification, and
    reference wallet releases.
 6. Research: hash-based signature diversification, and non-EVM execution
