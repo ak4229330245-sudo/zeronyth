@@ -105,6 +105,8 @@ public class Transaction
   private final Optional<Bytes> mlDsaSignature;
   private final Optional<Bytes> falconPublicKey;
   private final Optional<Bytes> falconSignature;
+  private final Optional<Bytes> zkProofParams;
+  private final Optional<Bytes> zkProof;
 
   private final Payload payload;
 
@@ -225,6 +227,8 @@ public class Transaction
       final Optional<Bytes> mlDsaSignature,
       final Optional<Bytes> falconPublicKey,
       final Optional<Bytes> falconSignature,
+      final Optional<Bytes> zkProofParams,
+      final Optional<Bytes> zkProof,
       final Payload payload,
       final Optional<List<AccessListEntry>> maybeAccessList,
       final Address sender,
@@ -293,6 +297,8 @@ public class Transaction
     this.mlDsaSignature = mlDsaSignature == null ? Optional.empty() : mlDsaSignature;
     this.falconPublicKey = falconPublicKey == null ? Optional.empty() : falconPublicKey;
     this.falconSignature = falconSignature == null ? Optional.empty() : falconSignature;
+    this.zkProofParams = zkProofParams == null ? Optional.empty() : zkProofParams;
+    this.zkProof = zkProof == null ? Optional.empty() : zkProof;
     this.payload = payload;
     this.maybeAccessList = maybeAccessList;
     this.sender = sender;
@@ -447,6 +453,24 @@ public class Transaction
 
   public java.util.Optional<org.apache.tuweni.bytes.Bytes> getFalconSignature() {
     return falconSignature;
+  }
+
+  /**
+   * ZK proof parameters of a native zk-STARK transaction (type 0x7D).
+   *
+   * @return the proof parameters, empty for other types
+   */
+  public Optional<Bytes> getZkProofParams() {
+    return zkProofParams;
+  }
+
+  /**
+   * STARK proof of a native zk-STARK transaction (type 0x7D).
+   *
+   * @return the proof, empty for other types
+   */
+  public Optional<Bytes> getZkProof() {
+    return zkProof;
   }
 
   /**
@@ -630,7 +654,9 @@ public class Transaction
                 maybeAccessList,
                 versionedHashes.orElse(null),
                 maybeCodeDelegationList,
-                chainId);
+                chainId,
+                zkProofParams.orElse(null),
+                zkProof.orElse(null));
       }
     }
     return hashNoSignature;
@@ -907,7 +933,9 @@ public class Transaction
       final Optional<List<AccessListEntry>> accessList,
       final List<VersionedHash> versionedHashes,
       final Optional<List<CodeDelegation>> codeDelegationList,
-      final Optional<BigInteger> chainId) {
+      final Optional<BigInteger> chainId,
+      final Bytes zkProofParams,
+      final Bytes zkProof) {
     if (transactionType.requiresChainId()) {
       checkArgument(chainId.isPresent(), "Transaction type %s requires chainId", transactionType);
     }
@@ -926,7 +954,9 @@ public class Transaction
             accessList,
             versionedHashes,
             codeDelegationList,
-            chainId);
+            chainId,
+            zkProofParams,
+            zkProof);
     return keccak256(preimage);
   }
 
@@ -946,7 +976,9 @@ public class Transaction
         maybeAccessList,
         versionedHashes.orElse(null),
         maybeCodeDelegationList,
-        chainId);
+        chainId,
+        zkProofParams.orElse(null),
+        zkProof.orElse(null));
   }
 
   private static Bytes getPreimage(
@@ -963,7 +995,9 @@ public class Transaction
       final Optional<List<AccessListEntry>> accessList,
       final List<VersionedHash> versionedHashes,
       final Optional<List<CodeDelegation>> codeDelegationList,
-      final Optional<BigInteger> chainId) {
+      final Optional<BigInteger> chainId,
+      final Bytes zkProofParams,
+      final Bytes zkProof) {
     final Bytes preimage =
         switch (transactionType) {
           case FRONTIER -> frontierPreimage(nonce, gasPrice, gasLimit, to, value, payload, chainId);
@@ -1021,6 +1055,9 @@ public class Transaction
                               "Developer error: the transaction should be guaranteed to have a code delegations here")));
           case MLDSA65, FALCON1024 ->
               frontierPreimage(nonce, gasPrice, gasLimit, to, value, payload, chainId);
+          case ZKSTARK ->
+              zkPreimage(
+                  nonce, gasPrice, gasLimit, to, value, payload, chainId, zkProofParams, zkProof);
         };
     return preimage;
   }
@@ -1049,6 +1086,40 @@ public class Transaction
           }
           rlpOutput.endList();
         });
+  }
+
+  /**
+   * Signing preimage of a native zk-STARK transaction (type 0x7D): the type byte followed by the
+   * RLP list [nonce, gasPrice, gasLimit, to, value, data, chainId, proofParams, proof]. The
+   * relayer's ECDSA signature therefore commits to the proof.
+   */
+  private static Bytes zkPreimage(
+      final long nonce,
+      final Wei gasPrice,
+      final long gasLimit,
+      final Optional<Address> to,
+      final Wei value,
+      final Bytes payload,
+      final Optional<BigInteger> chainId,
+      final Bytes zkProofParams,
+      final Bytes zkProof) {
+    final Bytes encoded =
+        RLP.encode(
+            rlpOutput -> {
+              rlpOutput.startList();
+              rlpOutput.writeLongScalar(nonce);
+              rlpOutput.writeUInt256Scalar(gasPrice);
+              rlpOutput.writeLongScalar(gasLimit);
+              rlpOutput.writeBytes(
+                  to.map(BytesHolder::getBytes).map(Bytes::copy).orElse(Bytes.EMPTY));
+              rlpOutput.writeUInt256Scalar(value);
+              rlpOutput.writeBytes(payload);
+              rlpOutput.writeBigIntegerScalar(chainId.orElseThrow());
+              rlpOutput.writeBytes(zkProofParams);
+              rlpOutput.writeBytes(zkProof);
+              rlpOutput.endList();
+            });
+    return Bytes.concatenate(Bytes.of(TransactionType.ZKSTARK.getSerializedType()), encoded);
   }
 
   private static Bytes eip1559Preimage(
@@ -1379,6 +1450,8 @@ public class Transaction
             mlDsaSignature,
             falconPublicKey,
             falconSignature,
+            zkProofParams,
+            zkProof,
             payload,
             detachedAccessList,
             sender,
@@ -1460,6 +1533,8 @@ public class Transaction
     protected Bytes mlDsaSignature;
     protected Bytes falconPublicKey;
     protected Bytes falconSignature;
+    protected Bytes zkProofParams;
+    protected Bytes zkProof;
 
     protected Payload payload;
 
@@ -1492,6 +1567,8 @@ public class Transaction
       this.mlDsaSignature = toCopy.mlDsaSignature.orElse(null);
       this.falconPublicKey = toCopy.falconPublicKey.orElse(null);
       this.falconSignature = toCopy.falconSignature.orElse(null);
+      this.zkProofParams = toCopy.zkProofParams.orElse(null);
+      this.zkProof = toCopy.zkProof.orElse(null);
       this.payload = toCopy.payload;
       this.accessList = toCopy.maybeAccessList;
       this.sender = toCopy.sender;
@@ -1600,6 +1677,16 @@ public class Transaction
       return this;
     }
 
+    public Builder zkProofParams(final Bytes proofParams) {
+      this.zkProofParams = proofParams;
+      return this;
+    }
+
+    public Builder zkProof(final Bytes proof) {
+      this.zkProof = proof;
+      return this;
+    }
+
     public Builder versionedHashes(final List<VersionedHash> versionedHashes) {
       this.versionedHashes = versionedHashes;
       return this;
@@ -1669,6 +1756,8 @@ public class Transaction
           Optional.ofNullable(mlDsaSignature),
           Optional.ofNullable(falconPublicKey),
           Optional.ofNullable(falconSignature),
+          Optional.ofNullable(zkProofParams),
+          Optional.ofNullable(zkProof),
           payload,
           accessList,
           sender,
@@ -1786,7 +1875,9 @@ public class Transaction
                   accessList,
                   versionedHashes,
                   codeDelegationAuthorizations,
-                  chainId),
+                  chainId,
+                  zkProofParams,
+                  zkProof),
               keys);
     }
 

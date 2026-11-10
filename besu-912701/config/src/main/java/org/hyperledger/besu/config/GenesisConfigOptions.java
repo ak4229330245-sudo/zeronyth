@@ -225,6 +225,28 @@ public interface GenesisConfigOptions {
   OptionalLong getPqTxActivationBlockNumber();
 
   /**
+   * Gets the activation block of the ZERONYTH STARKVERIFY precompile (0x7d1). Before this block the
+   * precompile returns 32 zero bytes (invalid).
+   *
+   * @return the STARKVERIFY precompile activation block number
+   */
+  OptionalLong getZkPrecompileActivationBlockNumber();
+
+  /**
+   * Gets the activation block of ZERONYTH native zk-STARK transactions (type 0x7D).
+   *
+   * @return the ZK transaction activation block number
+   */
+  OptionalLong getZkTxActivationBlockNumber();
+
+  /**
+   * Gets the only contract address a type 0x7D transaction may target (the privacy pool).
+   *
+   * @return the ZK pool address
+   */
+  Optional<Address> getZkPoolAddress();
+
+  /**
    * Gets london block number.
    *
    * @return the london block number

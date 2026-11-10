@@ -18,6 +18,7 @@ import static org.hyperledger.besu.datatypes.Address.P256_VERIFY;
 
 import org.hyperledger.besu.datatypes.Address;
 import org.hyperledger.besu.evm.gascalculator.GasCalculator;
+import org.hyperledger.besu.evm.precompile.stark.StarkVerifyPrecompiledContract;
 
 /** Provides the various precompiled contracts used on mainnet hard forks. */
 public interface MainnetPrecompiledContracts {
@@ -116,6 +117,8 @@ public interface MainnetPrecompiledContracts {
         Address.ALTBN128_PAIRING,
         new AltBN128PairingPrecompiledContract(gasCalculator, 34_000L, 45_000L));
     registry.put(Address.BLAKE2B_F_COMPRESSION, new BLAKE2BFPrecompileContract(gasCalculator));
+    // ZERONYTH STARKVERIFY (0x7d1); returns 32 zero bytes before zkPrecompileActivationBlock.
+    registry.put(Address.STARK_VERIFY, new StarkVerifyPrecompiledContract());
   }
 
   /**

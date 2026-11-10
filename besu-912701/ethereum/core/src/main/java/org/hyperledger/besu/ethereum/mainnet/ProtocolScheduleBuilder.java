@@ -22,6 +22,7 @@ import org.hyperledger.besu.ethereum.mainnet.milestones.MilestoneDefinition;
 import org.hyperledger.besu.ethereum.mainnet.milestones.MilestoneDefinitions;
 import org.hyperledger.besu.ethereum.mainnet.milestones.MilestoneType;
 import org.hyperledger.besu.evm.internal.EvmConfiguration;
+import org.hyperledger.besu.evm.precompile.stark.ZkStarkGate;
 import org.hyperledger.besu.plugin.services.MetricsSystem;
 
 import java.math.BigInteger;
@@ -81,6 +82,11 @@ public class ProtocolScheduleBuilder {
     // consulted by the transaction pool and the transaction processor. A Besu process serves
     // exactly one chain, whose schedule is created once at startup.
     PqTxGate.configure(config.getPqTxActivationBlockNumber());
+    // ZERONYTH zk-STARK gates: STARKVERIFY precompile and native 0x7D transactions.
+    ZkStarkGate.configure(
+        config.getZkPrecompileActivationBlockNumber(),
+        config.getZkTxActivationBlockNumber(),
+        config.getZkPoolAddress());
     final Optional<BigInteger> chainId = config.getChainId().or(() -> defaultChainId);
     DefaultProtocolSchedule protocolSchedule = new DefaultProtocolSchedule(chainId);
     initSchedule(protocolSchedule);

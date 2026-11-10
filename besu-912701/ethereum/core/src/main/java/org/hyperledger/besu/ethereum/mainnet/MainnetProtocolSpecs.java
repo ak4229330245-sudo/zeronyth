@@ -549,7 +549,7 @@ public abstract class MainnetProtocolSpecs {
                     gasLimitCalculator,
                     true,
                     chainId,
-                    Set.of(TransactionType.FRONTIER, TransactionType.ACCESS_LIST, TransactionType.MLDSA65, TransactionType.FALCON1024)))
+                    Set.of(TransactionType.FRONTIER, TransactionType.ACCESS_LIST, TransactionType.MLDSA65, TransactionType.FALCON1024, TransactionType.ZKSTARK)))
         .transactionReceiptFactory(new BerlinTransactionReceiptFactory(enableRevertReason))
         .hardforkId(BERLIN);
   }
@@ -599,7 +599,7 @@ public abstract class MainnetProtocolSpecs {
                     Set.of(
                         TransactionType.FRONTIER,
                         TransactionType.ACCESS_LIST,
-                        TransactionType.EIP1559, TransactionType.MLDSA65, TransactionType.FALCON1024),
+                        TransactionType.EIP1559, TransactionType.MLDSA65, TransactionType.FALCON1024, TransactionType.ZKSTARK),
                     Integer.MAX_VALUE))
         .transactionProcessorBuilder(
             (gasCalculator,
@@ -772,7 +772,7 @@ public abstract class MainnetProtocolSpecs {
                     Set.of(
                         TransactionType.FRONTIER,
                         TransactionType.ACCESS_LIST,
-                        TransactionType.EIP1559, TransactionType.MLDSA65, TransactionType.FALCON1024),
+                        TransactionType.EIP1559, TransactionType.MLDSA65, TransactionType.FALCON1024, TransactionType.ZKSTARK),
                     evm.getMaxInitcodeSize()))
         .withdrawalsProcessor(new WithdrawalsProcessor())
         .withdrawalsValidator(new WithdrawalsValidator.AllowedWithdrawals())
@@ -864,7 +864,7 @@ public abstract class MainnetProtocolSpecs {
                         TransactionType.FRONTIER,
                         TransactionType.ACCESS_LIST,
                         TransactionType.EIP1559,
-                        TransactionType.BLOB, TransactionType.MLDSA65, TransactionType.FALCON1024),
+                        TransactionType.BLOB, TransactionType.MLDSA65, TransactionType.FALCON1024, TransactionType.ZKSTARK),
                     Set.of(BlobType.KZG_PROOF),
                     evm.getMaxInitcodeSize()))
         .precompileContractRegistryBuilder(MainnetPrecompiledContractRegistries::cancun)
@@ -941,7 +941,7 @@ public abstract class MainnetProtocolSpecs {
                             TransactionType.ACCESS_LIST,
                             TransactionType.EIP1559,
                             TransactionType.BLOB,
-                            TransactionType.DELEGATE_CODE, TransactionType.MLDSA65, TransactionType.FALCON1024),
+                            TransactionType.DELEGATE_CODE, TransactionType.MLDSA65, TransactionType.FALCON1024, TransactionType.ZKSTARK),
                         Set.of(BlobType.KZG_PROOF),
                         evm.getMaxInitcodeSize()))
             // CodeDelegationProcessor
@@ -1054,7 +1054,7 @@ public abstract class MainnetProtocolSpecs {
                         TransactionType.ACCESS_LIST,
                         TransactionType.EIP1559,
                         TransactionType.BLOB,
-                        TransactionType.DELEGATE_CODE, TransactionType.MLDSA65, TransactionType.FALCON1024),
+                        TransactionType.DELEGATE_CODE, TransactionType.MLDSA65, TransactionType.FALCON1024, TransactionType.ZKSTARK),
                     Set.of(BlobType.KZG_CELL_PROOFS),
                     evm.getMaxInitcodeSize()))
         .transactionPoolPreProcessor(new OsakaTransactionPoolPreProcessor())

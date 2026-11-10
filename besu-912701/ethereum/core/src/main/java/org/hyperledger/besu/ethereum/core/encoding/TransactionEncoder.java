@@ -45,7 +45,9 @@ public class TransactionEncoder {
           TransactionType.MLDSA65,
           MlDsaTransactionEncoder::encode,
           TransactionType.FALCON1024,
-          FalconTransactionEncoder::encode);
+          FalconTransactionEncoder::encode,
+          TransactionType.ZKSTARK,
+          ZkTransactionEncoder::encode);
 
   private static final ImmutableMap<TransactionType, Encoder> POOLED_TRANSACTION_ENCODERS =
       ImmutableMap.of(TransactionType.BLOB, BlobPooledTransactionEncoder::encode);

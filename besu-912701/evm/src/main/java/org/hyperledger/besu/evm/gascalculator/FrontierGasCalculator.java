@@ -139,9 +139,12 @@ public class FrontierGasCalculator implements GasCalculator {
     // ZERONYTH: post-quantum transaction types (0x7E/0x7F) pay an additional intrinsic
     // surcharge for their public-key/signature envelope and verification cost. All other
     // types have a zero surcharge, so their intrinsic gas is unchanged.
+    // ZERONYTH: native ZK transactions (0x7D) add 16 gas per envelope byte (ZkIntrinsicGas).
     return clampedAdd(
-        clampedAdd(getMinimumTransactionCost(), dynamicIntrinsicGasCost),
-        PqIntrinsicGas.surcharge(transaction));
+        clampedAdd(
+            clampedAdd(getMinimumTransactionCost(), dynamicIntrinsicGasCost),
+            PqIntrinsicGas.surcharge(transaction)),
+        ZkIntrinsicGas.surcharge(transaction));
   }
 
   /**

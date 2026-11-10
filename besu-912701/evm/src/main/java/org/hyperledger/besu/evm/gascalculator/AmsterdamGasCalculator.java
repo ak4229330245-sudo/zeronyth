@@ -238,8 +238,10 @@ public class AmsterdamGasCalculator extends OsakaGasCalculator {
 
     // ZERONYTH: post-quantum surcharge, as in FrontierGasCalculator (zero for other types).
     return clampedAdd(
-        clampedAdd(clampedAdd(TX_BASE, dataCost), clampedAdd(recipientExecution, baselineGas)),
-        PqIntrinsicGas.surcharge(transaction));
+        clampedAdd(
+            clampedAdd(clampedAdd(TX_BASE, dataCost), clampedAdd(recipientExecution, baselineGas)),
+            PqIntrinsicGas.surcharge(transaction)),
+        ZkIntrinsicGas.surcharge(transaction));
   }
 
   /**

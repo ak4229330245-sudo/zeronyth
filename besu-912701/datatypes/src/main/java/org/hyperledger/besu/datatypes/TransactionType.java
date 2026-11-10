@@ -33,7 +33,9 @@ public enum TransactionType {
   /** ML-DSA-65 native post-quantum transaction. */
   MLDSA65(0x7F),
   /** Falcon-1024 native post-quantum transaction (ZERONYTH PQ profile, type 0x7E). */
-  FALCON1024(0x7E);
+  FALCON1024(0x7E),
+  /** ZERONYTH native zk-STARK transaction (type 0x7D, STARK proof carried in the envelope). */
+  ZKSTARK(0x7D);
 
   private static final Set<TransactionType> ACCESS_LIST_SUPPORTED_TRANSACTION_TYPES =
       EnumSet.of(ACCESS_LIST, EIP1559, BLOB, DELEGATE_CODE);
@@ -67,7 +69,8 @@ public enum TransactionType {
               tt.supportBaseFeeMarket =
                   !LEGACY_FEE_MARKET_TRANSACTION_TYPES.contains(tt)
                       && tt != MLDSA65
-                      && tt != FALCON1024;
+                      && tt != FALCON1024
+                      && tt != ZKSTARK;
               tt.supportBlob = tt == BLOB;
               tt.supportDelegatedCode = tt == DELEGATE_CODE;
               if (tt == FRONTIER) {

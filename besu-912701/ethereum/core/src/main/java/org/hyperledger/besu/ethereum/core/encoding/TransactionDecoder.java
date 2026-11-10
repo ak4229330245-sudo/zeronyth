@@ -43,7 +43,8 @@ public class TransactionDecoder {
               TransactionType.BLOB, BlobTransactionDecoder::decode,
               TransactionType.DELEGATE_CODE, CodeDelegationTransactionDecoder::decode,
               TransactionType.MLDSA65, MlDsaTransactionDecoder::decode,
-              TransactionType.FALCON1024, FalconTransactionDecoder::decode));
+              TransactionType.FALCON1024, FalconTransactionDecoder::decode,
+              TransactionType.ZKSTARK, ZkTransactionDecoder::decode));
 
   private static final EnumMap<TransactionType, Decoder> POOLED_TRANSACTION_DECODERS =
       new EnumMap<>(Map.of(TransactionType.BLOB, BlobPooledTransactionDecoder::decode));

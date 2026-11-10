@@ -181,6 +181,11 @@ public enum RpcErrorType implements RpcMethodError {
   EXCEEDS_MAX_TX_BYTES(-32000, "Transaction size exceeds the maximum allowed size"),
   PQ_TRANSACTION_NOT_YET_ACTIVE(
       -32000, "Post-quantum transaction type is not active yet (see pqTxActivationBlock)"),
+  ZK_TRANSACTION_NOT_YET_ACTIVE(
+      -32000, "ZK transaction type is not active yet (see zkTxActivationBlock)"),
+  ZK_TRANSACTION_INVALID_TARGET(
+      -32000, "ZK transaction must target the configured zkPoolAddress"),
+  ZK_TRANSACTION_NONZERO_VALUE(-32000, "ZK transaction must carry zero value"),
   REVERT_ERROR(
       3,
       "Execution reverted",

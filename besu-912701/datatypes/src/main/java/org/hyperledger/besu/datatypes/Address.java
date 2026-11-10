@@ -91,6 +91,10 @@ public final class Address extends BytesHolder implements Comparable<Address> {
   /** Precompile address for P256_VERIFY. */
   public static final Address P256_VERIFY = Address.precompiled(0x0100);
 
+  /** ZERONYTH STARKVERIFY precompile address (0x7d1). */
+  public static final Address STARK_VERIFY =
+      Address.fromHexString("0x00000000000000000000000000000000000007d1");
+
   /** The constant ZERO. */
   public static final Address ZERO = Address.wrap(Bytes.fromHexStringLenient("0x0", SIZE));
 

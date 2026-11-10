@@ -160,7 +160,7 @@ public abstract class PendingTransaction
           case EIP1559 -> computeEIP1559MemorySize();
           case BLOB -> computeBlobMemorySize();
           case DELEGATE_CODE -> computeDelegateCodeMemorySize();
-          case MLDSA65, FALCON1024 -> computeFrontierMemorySize(); // similar size profile to frontier
+          case MLDSA65, FALCON1024, ZKSTARK -> computeFrontierMemorySize(); // similar size profile to frontier
         }
         + PENDING_TRANSACTION_SHALLOW_SIZE;
   }

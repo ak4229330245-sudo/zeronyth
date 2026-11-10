@@ -43,6 +43,9 @@ public class StubGenesisConfigOptions implements GenesisConfigOptions, Cloneable
   private OptionalLong muirGlacierBlockNumber = OptionalLong.empty();
   private OptionalLong berlinBlockNumber = OptionalLong.empty();
   private OptionalLong pqTxActivationBlockNumber = OptionalLong.empty();
+  private OptionalLong zkPrecompileActivationBlockNumber = OptionalLong.empty();
+  private OptionalLong zkTxActivationBlockNumber = OptionalLong.empty();
+  private Optional<Address> zkPoolAddress = Optional.empty();
   private OptionalLong londonBlockNumber = OptionalLong.empty();
   private OptionalLong arrowGlacierBlockNumber = OptionalLong.empty();
   private OptionalLong grayGlacierBlockNumber = OptionalLong.empty();
@@ -223,6 +226,21 @@ public class StubGenesisConfigOptions implements GenesisConfigOptions, Cloneable
   }
 
   @Override
+  public OptionalLong getZkPrecompileActivationBlockNumber() {
+    return zkPrecompileActivationBlockNumber;
+  }
+
+  @Override
+  public OptionalLong getZkTxActivationBlockNumber() {
+    return zkTxActivationBlockNumber;
+  }
+
+  @Override
+  public Optional<Address> getZkPoolAddress() {
+    return zkPoolAddress;
+  }
+
+  @Override
   public OptionalLong getLondonBlockNumber() {
     return londonBlockNumber;
   }
@@ -354,6 +372,10 @@ public class StubGenesisConfigOptions implements GenesisConfigOptions, Cloneable
     getMuirGlacierBlockNumber().ifPresent(l -> builder.put("muirGlacierBlock", l));
     getBerlinBlockNumber().ifPresent(l -> builder.put("berlinBlock", l));
     getPqTxActivationBlockNumber().ifPresent(l -> builder.put("pqTxActivationBlock", l));
+    getZkPrecompileActivationBlockNumber()
+        .ifPresent(l -> builder.put("zkPrecompileActivationBlock", l));
+    getZkTxActivationBlockNumber().ifPresent(l -> builder.put("zkTxActivationBlock", l));
+    getZkPoolAddress().ifPresent(a -> builder.put("zkPoolAddress", a.toHexString()));
     getLondonBlockNumber().ifPresent(l -> builder.put("londonBlock", l));
     getArrowGlacierBlockNumber().ifPresent(l -> builder.put("arrowGlacierBlock", l));
     getGrayGlacierBlockNumber().ifPresent(l -> builder.put("grayGlacierBlock", l));
@@ -571,6 +593,39 @@ public class StubGenesisConfigOptions implements GenesisConfigOptions, Cloneable
    */
   public StubGenesisConfigOptions pqTxActivationBlock(final long blockNumber) {
     pqTxActivationBlockNumber = OptionalLong.of(blockNumber);
+    return this;
+  }
+
+  /**
+   * ZK precompile activation block stub genesis config options.
+   *
+   * @param blockNumber the block number
+   * @return the stub genesis config options
+   */
+  public StubGenesisConfigOptions zkPrecompileActivationBlock(final long blockNumber) {
+    zkPrecompileActivationBlockNumber = OptionalLong.of(blockNumber);
+    return this;
+  }
+
+  /**
+   * ZK transaction activation block stub genesis config options.
+   *
+   * @param blockNumber the block number
+   * @return the stub genesis config options
+   */
+  public StubGenesisConfigOptions zkTxActivationBlock(final long blockNumber) {
+    zkTxActivationBlockNumber = OptionalLong.of(blockNumber);
+    return this;
+  }
+
+  /**
+   * ZK pool address stub genesis config options.
+   *
+   * @param address the pool address
+   * @return the stub genesis config options
+   */
+  public StubGenesisConfigOptions zkPoolAddress(final Address address) {
+    zkPoolAddress = Optional.of(address);
     return this;
   }
 

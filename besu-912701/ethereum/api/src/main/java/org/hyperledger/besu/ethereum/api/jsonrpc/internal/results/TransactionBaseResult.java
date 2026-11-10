@@ -134,7 +134,8 @@ public class TransactionBaseResult implements TransactionResult {
                   || transactionType == TransactionType.DELEGATE_CODE
                   || transactionType == TransactionType.BLOB
                   || transactionType == TransactionType.MLDSA65
-                  || transactionType == TransactionType.FALCON1024)
+                  || transactionType == TransactionType.FALCON1024
+                  || transactionType == TransactionType.ZKSTARK)
               ? Quantity.create(transaction.getYParity())
               : null;
     }

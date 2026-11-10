@@ -533,6 +533,7 @@ public class BlockDataGenerator {
       case DELEGATE_CODE -> null;
       case MLDSA65 -> null;
       case FALCON1024 -> null;
+      case ZKSTARK -> null;
     };
   }
 

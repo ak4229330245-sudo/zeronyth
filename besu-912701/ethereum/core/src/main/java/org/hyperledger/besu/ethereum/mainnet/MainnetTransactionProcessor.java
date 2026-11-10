@@ -41,6 +41,7 @@ import org.hyperledger.besu.evm.frame.MessageFrame;
 import org.hyperledger.besu.evm.gascalculator.GasCalculator;
 import org.hyperledger.besu.evm.gascalculator.StateGasCostCalculator;
 import org.hyperledger.besu.evm.log.TransferLogEmitter;
+import org.hyperledger.besu.evm.precompile.stark.ZkStarkGate;
 import org.hyperledger.besu.evm.processor.AbstractMessageProcessor;
 import org.hyperledger.besu.evm.processor.ContractCreationProcessor;
 import org.hyperledger.besu.evm.processor.MessageCallProcessor;
@@ -220,6 +221,25 @@ public class MainnetTransactionProcessor {
             blockHeader.getNumber());
         return TransactionProcessingResult.invalid(
             ValidationResult.invalid(pqGateViolation.get()));
+      }
+      // ZERONYTH ZK gate: native zk-STARK transactions (0x7D) are only valid from
+      // zkTxActivationBlock, must target zkPoolAddress and must carry zero value.
+      final Optional<ZkStarkGate.Violation> zkViolation =
+          ZkStarkGate.check(
+              transaction.getType(),
+              transaction.getTo(),
+              Wei.ZERO.equals(transaction.getValue()),
+              blockHeader.getNumber());
+      if (zkViolation.isPresent()) {
+        final TransactionInvalidReason reason =
+            switch (zkViolation.get()) {
+              case NOT_YET_ACTIVE -> TransactionInvalidReason.ZK_TRANSACTION_NOT_YET_ACTIVE;
+              case INVALID_TARGET -> TransactionInvalidReason.ZK_TRANSACTION_INVALID_TARGET;
+              case NONZERO_VALUE -> TransactionInvalidReason.ZK_TRANSACTION_NONZERO_VALUE;
+            };
+        LOG.debug(
+            "Invalid ZK transaction at block {}: {}", blockHeader.getNumber(), zkViolation.get());
+        return TransactionProcessingResult.invalid(ValidationResult.invalid(reason));
       }
       final var transactionValidator = transactionValidatorFactory.get();
       LOG.trace("Starting execution of {}", transaction);
@@ -435,12 +455,23 @@ public class MainnetTransactionProcessor {
                 frameWorldState.get(to),
                 accessLocationTracker);
 
+        // ZERONYTH: for a native ZK transaction the pool receives
+        //   data || proofParams || proof || uint32(len(proof)) || uint16(len(proofParams))
+        final Bytes effectiveInputData =
+            transaction.getType() == TransactionType.ZKSTARK
+                ? Bytes.concatenate(
+                    transaction.getPayload(),
+                    transaction.getZkProofParams().orElseThrow(),
+                    transaction.getZkProof().orElseThrow(),
+                    Bytes.ofUnsignedInt(transaction.getZkProof().orElseThrow().size()),
+                    Bytes.ofUnsignedShort(transaction.getZkProofParams().orElseThrow().size()))
+                : transaction.getPayload();
         initialFrame =
             commonMessageFrameBuilder
                 .type(MessageFrame.Type.MESSAGE_CALL)
                 .address(to)
                 .contract(to)
-                .inputData(transaction.getPayload())
+                .inputData(effectiveInputData)
                 .code(code)
                 .eip2930AccessListWarmAddresses(eip2930WarmAddressList)
                 .build();

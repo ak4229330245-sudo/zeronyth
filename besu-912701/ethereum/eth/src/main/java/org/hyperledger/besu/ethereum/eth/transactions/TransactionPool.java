@@ -55,6 +55,7 @@ import org.hyperledger.besu.ethereum.trie.MerkleTrieException;
 import org.hyperledger.besu.ethereum.trie.pathbased.bonsai.worldview.BonsaiWorldState;
 import org.hyperledger.besu.evm.account.Account;
 import org.hyperledger.besu.evm.fluent.SimpleAccount;
+import org.hyperledger.besu.evm.precompile.stark.ZkStarkGate;
 import org.hyperledger.besu.plugin.data.AddedBlockContext.EventType;
 import org.hyperledger.besu.util.Subscribers;
 
@@ -476,6 +477,28 @@ public class TransactionPool implements BlockAddedObserver {
                       : "never (pqTxActivationBlock not configured)")
           .log();
       return ValidationResultAndAccount.invalid(pqGateViolation.get());
+    }
+
+    // ZERONYTH ZK gate (same rules as block import, evaluated for the next block).
+    final Optional<ZkStarkGate.Violation> zkViolation =
+        ZkStarkGate.check(
+            transaction.getType(),
+            transaction.getTo(),
+            Wei.ZERO.equals(transaction.getValue()),
+            chainHeadBlockHeader.getNumber() + 1);
+    if (zkViolation.isPresent()) {
+      final TransactionInvalidReason reason =
+          switch (zkViolation.get()) {
+            case NOT_YET_ACTIVE -> TransactionInvalidReason.ZK_TRANSACTION_NOT_YET_ACTIVE;
+            case INVALID_TARGET -> TransactionInvalidReason.ZK_TRANSACTION_INVALID_TARGET;
+            case NONZERO_VALUE -> TransactionInvalidReason.ZK_TRANSACTION_NONZERO_VALUE;
+          };
+      LOG.atDebug()
+          .setMessage("rejecting ZK transaction {} : {}")
+          .addArgument(transaction::getHash)
+          .addArgument(zkViolation.get())
+          .log();
+      return ValidationResultAndAccount.invalid(reason);
     }
 
     final int txSizeForBlockInclusion = transaction.getSizeForBlockInclusion();

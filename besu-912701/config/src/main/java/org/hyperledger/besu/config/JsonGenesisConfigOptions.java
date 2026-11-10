@@ -303,6 +303,21 @@ public class JsonGenesisConfigOptions implements GenesisConfigOptions {
   }
 
   @Override
+  public OptionalLong getZkPrecompileActivationBlockNumber() {
+    return getOptionalLong("zkprecompileactivationblock");
+  }
+
+  @Override
+  public OptionalLong getZkTxActivationBlockNumber() {
+    return getOptionalLong("zktxactivationblock");
+  }
+
+  @Override
+  public Optional<Address> getZkPoolAddress() {
+    return JsonUtil.getString(configRoot, "zkpooladdress").map(Address::fromHexString);
+  }
+
+  @Override
   public OptionalLong getLondonBlockNumber() {
     return getOptionalLong("londonblock");
   }
@@ -481,6 +496,10 @@ public class JsonGenesisConfigOptions implements GenesisConfigOptions {
     getMuirGlacierBlockNumber().ifPresent(l -> builder.put("muirGlacierBlock", l));
     getBerlinBlockNumber().ifPresent(l -> builder.put("berlinBlock", l));
     getPqTxActivationBlockNumber().ifPresent(l -> builder.put("pqTxActivationBlock", l));
+    getZkPrecompileActivationBlockNumber()
+        .ifPresent(l -> builder.put("zkPrecompileActivationBlock", l));
+    getZkTxActivationBlockNumber().ifPresent(l -> builder.put("zkTxActivationBlock", l));
+    getZkPoolAddress().ifPresent(a -> builder.put("zkPoolAddress", a.toHexString()));
     getLondonBlockNumber().ifPresent(l -> builder.put("londonBlock", l));
     getArrowGlacierBlockNumber().ifPresent(l -> builder.put("arrowGlacierBlock", l));
     getGrayGlacierBlockNumber().ifPresent(l -> builder.put("grayGlacierBlock", l));
